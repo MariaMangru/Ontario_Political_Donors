@@ -1,13 +1,12 @@
 ---
 title: "Impact of Federal Party Leadership Changes on Donation Patterns"
-subtitle: "My subtitle if needed"
+subtitle: "An Analysis of Political Contributions in Canada 2013 - 2024"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: [https://github.com/RohanAlexander/starter_folder](https://github.com/RohanAlexander/starter_folder)."
+  - Maria Mangru
+thanks: "Code and data are available at: [https://github.com/MariaMangru/Ontario_Political_Donors](https://github.com/MariaMangru/Ontario_Political_Donors)."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This study investigates how changes in the ruling political parties within federal and Ontario governments influence individual donor behaviors across Canada. By analyzing political donation data from both Ontario and Federal levels between 2013 and 2024, the research assesses whether shifts in which party holds power lead to significant changes in donation amounts. Understanding this relationship enhances knowledge of political financing dynamics and informs parties and policymakers about the factors that motivate donor engagement."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -25,18 +24,17 @@ library(palmerpenguins)
 
 # Introduction
 
-Overview paragraph
+Political donations are an interesting component of democratic processes. It provides funding for political parties to campaign and share their platforms. In Canada, understanding the factors that influence donation behaviours is important for political parties and policymakers alike. One factor that appears to have an impact is changes in the ruling party, which can shape public perception and affect donor support.
 
-Estimand paragraph
+This paper examines how changes in the ruling political party influence individual donation patterns across Canada, focusing on data from Ontario and Federal regions between 2013 and 2024. [Maybe talk about other studies here and what they did or didn't do.]
 
-Results paragraph
+To explore this, political contribution data were analyzed, comparing periods before and after changes in which party held power within major federal and Ontario governments. Statistical analyses were performed to assess differences in donation amounts during these periods.
 
-Why it matters paragraph
+Understanding the relationship between party control and donation behaviour is valuable for several reasons. For political parties, it offers insights into fundraising strategies during times of transition. For policymakers and regulators, it informs discussions on campaign finance laws and the transparency of political funding. This study also adds to broader discussions about how shifts in party control influence external support, shedding light on the connection between political actors and the electorate.
 
-Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
+The goal of this research is to estimate the effect of changes in the ruling political party on the amount of individual political donations in Canada. Specifically, it examines whether there is a significant difference in donation amounts before and after a shift in which party holds power within the federal and Ontario governments.
 
-
-
+The paper includes a detailed description of the data used, covering sources, variables, and preprocessing steps. It outlines the methods used to ensure data accuracy and reliability, followed by an explanation of the statistical model applied and the reasoning behind it. The results are presented with supporting tables and graphs. Finally, the implications of the findings are discussed, along with limitations and suggestions for future research.
 
 
 

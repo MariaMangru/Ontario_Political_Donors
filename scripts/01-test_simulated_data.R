@@ -1,89 +1,95 @@
 #### Preamble ####
-# Purpose: Tests the structure and validity of the simulated Australian 
+# Purpose: Tests the structure and validity of the simulated political donation data 
   #electoral divisions dataset.
-# Author: Rohan Alexander
-# Date: 26 September 2024
-# Contact: rohan.alexander@utoronto.ca
+# Author: Maria Mangru
+# Date: 25 November 2024
+# Contact: maria.mangru@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: 
   # - The `tidyverse` package must be installed and loaded
   # - 00-simulate_data.R must have been run
-# Any other information needed? Make sure you are in the `starter_folder` rproj
 
 
 #### Workspace setup ####
+library(dplyr)
+library(lubridate)
+library(testthat)
 library(tidyverse)
 
-analysis_data <- read_csv("data/00-simulated_data/simulated_data.csv")
+simulated_data <- read_csv("data/00-simulated_data/simulated_data.csv")
 
-# Test if the data was successfully loaded
-if (exists("analysis_data")) {
-  message("Test Passed: The dataset was successfully loaded.")
-} else {
-  stop("Test Failed: The dataset could not be loaded.")
-}
+# Convert columns to appropriate data types
+simulated_data <- simulated_data %>%
+  mutate(
+    donation_date = as.Date(donation_date),
+    donation_year = as.integer(donation_year),
+    amount = as.numeric(amount),
+    leader_change = as.logical(leader_change)
+  )
 
+# Begin testing
+test_that("Data types are correct", {
+  expect_type(simulated_data$donation_year, "integer")
+  expect_s3_class(simulated_data$donation_date, "Date")
+  expect_type(simulated_data$donor_full_name, "character")
+  expect_type(simulated_data$donor_type, "character")
+  expect_type(simulated_data$amount, "double")
+  expect_type(simulated_data$political_party, "character")
+  expect_type(simulated_data$party_leader, "character")
+  expect_type(simulated_data$leader_change, "logical")
+})
 
-#### Test data ####
+test_that("No missing values in critical columns", {
+  critical_columns <- c("donation_id", "donation_year", "donation_date", "donor_full_name", "amount", "political_party", "party_leader", "leader_change")
+  for (col in critical_columns) {
+    expect_false(any(is.na(simulated_data[[col]])), info = paste("Missing values found in", col))
+  }
+})
 
-# Check if the dataset has 151 rows
-if (nrow(analysis_data) == 151) {
-  message("Test Passed: The dataset has 151 rows.")
-} else {
-  stop("Test Failed: The dataset does not have 151 rows.")
-}
+test_that("Donation dates match donation years", {
+  years_from_dates <- year(simulated_data$donation_date)
+  expect_equal(simulated_data$donation_year, years_from_dates)
+})
 
-# Check if the dataset has 3 columns
-if (ncol(analysis_data) == 3) {
-  message("Test Passed: The dataset has 3 columns.")
-} else {
-  stop("Test Failed: The dataset does not have 3 columns.")
-}
+test_that("Donation amounts are positive", {
+  expect_true(all(simulated_data$amount > 0))
+})
 
-# Check if all values in the 'division' column are unique
-if (n_distinct(analysis_data$division) == nrow(analysis_data)) {
-  message("Test Passed: All values in 'division' are unique.")
-} else {
-  stop("Test Failed: The 'division' column contains duplicate values.")
-}
+test_that("Leader mapping is consistent", {
+  # Check that for each political party and year, the party leader matches the expected leader
+  unique_parties <- unique(simulated_data$political_party)
+  for (party in unique_parties) {
+    party_data <- simulated_data %>% filter(political_party == party)
+    leader_years <- party_data %>% group_by(donation_year) %>% summarize(unique_leaders = n_distinct(party_leader))
+    expect_true(all(leader_years$unique_leaders == 1), info = paste("Multiple leaders found for", party, "in a single year"))
+  }
+})
 
-# Check if the 'state' column contains only valid Australian state names
-valid_states <- c("New South Wales", "Victoria", "Queensland", "South Australia", 
-                  "Western Australia", "Tasmania", "Northern Territory", 
-                  "Australian Capital Territory")
+test_that("Leader change flags are correct", {
+  # Verify that leader_change is TRUE only in years when leadership changed
+  leader_changes <- simulated_data %>% filter(leader_change == TRUE)
+  for (party in unique(leader_changes$political_party)) {
+    change_years <- unique(leader_changes$donation_year[leader_changes$political_party == party])
+    expected_change_years <- party_info$leader_change_years[[which(party_info$political_party == party)]]
+    expect_equal(sort(change_years), sort(expected_change_years), info = paste("Leader change years mismatch for", party))
+  }
+})
 
-if (all(analysis_data$state %in% valid_states)) {
-  message("Test Passed: The 'state' column contains only valid Australian state names.")
-} else {
-  stop("Test Failed: The 'state' column contains invalid state names.")
-}
+test_that("Donor names are unique within a year", {
+  donor_years <- simulated_data %>% group_by(donation_year, donor_full_name) %>% summarize(count = n())
+  duplicates <- donor_years %>% filter(count > 1)
+  expect_true(nrow(duplicates) == 0, info = "Duplicate donor names found within the same year")
+})
 
-# Check if the 'party' column contains only valid party names
-valid_parties <- c("Labor", "Liberal", "Greens", "National", "Other")
+test_that("Donor types are valid", {
+  valid_types <- c("Individuals")
+  expect_true(all(simulated_data$donor_type %in% valid_types))
+})
 
-if (all(analysis_data$party %in% valid_parties)) {
-  message("Test Passed: The 'party' column contains only valid party names.")
-} else {
-  stop("Test Failed: The 'party' column contains invalid party names.")
-}
+test_that("Region is 'Federal' for all records", {
+  expect_true(all(simulated_data$region == "Federal"))
+})
 
-# Check if there are any missing values in the dataset
-if (all(!is.na(analysis_data))) {
-  message("Test Passed: The dataset contains no missing values.")
-} else {
-  stop("Test Failed: The dataset contains missing values.")
-}
-
-# Check if there are no empty strings in 'division', 'state', and 'party' columns
-if (all(analysis_data$division != "" & analysis_data$state != "" & analysis_data$party != "")) {
-  message("Test Passed: There are no empty strings in 'division', 'state', or 'party'.")
-} else {
-  stop("Test Failed: There are empty strings in one or more columns.")
-}
-
-# Check if the 'party' column has at least two unique values
-if (n_distinct(analysis_data$party) >= 2) {
-  message("Test Passed: The 'party' column contains at least two unique values.")
-} else {
-  stop("Test Failed: The 'party' column contains less than two unique values.")
-}
+test_that("Donation IDs are unique and sequential", {
+  expect_equal(simulated_data$donation_id, 1:nrow(simulated_data))
+})

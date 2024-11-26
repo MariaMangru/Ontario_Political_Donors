@@ -21,18 +21,6 @@ donations_filtered <- raw_data %>%
 # Ensure date columns are in Date format
 donations_filtered$donation_date <- as.Date(donations_filtered$donation_date)
 
-# Convert amount columns to numeric
-donations_filtered$amount <- as.numeric(donations_filtered$amount)
-donations_filtered$amount_monetary <- as.numeric(donations_filtered$amount_monetary)
-donations_filtered$amount_non_monetary <- as.numeric(donations_filtered$amount_non_monetary)
-
-# Replace NA values in amount columns with 0
-donations_filtered <- donations_filtered %>%
-  mutate(
-    amount = ifelse(is.na(amount), 0, amount),
-    amount_monetary = ifelse(is.na(amount_monetary), 0, amount_monetary),
-    amount_non_monetary = ifelse(is.na(amount_non_monetary), 0, amount_non_monetary)
-  )
 
 # Convert donation_year to numeric
 donations_filtered$donation_year <- as.numeric(donations_filtered$donation_year)
@@ -68,8 +56,5 @@ donations_filtered <- donations_filtered %>%
   )
 
 
-
-
-
 #### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+write_csv(donations_filtered, "data/02-analysis_data/analysis_data.csv")

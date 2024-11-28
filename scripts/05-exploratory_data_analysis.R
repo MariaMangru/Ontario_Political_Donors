@@ -15,7 +15,7 @@ library(readr)
 library(tidyr)   
 
 #### Read data ####
-analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_csv("../data/02-analysis_data/analysis_data.csv")
 
 # Separate data into Ontario and Federal datasets
 ontario_data <- analysis_data %>% filter(region == "Ontario")
@@ -34,7 +34,7 @@ summary_stats_ontario <- data.frame(
   Metric = c("Total Donations", "Total Amount Donated", "Average Donation Amount"),
   Value = c(total_donations_ontario, total_amount_ontario, avg_donation_ontario)
 )
-write_csv(summary_stats_ontario, "data/02-analysis_data/02.1-exploration_data/Ontario/summary_statistics_ontario.csv")
+write_csv(summary_stats_ontario, "../data/02-analysis_data/02.1-exploration_data/Ontario/summary_statistics_ontario.csv")
 
 #### Donations by Year ####
 donations_by_year_ontario <- ontario_data %>%
@@ -47,7 +47,7 @@ donations_by_year_ontario <- ontario_data %>%
 
 # Display Donations by Year
 print(donations_by_year_ontario)
-write_csv(donations_by_year_ontario, "data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_year_ontario.csv")
+write_csv(donations_by_year_ontario, "../data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_year_ontario.csv")
 
 ## Donations by Political Party ##
 donations_by_party_ontario <- ontario_data %>%
@@ -60,7 +60,7 @@ donations_by_party_ontario <- ontario_data %>%
 
 # Display Donations by Political Party
 print(donations_by_party_ontario)
-write_csv(donations_by_party_ontario, "data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_political_party_ontario.csv")
+write_csv(donations_by_party_ontario, "../data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_political_party_ontario.csv")
 
 ## Donations Based on Recipient Power Status ##
 donations_in_power_ontario <- ontario_data %>%
@@ -73,7 +73,7 @@ donations_in_power_ontario <- ontario_data %>%
 
 # Display Donations Based on Recipient Power Status
 print(donations_in_power_ontario)
-write_csv(donations_in_power_ontario, "data/02-analysis_data/02.1-exploration_data/Ontario/donations_in_power_status_ontario.csv")
+write_csv(donations_in_power_ontario, "../data/02-analysis_data/02.1-exploration_data/Ontario/donations_in_power_status_ontario.csv")
 
 ### Visualizations ###
 
@@ -87,7 +87,7 @@ p1_ontario <- ggplot(donations_by_year_ontario, aes(x = donation_year, y = total
   scale_x_continuous(breaks = donations_by_year_ontario$donation_year) +
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Ontario/total_donations_over_years.png", plot = p1_ontario)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Ontario/total_donations_over_years.png", plot = p1_ontario)
 
 # Average Donation Amount Over Years
 p2_ontario <- ggplot(donations_by_year_ontario, aes(x = donation_year, y = avg_amount)) +
@@ -99,7 +99,7 @@ p2_ontario <- ggplot(donations_by_year_ontario, aes(x = donation_year, y = avg_a
   scale_x_continuous(breaks = donations_by_year_ontario$donation_year) +
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Ontario/average_donation_amount_over_years.png", plot = p2_ontario)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Ontario/average_donation_amount_over_years.png", plot = p2_ontario)
 
 # Donations by Political Party
 p3_ontario <- ggplot(donations_by_party_ontario, aes(x = reorder(political_party, -total_amount), y = total_amount, fill = political_party)) +
@@ -111,7 +111,7 @@ p3_ontario <- ggplot(donations_by_party_ontario, aes(x = reorder(political_party
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none")
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_political_party.png", plot = p3_ontario)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Ontario/donations_by_political_party.png", plot = p3_ontario)
 
 # Donations When Recipient is in Power vs. Not
 p4_ontario <- ggplot(donations_in_power_ontario, aes(x = recipient_in_power, y = total_amount, fill = recipient_in_power)) +
@@ -124,7 +124,7 @@ p4_ontario <- ggplot(donations_in_power_ontario, aes(x = recipient_in_power, y =
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 0, hjust = 0.5))
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Ontario/donations_in_power_status.png", plot = p4_ontario)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Ontario/donations_in_power_status.png", plot = p4_ontario)
 
 # 5. Donation Amount Distribution
 p5_ontario <- ggplot(ontario_data, aes(x = amount)) +
@@ -134,7 +134,7 @@ p5_ontario <- ggplot(ontario_data, aes(x = amount)) +
   scale_x_continuous(labels = dollar_format()) +
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Ontario/donation_amount_distribution.png", plot = p5_ontario)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Ontario/donation_amount_distribution.png", plot = p5_ontario)
 
 #### Exploring Federal Data ####
 
@@ -148,7 +148,7 @@ summary_stats_federal <- data.frame(
   Metric = c("Total Donations", "Total Amount Donated", "Average Donation Amount"),
   Value = c(total_donations_federal, total_amount_federal, avg_donation_federal)
 )
-write_csv(summary_stats_federal, "data/02-analysis_data/02.1-exploration_data/Federal/summary_statistics_federal.csv")
+write_csv(summary_stats_federal, "../data/02-analysis_data/02.1-exploration_data/Federal/summary_statistics_federal.csv")
 
 ## Donations by Year ##
 donations_by_year_federal <- federal_data %>%
@@ -161,7 +161,7 @@ donations_by_year_federal <- federal_data %>%
 
 # Display Donations by Year
 print(donations_by_year_federal)
-write_csv(donations_by_year_federal, "data/02-analysis_data/02.1-exploration_data/Federal/donations_by_year_federal.csv")
+write_csv(donations_by_year_federal, "../data/02-analysis_data/02.1-exploration_data/Federal/donations_by_year_federal.csv")
 
 ## Donations by Political Party ##
 donations_by_party_federal <- federal_data %>%
@@ -174,7 +174,7 @@ donations_by_party_federal <- federal_data %>%
 
 # Display Donations by Political Party
 print(donations_by_party_federal)
-write_csv(donations_by_party_federal, "data/02-analysis_data/02.1-exploration_data/Federal/donations_by_political_party_federal.csv")
+write_csv(donations_by_party_federal, "../data/02-analysis_data/02.1-exploration_data/Federal/donations_by_political_party_federal.csv")
 
 ## Donations Based on Recipient Power Status ##
 donations_in_power_federal <- federal_data %>%
@@ -187,7 +187,7 @@ donations_in_power_federal <- federal_data %>%
 
 # Display Donations Based on Recipient Power Status
 print(donations_in_power_federal)
-write_csv(donations_in_power_federal, "data/02-analysis_data/02.1-exploration_data/Federal/donations_in_power_status_federal.csv")
+write_csv(donations_in_power_federal, "../data/02-analysis_data/02.1-exploration_data/Federal/donations_in_power_status_federal.csv")
 
 ### Visualizations ###
 # Total Donations Over Years
@@ -200,7 +200,7 @@ p1_federal <- ggplot(donations_by_year_federal, aes(x = donation_year, y = total
   scale_x_continuous(breaks = donations_by_year_federal$donation_year) +
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Federal/total_donations_over_years.png", plot = p1_federal)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/total_donations_over_years.png", plot = p1_federal)
 
 # Average Donation Amount Over Years
 p2_federal <- ggplot(donations_by_year_federal, aes(x = donation_year, y = avg_amount)) +
@@ -212,7 +212,7 @@ p2_federal <- ggplot(donations_by_year_federal, aes(x = donation_year, y = avg_a
   scale_x_continuous(breaks = donations_by_year_federal$donation_year) + 
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Federal/average_donation_amount_over_years.png", plot = p2_federal)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/average_donation_amount_over_years.png", plot = p2_federal)
 
 # Donations by Political Party
 p3_federal <- ggplot(donations_by_party_federal, aes(x = reorder(political_party, -total_amount), y = total_amount, fill = political_party)) +
@@ -224,7 +224,7 @@ p3_federal <- ggplot(donations_by_party_federal, aes(x = reorder(political_party
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "none")
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Federal/donations_by_political_party.png", plot = p3_federal)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/donations_by_political_party.png", plot = p3_federal)
 
 # Donations When Recipient is in Power vs. Not
 p4_federal <- ggplot(donations_in_power_federal, aes(x = recipient_in_power, y = total_amount, fill = recipient_in_power)) +
@@ -237,7 +237,7 @@ p4_federal <- ggplot(donations_in_power_federal, aes(x = recipient_in_power, y =
   theme(legend.position = "none",
         axis.text.x = element_text(angle = 0, hjust = 0.5))
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Federal/donations_in_power_status.png", plot = p4_federal)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/donations_in_power_status.png", plot = p4_federal)
 
 # Donation Amount Distribution
 p5_federal <- ggplot(federal_data, aes(x = amount)) +
@@ -247,4 +247,4 @@ p5_federal <- ggplot(federal_data, aes(x = amount)) +
   scale_x_continuous(labels = dollar_format()) +
   theme_minimal()
 
-ggsave(filename = "data/02-analysis_data/02.1-exploration_data/Federal/donation_amount_distribution.png", plot = p5_federal)
+ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/donation_amount_distribution.png", plot = p5_federal)

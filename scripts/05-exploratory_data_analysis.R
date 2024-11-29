@@ -248,3 +248,63 @@ p5_federal <- ggplot(federal_data, aes(x = amount)) +
   theme_minimal()
 
 ggsave(filename = "../data/02-analysis_data/02.1-exploration_data/Federal/donation_amount_distribution.png", plot = p5_federal)
+
+
+
+#Donations to Conservative and Liberal Parties Based on Power Status
+
+# Combine Ontario and Federal data
+combined_data <- bind_rows(
+  ontario_data %>% mutate(region_specific = "Ontario"),
+  federal_data %>% mutate(region_specific = "Federal")
+)
+
+# Define the parties of interest
+target_parties <- c(
+  "Conservative Party of Canada",
+  "Conservative Party of Ontario",
+  "Liberal Party of Canada",
+  "Liberal Party of Ontario"
+)
+
+# Filter for Conservative and Liberal parties
+conservative_liberal_data <- combined_data %>%
+  filter(political_party %in% target_parties)
+
+# Aggregate donation amounts by party, region, and power status
+donations_summary <- conservative_liberal_data %>%
+  group_by(political_party, region_specific, recipient_in_power) %>%
+  summarize(
+    total_amount = sum(amount, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Create the bar plot
+p_conservative_liberal <- ggplot(donations_summary, aes(x = political_party, y = total_amount, fill = recipient_in_power)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  facet_wrap(~ region_specific) +
+  scale_y_continuous(labels = dollar_format()) +
+  scale_fill_manual(
+    name = "Recipient In Power",
+    values = c("TRUE" = "forestgreen", "FALSE" = "firebrick"),
+    labels = c("In Power", "Not in Power")
+  ) +
+  labs(
+    title = "Total Donations to Conservative and Liberal Parties by Power Status",
+    x = "Political Party",
+    y = "Total Amount Donated ($)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, face = "bold")
+  )
+
+ggsave(
+  filename = "../data/02-analysis_data/02.1-exploration_data/Conservative_Liberal_Donations_by_Power_Status.png",
+  plot = p_conservative_liberal,
+  width = 10, height = 6, dpi = 300
+)
+
+

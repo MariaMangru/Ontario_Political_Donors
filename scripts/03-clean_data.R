@@ -77,10 +77,21 @@ donations_filtered <- donations_filtered %>%
       region == "Ontario" ~ ontario_government$party_in_power[match(donation_year, ontario_government$year)],
       TRUE ~ NA_character_
     ),
-    # Create a column indicating if the recipient party was in power
-    recipient_in_power = political_party == party_in_power
+    # Create a binary column indicating if the recipient party was in power
+    recipient_in_power = ifelse(political_party == party_in_power, 1, 0)
   )
 
+donations_filtered <- donations_filtered %>%
+  mutate(
+    Election_Year = case_when(
+      # Federal Election Years
+      region == "Federal" & donation_year %in% c(2011, 2015, 2019, 2021) ~ 1,
+      # Ontario Election Years
+      region == "Ontario" & donation_year %in% c(2011, 2014, 2018, 2022) ~ 1,
+      # All Other Years
+      TRUE ~ 0
+    )
+  )
 
 #### Save data ####
 write_csv(donations_filtered, "data/02-analysis_data/analysis_data.csv")

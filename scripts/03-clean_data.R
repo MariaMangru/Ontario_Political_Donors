@@ -11,7 +11,7 @@ library(lubridate)
 library(readr)
 
 #### Clean data ####
-raw_data <- read_csv("../data/01-raw_data/raw_data.csv")
+raw_data <- read_csv("data/01-raw_data/raw_data.csv")
 
 
 # Filter for regions 'Federal' or 'Ontario'
@@ -35,6 +35,19 @@ donations_filtered <- donations_filtered %>%
       region == "Ontario" & political_party == "Bloc Québécois" ~ "Bloc Quebecois",
       region == "Federal" & political_party == "Bloc Québécois" ~ "Bloc Quebecois",  # Example for Federal region
       TRUE ~ political_party
+    )
+  )
+
+# Add Party_Size Variable
+donations_filtered <- donations_filtered %>%
+  mutate(
+    Party_Size = case_when(
+      # Major Parties at the Federal Level
+      region == "Federal" & political_party %in% c("Conservative Party of Canada", "Liberal Party of Canada", "New Democratic Party") ~ 1,
+      # Major Parties at the Ontario Level
+      region == "Ontario" & political_party %in% c("Progressive Conservative Party of Ontario", "Liberal Party of Ontario", "New Democratic Party of Ontario") ~ 1,
+      # All Other Parties
+      TRUE ~ 0
     )
   )
 
@@ -70,4 +83,4 @@ donations_filtered <- donations_filtered %>%
 
 
 #### Save data ####
-write_csv(donations_filtered, "../data/02-analysis_data/analysis_data.csv")
+write_csv(donations_filtered, "data/02-analysis_data/analysis_data.csv")

@@ -32,6 +32,14 @@ total_donations_ontario <- ontario_data %>%
 model_ontario <- lm(Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
 summary(model_ontario)
 
+
+total_donations_ontario <- total_donations_ontario %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
+
+model_ontario <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
+summary(model_ontario)
+
+
 # Filter data for Federal
 federal_data <- donations_filtered %>% filter(region == "Federal")
 
@@ -51,4 +59,9 @@ model_federal <- lm(Total_Donations ~ In_Power + Party_Size + Election_Year, dat
 summary(model_federal)
 
 
+# For Federal
+total_donations_federal <- total_donations_federal %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))
 
+model_federal <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
+summary(model_federal)

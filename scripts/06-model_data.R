@@ -65,3 +65,50 @@ total_donations_federal <- total_donations_federal %>%
 
 model_federal <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
 summary(model_federal)
+
+
+
+
+
+### Conservative and Liberal 
+
+# Filter for Conservative and Liberal parties
+cl_data <- analysis_data %>%
+  filter(political_party %in% c(
+    "Conservative Party of Canada",
+    "Liberal Party of Canada",
+    "Progressive Conservative Party of Ontario",
+    "Liberal Party of Ontario"
+  ))
+
+# Create variables
+cl_data <- cl_data %>%
+  mutate(
+    In_Power = recipient_in_power,  # Already binary (1/0)
+    Party = ifelse(
+      political_party %in% c("Conservative Party of Canada", "Progressive Conservative Party of Ontario"),
+      1,  # Conservative
+      0   # Liberal
+    )
+  )
+
+# Aggregate total donations per party per year
+total_donations_cl <- cl_data %>%
+  group_by(political_party, donation_year) %>%
+  summarize(
+    Total_Donations = sum(amount, na.rm = TRUE),
+    In_Power = first(In_Power),
+    Party = first(Party),
+    Election_Year = first(Election_Year)
+  ) %>%
+  ungroup()
+
+# Log-transform the dependent variable to stabilize variance
+total_donations_cl <- total_donations_cl %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))
+
+# Run the regression with interaction term
+model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = total_donations_cl)
+summary(model_cl)
+
+

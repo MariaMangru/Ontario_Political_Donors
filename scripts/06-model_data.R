@@ -15,7 +15,7 @@ analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
 
 # Filter data for Ontario
-ontario_data <- donations_filtered %>% filter(region == "Ontario")
+ontario_data <- analysis_data %>% filter(region == "Ontario")
 
 # Aggregate total donations per party per year in Ontario
 total_donations_ontario <- ontario_data %>%
@@ -105,3 +105,4 @@ model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = to
 summary(model_cl)
 
 
+# Need to save the model

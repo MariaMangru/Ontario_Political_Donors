@@ -10,6 +10,9 @@ abstract: "This study investigates how the ruling political parties in Canada's 
 format: pdf
 number-sections: true
 bibliography: references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r}
@@ -21,98 +24,470 @@ library(tidyverse)
 library(palmerpenguins)
 ```
 
-
 # Introduction
 
-Political donations play a critical role in supporting political campaigns and shaping electoral competition. In Canada, both federal and provincial elections rely heavily on contributions from individuals and organizations, which influence the political landscape and often reflect public support for different parties. Understanding what drives donation patterns is essential for ensuring transparency and fairness in the democratic process and for minimizing the risk of undue influence on policy-making.
+Political donations play a critical role in supporting political
+campaigns and shaping electoral competition. In Canada, both federal and
+provincial elections rely heavily on contributions from individuals and
+organizations, which influence the political landscape and often reflect
+public support for different parties. Understanding what drives donation
+patterns is essential for ensuring transparency and fairness in the
+democratic process and for minimizing the risk of undue influence on
+policy-making.
 
-One key question is whether a party’s position in power affects the amount of financial support it receives. While studies in other countries, such as the U.S.A, have shown that incumbents often benefit from more donations, particularly from interest groups looking to maintain influence, there has been less focus on whether this holds true in Canada. Research like Fouirnaies and Hall’s work (REFERENCE HERE) in the U.S. shows that donors strategically target those in power, but how these dynamics play out in Canadian elections remains under explored. This paper aims to fill that gap by analyzing how a party's power status influences donor behaviour in federal and Ontario provincial elections.
+One key question is whether a party’s position in power affects the
+amount of financial support it receives. While studies in other
+countries, such as the U.S.A, have shown that incumbents often benefit
+from more donations, particularly from interest groups looking to
+maintain influence, there has been less focus on whether this holds true
+in Canada. Research like Fouirnaies and Hall’s work (REFERENCE HERE) in
+the U.S. shows that donors strategically target those in power, but how
+these dynamics play out in Canadian elections remains under explored.
+This paper aims to fill that gap by analyzing how a party's power status
+influences donor behaviour in federal and Ontario provincial elections.
 
-Using donation data from 2013 to 2024, this study compares the financial support received by parties in power versus those in opposition. The analysis examines total donations by year and party while accounting for factors like election timing and party size (major party or not). By identifying trends in how donors respond to shifts in political power, this research sheds light on the financial strategies behind Canada’s democratic processes.
+Using donation data from 2013 to 2024, this study compares the financial
+support received by parties in power versus those in opposition. The
+analysis examines total donations by year and party while accounting for
+factors like election timing and party size (major party or not). By
+identifying trends in how donors respond to shifts in political power,
+this research sheds light on the financial strategies behind Canada’s
+democratic processes.
 
-The results show that opposition parties tend to receive higher donations than those in power, suggesting that donors often prioritize supporting challengers, possibly to influence political change. These findings align with trends observed in other political systems but highlight unique patterns in Canada. This information is valuable not only for political parties developing fundraising strategies but also for policymakers and researchers seeking to ensure fairness and accountability in political financing.
+The results show that opposition parties tend to receive higher
+donations than those in power, suggesting that donors often prioritize
+supporting challengers, possibly to influence political change. These
+findings align with trends observed in other political systems but
+highlight unique patterns in Canada. This information is valuable not
+only for political parties developing fundraising strategies but also
+for policymakers and researchers seeking to ensure fairness and
+accountability in political financing.
 
-The paper is organized as follows: Section \ref{sec-data} discusses the data sources and methodology, followed by an explanation of the variables used in the analysis. The regression models and results are then presented, along with interpretations. The paper concludes by discussing the broader implications of the findings and suggesting directions for future research.[NEED TO UPDATE THE REFERENCES]
-
-
+The paper is organized as follows: Section \ref{sec-data} discusses the
+data sources and methodology, followed by an explanation of the
+variables used in the analysis. The regression models and results are
+then presented, along with interpretations. The paper concludes by
+discussing the broader implications of the findings and suggesting
+directions for future research.\[NEED TO UPDATE THE REFERENCES\]
 
 # Data {#sec-data}
 
+## Data Source
+
+# Data
+
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
+The dataset used in this analysis comprises of political donation
+records spanning from 2013 to 2024, covering both the federal level and
+the province of Ontario in Canada. These records were sourced from the
+Investigative Journalism Foundation (IJF), which systematically collects
+and maintains comprehensive data on political donations across various
+Canadian jurisdictions. The IJF gathers daily updates by monitoring
+elections agency websites at the federal level and within each province
+and territory, ensuring the dataset remains current and robust. Although
+the IJF’s repository includes historical data dating back to 1993, this
+study focuses exclusively on the 2013-2024 period to capture recent
+trends and changes in political financing dynamics. \[Inlude references
+here for IJF, R and the packages used.\]
 
-Overview text
+Political donations in Canada are subject to legal disclosure
+requirements, promoting transparency and accountability within the
+democratic process. Both federal and provincial election finance laws
+mandate that political parties, candidates, and associated entities
+report donations exceeding specific thresholds. These disclosures vary
+by jurisdiction in terms of frequency and reporting formats. For
+instance, Ontario requires annual returns for general and by-elections,
+leadership races, and donations to parties, candidates, and constituency
+associations, all available in downloadable spreadsheet formats from
+2007 onward. This regulatory framework ensures that significant
+contributions are systematically documented and publicly accessible,
+providing a reliable foundation for this analysis.
 
 ## Measurement
-	
-Some paragraphs about how we go from a phenomena in the world to an entry in the dataset.
 
-## Outcome variables
+The primary objective of this analysis is to investigate the impact of a
+political party’s power status on donation patterns within Canadian
+federal and Ontario provincial elections. The dataset includes detailed
+records of donations made to various recipients, including political
+parties, party leadership contestants, riding associations (also known
+as electoral district or constituency associations), and individual
+riding candidates. Donations are tracked across different types of
+electoral events, such as general elections, by-elections, and
+leadership races.
 
-Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
+Key variables within the dataset are as follows:
 
+-   **Political Party:** Categorical variable indicating the recipient
+    political party, encompassing both major parties (e.g., Liberal
+    Party, Conservative Party, New Democratic Party) and minor parties.
+-   **Donation Year:** Numerical variable representing the year the
+    donation was made, ranging from 2013 to 2024. This captures
+    different political climates and election periods.
+-   **Amount Donated:** Continuous variable denoting the monetary value
+    of each donation, varying widely due to differing donor capacities
+    and legal contribution limits.
 
+### Constructed Variables
 
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+In addition to the original variables, several constructed variables
+were created to facilitate a more nuanced analysis:
+
+-   **Recipient_in_Power:** Binary variable (1/0) indicating whether the
+    recipient party was in power during the donation year.
+-   **Party_Size:** Binary variable (1/0) categorizing parties as
+    major (1) or minor (0), based on their representation in the
+    legislature.
+-   **Election_Year:** Binary variable (1/0) indicating whether the
+    donation was made during an election year.
+-   **Log_Total_Donations:** Logarithm of the total donations received
+    by a party in a given year, calculated as `log(Total_Donations + 1)`
+    to handle zero values.
+-   **Interaction Terms:** Interaction terms such as
+    `Recipient_in_Power * Party_Size` to explore how the effect of being
+    in power varies between major and minor parties.
+
+## Data Cleaning
+
+The raw donation records underwent a series of preprocessing steps to
+ensure the dataset's integrity and suitability for analysis. The key
+data cleaning procedures included:
+
+1.  **Handling Missing Values:** Missing or incomplete records were
+    addressed by either imputing values based on available information
+    or excluding incomplete entries to maintain data integrity.
+2.  **Standardizing Party Names:** Political party names were
+    standardized across jurisdictions to ensure consistency. For
+    example, variations like “Progressive Conservative,” “Progressive
+    Conservative Party of Ontario,” and “The Progressive Conservative
+    Association of Ontario” were consolidated into “Progressive
+    Conservative Association of Ontario.”
+3.  **Removing Outliers:** Extreme donation amounts that could skew the
+    analysis were identified and removed based on predefined criteria.
+4.  **Aggregating Donations:** Donations were aggregated to reflect
+    total amounts per party per year, facilitating a higher-level
+    analysis of donation patterns.
+5.  **Creating Binary Variables:** Binary indicators were generated for
+    key variables such as `Recipient_in_Power`, `Party_Size`, and
+    `Election_Year` to streamline regression analysis.
+
+Additionally, data from jurisdictions with incomplete historical records
+or inconsistent reporting formats were excluded to maintain the
+dataset's uniformity. Detailed data cleaning steps, including the
+handling of OCR-converted records and manual verification processes, are
+elaborated in [Appendix A: Data Cleaning Notes](#sec-appx).
 
 ```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
+#| include: false
 #| warning: false
 #| message: false
 
-analysis_data <- read_csv(here::here("data/02-analysis_data/analysis_data.csv"))
+# Load necessary libraries
+library(tidyverse)
+library(janitor)
+library(knitr)
+library(kableExtra)
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
+# Read in the cleaned donation data
+analysis_data <- read_csv("../data/02-analysis_data/analysis_data.csv")
 ```
 
-Talk way more about it. 
+## Outcome Variables
 
-## Predictor variables
+The main outcome variable of interest in this analysis is the **Amount
+Donated**, which represents the monetary value of each donation made to
+a political party within a given year. This continuous variable is
+crucial for assessing the financial support received by parties based on
+their power status and other influencing factors. Understanding donation
+amounts helps in evaluating the extent to which financial backing
+correlates with political influence and success.
 
-Add graphs, tables and text.
+```{r}
+#| label: tbl-summary-ontario
+#| tbl-cap: "Summary Statistics for Ontario Donations"
+#| echo: false
+#| message: false
 
-Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
+#### Donations by Year ####
+donations_by_year_ontario <- ontario_data %>%
+  group_by(donation_year) %>%
+  summarize(
+    total_donations = n(),
+    total_amount = sum(amount, na.rm = TRUE),
+    avg_amount = mean(amount, na.rm = TRUE)
+  )
+
+kable(donations_by_year_ontario, caption = "Summary Statistics for Ontario Donations")
+```
+
+[NEED TO INCLUDE OTHER TABLES HERE FOR ONTARIO AND ALSO FEDERAL]
 
 
 
+## Predictor Variables
 
+Several key predictor variables were identified to evaluate the factors
+influencing donation amounts effectively:
+
+-   **Recipient_in_Power:** Indicates whether the recipient party was in
+    power during the donation year (1) or not (0). This variable is
+    pivotal in assessing whether being in power attracts more financial
+    support.
+-   **Party_Size:** Categorizes parties as major (1) or minor (0) based
+    on their representation in the legislature. Major parties typically
+    have more visibility and influence, potentially attracting more
+    donations.
+-   **Election_Year:** Indicates whether the donation was made during an
+    election year (1) or not (0). Election cycles often see increased
+    financial activity as parties ramp up fundraising efforts.
+
+### Additional Predictor Variables
+
+-   **Log_Total_Donations:** The logarithm of total donations received
+    by a party in a given year, calculated to normalize the distribution
+    and handle skewness in donation amounts.
+-   **Interaction Terms:** Terms such as
+    `Recipient_in_Power * Party_Size` to explore the combined effect of
+    power status and party size on donation amounts.
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Create log_total_donations
+donations_cleaned <- donations_cleaned %>%
+  group_by(party, year) %>%
+  mutate(total_donations = sum(amount_donated, na.rm = TRUE)) %>%
+  ungroup() %>%
+  mutate(log_total_donations = log(total_donations + 1))
+```
+
+## Summary Statistics
+
+### Ontario Data
+
+#### Total Donations and Amount Donated
+
+[TABLE NEEDED HERE]
+
+#### Donations by Year
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Aggregate donations by year for Ontario
+donations_by_year_ontario <- ontario_data %>%
+  group_by(donation_year) %>%
+  summarize(
+    total_donations = n(),
+    total_amount = sum(amount, na.rm = TRUE),
+    avg_amount = mean(amount, na.rm = TRUE)
+  )
+```
+
+```{r}
+#| label: tbl-donations-year-ontario
+#| tbl-cap: "Donations by Year in Ontario"
+#| echo: false
+#| message: false
+
+kable(donations_by_year_ontario, caption = "Donations by Year in Ontario")
+```
+
+#### Donations by Political Party
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Aggregate donations by party for Ontario
+donations_in_power_ontario <- ontario_data %>%
+  group_by(recipient_in_power) %>%
+  summarize(
+    total_donations = n(),
+    total_amount = sum(amount, na.rm = TRUE),
+    avg_amount = mean(amount, na.rm = TRUE)
+  )
+```
+
+```{r}
+#| label: tbl-donations-party-ontario
+#| tbl-cap: "Donations by Political Party in Ontario"
+#| echo: false
+#| message: false
+
+kable(donations_in_power_ontario, caption = "Donations by Political Party in Ontario")
+```
+
+#### Donations Based on Recipient Power Status
+
+[TABLE NEEDED HERE]
+
+### Federal Data
+
+#### Total Donations and Amount Donated
+
+[TABLE NEEDED HERE]
+
+#### Donations by Year
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Aggregate donations by year for Federal
+donations_by_year_federal <- federal_data %>%
+  group_by(donation_year) %>%
+  summarize(
+    total_donations = n(),
+    total_amount = sum(amount, na.rm = TRUE),
+    avg_amount = mean(amount, na.rm = TRUE)
+  )
+
+```
+
+```{r}
+#| label: tbl-donations-year-federal
+#| tbl-cap: "Donations by Year at Federal Level"
+#| echo: false
+#| message: false
+
+kable(donations_by_year_federal, caption = "Donations by Year at Federal Level")
+```
+
+#### Donations by Political Party
+
+```{r}
+#| include: false
+#| warning: false
+#| message: false
+
+# Aggregate donations by party for Federal
+donations_by_party_federal <- federal_data %>%
+  group_by(political_party) %>%
+  summarize(
+    total_donations = n(),
+    total_amount = sum(amount, na.rm = TRUE),
+    avg_amount = mean(amount, na.rm = TRUE)
+  )
+
+```
+
+```{r}
+#| label: tbl-donations-party-federal
+#| tbl-cap: "Donations by Political Party at Federal Level"
+#| echo: false
+#| message: false
+
+kable(donations_by_party_federal, caption = "Donations by Political Party at Federal Level")
+```
+
+#### Donations Based on Recipient Power Status
+
+[TABLE NEEDED HERE]
+
+## Relationships Between Variables
+
+Preliminary analysis reveals that political parties not in power receive
+higher total donations on average compared to those in power, both at
+the federal and provincial levels. This consistent trend suggests that
+donors may strategically allocate their contributions to opposition
+parties in hopes of influencing political change and promoting
+accountability. Additionally, major parties consistently attract more
+donations than minor parties, underscoring the importance of party
+prominence and visibility in fundraising efforts.
+
+### Donation Amounts by Recipient Power Status
+
+```{r}
+#| label: fig-recipient-power-distribution-ontario
+#| fig-cap: "Donation Amounts by Recipient Power Status in Ontario"
+#| echo: false
+#| message: false
+
+p4_ontario <- ggplot(donations_in_power_ontario, aes(x = recipient_in_power, y = total_amount, fill = recipient_in_power)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Donations Based on Party Power Status - Ontario",
+       x = "Recipient Party in Power", y = "Total Amount Donated ($)") +
+  scale_x_discrete(labels = c("FALSE" = "Not in Power", "TRUE" = "In Power")) +
+  scale_y_continuous() +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 0, hjust = 0.5))
+```
+
+### Donation Amounts by Political Party
+
+#### Ontario
+
+```{r}
+#| label: fig-donations-party-ontario
+#| fig-cap: "Donations by Political Party in Ontario"
+#| echo: false
+#| message: false
+
+p3_ontario <- ggplot(donations_by_party_ontario, aes(x = reorder(political_party, -total_amount), y = total_amount, fill = political_party)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Donations by Political Party - Ontario",
+       x = "Political Party", y = "Total Amount Donated ($)") +
+  scale_y_continuous() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none")
+```
+
+#### Federal
+
+```{r}
+#| label: fig-donations-party-federal
+#| fig-cap: "Donations by Political Party at Federal Level"
+#| echo: false
+#| message: false
+
+donations_by_party_federal %>%
+  ggplot(aes(x = reorder(party, -Total_Amount_Donated), y = Total_Amount_Donated, fill = party)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(
+    title = "Donations by Political Party at Federal Level",
+    x = "Political Party",
+    y = "Total Amount Donated ($)",
+    fill = "Political Party"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+## Relationships Between Variables
+
+The analysis indicates that political parties not in power receive
+higher total donations on average compared to those in power, both at
+the federal and provincial levels. This trend suggests strategic donor
+behavior aimed at supporting challengers to foster political change and
+accountability. Additionally, major parties attract significantly more
+donations than minor parties, underscoring the importance of party
+prominence in fundraising efforts.
 
 # Model
 
 The goal of our modelling strategy is twofold. Firstly,...
 
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+Here we briefly describe the Bayesian analysis model used to
+investigate... Background details and diagnostics are included in
+[Appendix -@sec-model-details].
 
 ## Model set-up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
+Define $y_i$ as the number of seconds that the plane remained aloft.
+Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both
+measured in millimeters.
 
+```{=tex}
 \begin{align} 
 y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
 \mu_i &= \alpha + \beta_i + \gamma_i\\
@@ -121,16 +496,17 @@ y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
 \gamma &\sim \mbox{Normal}(0, 2.5) \\
 \sigma &\sim \mbox{Exponential}(1)
 \end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
+```
+We run the model in R [@citeR] using the `rstanarm` package of
+@rstanarm. We use the default priors from `rstanarm`.
 
 ### Model justification
 
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
+We expect a positive relationship between the size of the wings and time
+spent aloft. In particular...
 
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
+We can use maths by including latex between dollar signs, for instance
+$\theta$.
 
 # Results
 
@@ -164,18 +540,18 @@ modelsummary::modelsummary(
 )
 ```
 
-
-
-
 # Discussion
 
 ## First discussion point {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
+If my paper were 10 pages, then should be be at least 2.5 pages. The
+discussion is a chance to show off what you know and what you learnt
+from all this.
 
 ## Second discussion point
 
-Please don't use these as sub-heading labels - change them to be what your point actually is.
+Please don't use these as sub-heading labels - change them to be what
+your point actually is.
 
 ## Third discussion point
 
@@ -187,8 +563,52 @@ Weaknesses and next steps should also be included.
 
 \appendix
 
-# Appendix {-}
+# Appendix {#sec-appx}
 
+## Appendix A: Data Cleaning Notes
+
+The data cleaning process was meticulously carried out to ensure the
+dataset's reliability and consistency. The key steps included:
+
+1.  **Importing Raw Data:**
+    -   The raw donation data was imported using the `read_csv` function
+        from the `tidyverse` package.
+    -   Data from PDF sources were converted to CSV using OCR tools such
+        as Adobe Export PDF and ABBYY FineReader, followed by manual
+        verification to correct OCR-induced errors.
+2.  **Handling Missing Values:**
+    -   Missing values in critical variables (`amount_donated`,
+        `recipient_in_power`, `party_size`, `election_year`) were
+        addressed by excluding incomplete records to maintain data
+        integrity.
+3.  **Standardizing Party Names:**
+    -   Political party names were standardized across all
+        jurisdictions. For example, variations like “Progressive
+        Conservative,” “Progressive Conservative Party of Ontario,” and
+        “The Progressive Conservative Association of Ontario” were
+        consolidated into “Progressive Conservative Association of
+        Ontario.”
+4.  **Removing Outliers:**
+    -   Donation amounts exceeding three standard deviations from the
+        mean were identified and removed to prevent skewing the
+        analysis.
+5.  **Aggregating Donations:**
+    -   Donations were aggregated at the party-year level, resulting in
+        a dataset where each row represents the total donations received
+        by a party in a given year.
+6.  **Creating Binary Variables:**
+    -   Binary indicators were created for `recipient_in_power`,
+        `party_size`, and `election_year` to facilitate regression
+        analysis.
+7.  **Log Transformation:**
+    -   The `log_total_donations` variable was created by taking the
+        logarithm of `Total_Donations + 1` to normalize the distribution
+        and handle zero values.
+8.  **Final Verification:**
+    -   The cleaned dataset was cross-validated against original records
+        to ensure accuracy and consistency.
+
+# Appendix {.unnumbered}
 
 # Additional data details
 
@@ -196,9 +616,11 @@ Weaknesses and next steps should also be included.
 
 ## Posterior predictive check
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
+In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive
+check. This shows...
 
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
+In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the
+prior. This shows...
 
 ```{r}
 #| eval: true
@@ -242,11 +664,6 @@ plot(first_model, "trace")
 plot(first_model, "rhat")
 ```
 
-
-
 \newpage
 
-
 # References
-
-

@@ -93,31 +93,19 @@ federal_data <- analysis_data %>% filter(region == "Federal")
 
 The dataset used in this analysis comprises political donation records spanning from 2013 to 2024, covering both the federal level and the province of Ontario in Canada. These records were sourced from the Investigative Journalism Foundation (IJF), which systematically collects and maintains comprehensive data on political donations across various Canadian jurisdictions. The IJF gathers daily updates by monitoring elections agency websites at the federal level and within each province and territory, ensuring the dataset remains current and robust. Although the IJF's repository includes historical data dating back to 1993, this study focuses exclusively on the 2013–2024 period to capture recent trends and changes in political financing dynamics (Investigative Journalism Foundation 2024).
 
-The analysis was conducted using the statistical programming language R (R Core Team 2024) and several packages for data manipulation and visualization, including `dplyr` (Wickham et al. 2023), `ggplot2` (Wickham 2016), `readr` (Wickham et al. 2023), and `tidyr` (Wickham et al. 2023).
+The analysis was conducted using the statistical programming language R (R Core Team 2024) and several packages for data manipulation and visualization, including `dplyr` (Wickham et al. 2023), `ggplot2` (Wickham 2016), `readr` (Wickham et al. 2023), and `tidyr` (Wickham et al. 2023). [UPDATE REFERENCES]
 
 Political donations in Canada are subject to legal disclosure requirements, promoting transparency and accountability within the democratic process. Both federal and provincial election finance laws mandate that political parties, candidates, and associated entities report donations exceeding specific thresholds. These disclosures vary by jurisdiction in terms of frequency and reporting formats. For instance, Ontario requires annual returns for general and by-elections, leadership races, and donations to parties, candidates, and constituency associations, all available in downloadable spreadsheet formats from 2007 onward. This regulatory framework ensures that significant contributions are systematically documented and publicly accessible, providing a reliable foundation for this analysis.
 
 ## Measurement
 
-The primary objective of this analysis is to investigate the impact of a political party's power status on donation patterns within Canadian federal and Ontario provincial elections. The dataset includes detailed records of donations made to various recipients, such as political parties, party leadership contestants, riding associations (also known as electoral district or constituency associations), and individual riding candidates. Donations are tracked across different types of electoral events, including general elections, by-elections, and leadership races.
+The dataset used in this analysis originates from the Investigative Journalism Foundation (IJF), which compiles political donation records from Canadian federal elections and the province of Ontario, covering the period from 2013 to 2024. The IJF collects this data by monitoring official elections agency websites at both the federal level and within each province and territory. Donations initially reported in various formats, including downloadable spreadsheets and PDFs, are converted into a standardized CSV format using Optical Character Recognition (OCR) tools such as Adobe Export PDF and ABBYY FineReader. Following conversion, manual verification is performed to correct any OCR-induced errors, ensuring the accuracy and consistency of the dataset.
 
-Key variables within the dataset are as follows:
+The target population for this analysis includes all political donations made to registered political parties, party leadership contestants, riding associations (also known as electoral district or constituency associations), and individual riding candidates during the specified time frame. Donations are tracked across different types of electoral events, including general elections, by-elections, and leadership races. This comprehensive coverage allows for an in-depth examination of donation patterns in various political contexts. The data collection methodology ensures that all significant financial contributions are captured, providing a robust foundation for analyzing the relationship between political power and financial support.
 
-- **Political Party:** A categorical variable indicating the recipient political party, encompassing both major parties (e.g., Liberal Party, Conservative Party, New Democratic Party) and minor parties.
+Data aggregation involves summing the total donations received by each political party annually, resulting in a dataset where each row represents the total donations for a specific party in a given year. Key variables include Political Party (categorizing major and minor parties), Donation Year (ranging from 2013 to 2024), and Amount Donated (the monetary value of each donation). Additional binary variables such as Recipient_in_Power (indicating whether the party was in power during the donation year), Party_Size (distinguishing major from minor parties based on legislative representation), and Election_Year (indicating whether the donation was made during an election year) are constructed to facilitate regression analyses.
 
-- **Donation Year:** A numerical variable representing the year the donation was made, ranging from 2013 to 2024. This captures different political climates and election periods.
-
-- **Amount Donated:** A continuous variable denoting the monetary value of each donation, varying widely due to differing donor capacities and legal contribution limits.
-
-### Constructed Variables
-
-Several variables were constructed to facilitate a more nuanced analysis:
-
-- **Recipient_in_Power:** A binary variable indicating whether the recipient party was in power during the donation year (1 for in power, 0 for not in power). This was determined by cross-referencing the donation year with historical records of party leadership at both the federal and provincial levels.
-
-- **Party_Size:** A binary variable categorizing parties as major (1) or minor (0), based on their representation in the legislature. Major parties are those with significant representation or historical influence.
-
-- **Election_Year:** A binary variable indicating whether the donation was made during an election year (1) or not (0), based on official election dates at the federal and provincial levels.
+The data is organized into a structured format with each row detailing a specific donation event, including the party receiving the donation, the year it was made, the amount donated, and the constructed binary indicators. This organization allows for efficient manipulation and analysis using statistical programming tools like R. By aggregating donations at the party-year level and incorporating relevant variables, the dataset effectively translates real-world donation phenomena into analyzable data points, enabling the investigation of how political power status influences financial support in Canadian elections.
 
 ## Data Cleaning
 

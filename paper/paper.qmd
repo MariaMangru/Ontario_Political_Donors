@@ -1,12 +1,12 @@
 ---
 title: "Impact of Federal Party Leadership Changes on Donation Patterns"
-subtitle: "An Analysis of Political Contributions in Canada 2013 - 2024"
+subtitle: "An Analysis of Political Donations in Canada 2013 - 2024"
 author: 
   - Maria Mangru
 thanks: "Code and data are available at: [https://github.com/MariaMangru/Ontario_Political_Donors](https://github.com/MariaMangru/Ontario_Political_Donors)."
 date: today
 date-format: long
-abstract: "This study investigates how changes in the ruling political parties within federal and Ontario governments influence individual donor behaviors across Canada. By analyzing political donation data from both Ontario and Federal levels between 2013 and 2024, the research assesses whether shifts in which party holds power lead to significant changes in donation amounts. Understanding this relationship enhances knowledge of political financing dynamics and informs parties and policymakers about the factors that motivate donor engagement."
+abstract: "This study investigates how the ruling political parties in Canada's federal and Ontario provincial governments affect the donation behaviors of individual contributors. By analyzing donation records from 2013 to 2024, the research explores whether a party being in power influences the total amount of financial support it receives. The findings reveal that opposition parties often receive more donations than those in power, highlighting donor preferences to support challengers. This insight enhances our understanding of political financing and can help parties and policymakers develop more effective fundraising strategies."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -100,9 +100,6 @@ Talk way more about it.
 Add graphs, tables and text.
 
 Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
-
-
-
 
 
 

@@ -29,9 +29,6 @@ total_donations_ontario <- ontario_data %>%
   ungroup()
 
 # Run Regression for Ontario with Controls
-model_ontario <- lm(Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
-summary(model_ontario)
-
 
 total_donations_ontario <- total_donations_ontario %>%
   mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
@@ -55,10 +52,6 @@ total_donations_federal <- federal_data %>%
   ungroup()
 
 # Run Regression for Federal with Controls
-model_federal <- lm(Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
-summary(model_federal)
-
-
 # For Federal
 total_donations_federal <- total_donations_federal %>%
   mutate(Log_Total_Donations = log(Total_Donations + 1))

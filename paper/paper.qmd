@@ -1,6 +1,6 @@
 ---
 title: "Impact of Federal Party Leadership Changes on Donation Patterns"
-subtitle: "An Analysis of Political Donations in Canada 2013 - 2024"
+subtitle: "What Data from 2013 - 2024 Reveal About Party Funding Trends"
 author: 
   - Maria Mangru
 thanks: "Code and data are available at: [https://github.com/MariaMangru/Ontario_Political_Donors](https://github.com/MariaMangru/Ontario_Political_Donors)."
@@ -26,51 +26,19 @@ library(palmerpenguins)
 
 # Introduction
 
-Political donations play a critical role in supporting political
-campaigns and shaping electoral competition. In Canada, both federal and
-provincial elections rely heavily on contributions from individuals and
-organizations, which influence the political landscape and often reflect
-public support for different parties. Understanding what drives donation
-patterns is essential for ensuring transparency and fairness in the
-democratic process and for minimizing the risk of undue influence on
-policy-making.
+Political donations are an important part of democratic processes, providing essential financial support for political campaigns and influencing electoral competition. In Canada, both federal and provincial elections rely on contributions from individuals and organizations. This can shape the political landscape and reflect public support for different parties. Understanding the factors that drive donation patterns is crucial for ensuring transparency and fairness in the democratic process and for minimizing the risk of undue influence on policy-making.
 
-One key question is whether a party’s position in power affects the
-amount of financial support it receives. While studies in other
-countries, such as the U.S.A, have shown that incumbents often benefit
-from more donations, particularly from interest groups looking to
-maintain influence, there has been less focus on whether this holds true
-in Canada. Research like Fouirnaies and Hall’s work (REFERENCE HERE) in
-the U.S. shows that donors strategically target those in power, but how
-these dynamics play out in Canadian elections remains under explored.
-This paper aims to fill that gap by analyzing how a party's power status
-influences donor behaviour in federal and Ontario provincial elections.
+A key question in political finance is whether a party's position in power affects the amount of financial support it receives. Studies in other countries, such as the  @fouirnaies2014financial conducted in the United States, have shown that incumbents often benefit from more donations, particularly from interest groups seeking to maintain influence. However, there has been less focus on whether this holds true in Canada, where the political system and donation regulations differ significantly. This paper aims to fill that gap by analyzing how a party's power status influences donor behaviour in federal and Ontario provincial elections.
 
-Using donation data from 2013 to 2024, this study compares the financial
-support received by parties in power versus those in opposition. The
-analysis examines total donations by year and party while accounting for
-factors like election timing and party size (major party or not). By
-identifying trends in how donors respond to shifts in political power,
-this research sheds light on the financial strategies behind Canada’s
-democratic processes.
+The primary estimand of this study is the effect of a political party's power status on the total amount of financial donations it receives from individual contributors. By comparing the financial support received by parties in power versus those in opposition, this research aims to understand whether being in power affects a party's fundraising success.
 
-The results show that opposition parties tend to receive higher
-donations than those in power, suggesting that donors often prioritize
-supporting challengers, possibly to influence political change. These
-findings align with trends observed in other political systems but
-highlight unique patterns in Canada. This information is valuable not
-only for political parties developing fundraising strategies but also
-for policymakers and researchers seeking to ensure fairness and
-accountability in political financing.
+Using donation data from 2013 to 2024, this study examines total donations by year and party, accounting for factors such as election timing and party size (major party or not). The analysis employs linear regression models to quantify the relationship between power status and donation amounts, providing insights into donor motivations and the strategic considerations of political parties.
 
-The paper is organized as follows: Section \ref{sec-data} discusses the
-data sources and methodology, followed by an explanation of the
-variables used in the analysis. The regression models and results are
-then presented, along with interpretations. The paper concludes by
-discussing the broader implications of the findings and suggesting
-directions for future research.\[NEED TO UPDATE THE REFERENCES\]
+The results indicate that opposition parties tend to receive higher total donations than those in power, suggesting that donors often prioritize supporting challengers, possibly to influence political change. This information is valuable not only for political parties developing fundraising strategies but also for policymakers and researchers seeking to ensure fairness and accountability in political financing. 
 
-# Data
+The paper is organized as follows: Section \ref{sec-data} discusses the data sources and methodology, including measurement and data cleaning processes. Section \ref{sec-model} presents the regression models used in the analysis, along with justification and validation. Section \ref{sec-results} outlines the results, and Section \ref{sec-discussion} discusses the implications, limitations, and suggestions for future research. Section \ref{sec-appendix} offers further detailed insights into the data, modeling approach, and methodology.
+
+# Data {#sec-data}
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #### Workspace setup ####
@@ -413,7 +381,7 @@ ggplot(donations_by_party_ontario, aes(
 
 ```
 
-# Model
+# Model {#sec-model}
 
 To analyze the impact of a political party’s power status on donation
 patterns within Canadian federal and Ontario provincial elections,
@@ -626,7 +594,7 @@ kable(tidy_all,
 ```
 
 
-# Results
+# Results {#sec-results}
 
 Table 1 presents the summary of key model estimates for the Ontario, Federal, and Conservative/Liberal models. These models predict the logarithm of total donations received by political parties based on whether the party was in power, the size of the party, and whether the donation occurred during an election year. The Conservative/Liberal model includes an interaction term to explore how the effect of being in power varies between these two major parties.
 
@@ -718,7 +686,7 @@ The Election Year variable does not significantly predict donation amounts in an
 Overall, the models explain a moderate portion of the variance in total donations, with R² values ranging from 0.3046 (Ontario) to 0.5825 (Federal), and the Conservative/Liberal model achieving an R² of 0.4481. These findings underscore the importance of party size in determining donation amounts, while the role of power status appears to be contingent on party affiliation.
 
 
-# Discussion
+# Discussion {#sec-discussion}
 
 ##The Influence of Party Size on Donation Amounts {#sec-first-point}
 
@@ -735,7 +703,7 @@ Weaknesses and next steps should also be included.
 
 \appendix
 
-# Appendix {#sec-appx}
+# Appendix {#sec-appendix}
 
 ## Appendix A: Data Cleaning Notes
 

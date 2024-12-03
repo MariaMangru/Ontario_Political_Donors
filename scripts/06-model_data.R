@@ -14,8 +14,11 @@ library(rstanarm)
 analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
 
+#### Model for Ontario ####
+
 # Filter data for Ontario
-ontario_data <- analysis_data %>% filter(region == "Ontario")
+ontario_data <- analysis_data %>% 
+  filter(region == "Ontario")
 
 # Aggregate total donations per party per year in Ontario
 total_donations_ontario <- ontario_data %>%
@@ -28,17 +31,19 @@ total_donations_ontario <- ontario_data %>%
   ) %>%
   ungroup()
 
-# Run Regression for Ontario with Controls
-
+# Log-transform the dependent variable to stabilize variance
 total_donations_ontario <- total_donations_ontario %>%
   mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
 
+# Run Regression for Ontario with Controls
 model_ontario <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
 summary(model_ontario)
 
+#### Model for Federal ####
 
 # Filter data for Federal
-federal_data <- donations_filtered %>% filter(region == "Federal")
+federal_data <- analysis_data %>% 
+  filter(region == "Federal")
 
 # Aggregate total donations per party per year at Federal level
 total_donations_federal <- federal_data %>%
@@ -51,19 +56,15 @@ total_donations_federal <- federal_data %>%
   ) %>%
   ungroup()
 
-# Run Regression for Federal with Controls
-# For Federal
+# Log-transform the dependent variable to stabilize variance
 total_donations_federal <- total_donations_federal %>%
-  mutate(Log_Total_Donations = log(Total_Donations + 1))
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
 
+# Run Regression for Federal with Controls
 model_federal <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
 summary(model_federal)
 
-
-
-
-
-### Conservative and Liberal 
+#### Conservative and Liberal Analysis ####
 
 # Filter for Conservative and Liberal parties
 cl_data <- analysis_data %>%
@@ -98,11 +99,10 @@ total_donations_cl <- cl_data %>%
 
 # Log-transform the dependent variable to stabilize variance
 total_donations_cl <- total_donations_cl %>%
-  mutate(Log_Total_Donations = log(Total_Donations + 1))
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
 
 # Run the regression with interaction term
 model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = total_donations_cl)
 summary(model_cl)
-
 
 # Need to save the model

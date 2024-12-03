@@ -33,7 +33,7 @@ donations_filtered <- donations_filtered %>%
       region == "Ontario" & political_party %in% c("Ontario Liberal Party", "Liberal Party") ~ "Liberal Party of Ontario",
       region == "Ontario" & political_party == "New Democratic Party" ~ "New Democratic Party of Ontario",
       region == "Ontario" & political_party == "Bloc Québécois" ~ "Bloc Quebecois",
-      region == "Federal" & political_party == "Bloc Québécois" ~ "Bloc Quebecois",  # Example for Federal region
+      region == "Federal" & political_party == "Bloc Québécois" ~ "Bloc Quebecois",
       TRUE ~ political_party
     )
   )
@@ -51,21 +51,53 @@ donations_filtered <- donations_filtered %>%
     )
   )
 
-# Federal Government Parties in Power from 2011 to 2024
+#### Define Government Parties in Power ####
+
+# Federal Government Parties in Power from 2006 to 2024
 federal_government <- data.frame(
-  year = 2011:2024,
+  year = 2006:2024,
   party_in_power = c(
-    rep("Conservative Party of Canada", 4),  # 2011-2014
-    rep("Liberal Party of Canada", 10)       # 2015-2024
+    # 2006-2007: Conservative
+    rep("Conservative Party of Canada", 2),
+    
+    # 2008-2010: Conservative
+    rep("Conservative Party of Canada", 3),
+    
+    # 2011-2014: Conservative
+    rep("Conservative Party of Canada", 4),
+    
+    # 2015-2018: Liberal
+    rep("Liberal Party of Canada", 4),
+    
+    # 2019-2020: Liberal
+    rep("Liberal Party of Canada", 2),
+    
+    # 2021-2024: Liberal
+    rep("Liberal Party of Canada", 4)
   )
 )
 
-# Ontario Government Parties in Power from 2011 to 2024
+# Ontario Government Parties in Power from 2003 to 2024
 ontario_government <- data.frame(
-  year = 2011:2024,
+  year = 2003:2024,
   party_in_power = c(
-    rep("Liberal Party of Ontario", 7),      # 2011-2017
-    rep("Progressive Conservative Party of Ontario", 7)  # 2018-2024
+    # 2003-2006: Liberal
+    rep("Liberal Party of Ontario", 4),
+    
+    # 2007-2010: Liberal
+    rep("Liberal Party of Ontario", 4),
+    
+    # 2011-2013: Liberal
+    rep("Liberal Party of Ontario", 3),
+    
+    # 2014-2017: Liberal
+    rep("Liberal Party of Ontario", 4),
+    
+    # 2018-2021: Progressive Conservative
+    rep("Progressive Conservative Party of Ontario", 4),
+    
+    # 2022-2024: Progressive Conservative
+    rep("Progressive Conservative Party of Ontario", 3)
   )
 )
 
@@ -73,21 +105,24 @@ ontario_government <- data.frame(
 donations_filtered <- donations_filtered %>%
   mutate(
     party_in_power = case_when(
-      region == "Federal" ~ federal_government$party_in_power[match(donation_year, federal_government$year)],
-      region == "Ontario" ~ ontario_government$party_in_power[match(donation_year, ontario_government$year)],
+      region == "Federal" & donation_year >= 2006 ~ federal_government$party_in_power[match(donation_year, federal_government$year)],
+      region == "Ontario" & donation_year >= 2003 ~ ontario_government$party_in_power[match(donation_year, ontario_government$year)],
       TRUE ~ NA_character_
     ),
     # Create a binary column indicating if the recipient party was in power
     recipient_in_power = ifelse(political_party == party_in_power, 1, 0)
   )
 
+# Define Election Years
 donations_filtered <- donations_filtered %>%
   mutate(
     Election_Year = case_when(
       # Federal Election Years
-      region == "Federal" & donation_year %in% c(2011, 2015, 2019, 2021) ~ 1,
+      region == "Federal" & donation_year %in% c(2006, 2008, 2011, 2015, 2019, 2021) ~ 1,
+      
       # Ontario Election Years
-      region == "Ontario" & donation_year %in% c(2011, 2014, 2018, 2022) ~ 1,
+      region == "Ontario" & donation_year %in% c(2007, 2011, 2014, 2018, 2022) ~ 1,
+      
       # All Other Years
       TRUE ~ 0
     )

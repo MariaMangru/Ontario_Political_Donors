@@ -1,6 +1,6 @@
 ---
-title: "Impact of Party Leadership on Donation Patterns"
-subtitle: "What Data from 2013 - 2024 Reveal About Party Funding Trends"
+title: "Donor Preferences in Canadian Political Financing"
+subtitle: "Understanding Donor Support for Ruling vs. Opposition Parties Between 2013 - 2024"
 author: 
   - Maria Mangru
 thanks: "Code and data are available at: [https://github.com/MariaMangru/Ontario_Political_Donors](https://github.com/MariaMangru/Ontario_Political_Donors)."
@@ -685,7 +685,6 @@ modelsummary(
 library(broom)
 library(ggplot2)
 library(dplyr)
-
 # Tidy models and combine
 tidy_all <- bind_rows(
   tidy(model_ontario) %>% mutate(Model = "Ontario"),
@@ -696,12 +695,14 @@ tidy_all <- bind_rows(
 # Select relevant terms and exclude intercepts
 tidy_plot <- tidy_all %>%
   filter(term != "(Intercept)") %>%
-  mutate(term = recode(term, 
-                       "In_Power" = "In Power",
-                       "Party_Size" = "Party Size",
-                       "Election_Year" = "Election Year",
-                       "Party" = "Party (1=Conservative, 0=Liberal)",
-                       "In_Power:Party" = "In Power * Party"))
+  mutate(term = case_when(
+    term == "In_Power" ~ "In Power",
+    term == "Party_Size" ~ "Party Size",
+    term == "Election_Year" ~ "Election Year",
+    term == "Party" ~ "Party (1=Conservative, 0=Liberal)",
+    term == "In_Power:Party" ~ "In Power * Party",
+    TRUE ~ term  # Keeps other terms unchanged
+  ))
 
 # Plot coefficients with error bars
 ggplot(tidy_plot, aes(x = term, y = estimate, color = Model)) +

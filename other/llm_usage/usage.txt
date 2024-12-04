@@ -1,11 +1,45 @@
+LLM: ChatGPT-4.
+Date: 9 December 2024
+
+1. Title of Project
+
+USER:
+This is the abstract for my paper ""This study investigates how the ruling political parties in Canada's federal and Ontario provincial governments affect the donation behaviors of individual contributors. By analyzing donation records from 2013 to 2024, the research explores whether a party being in power influences the total amount of financial support it receives. The findings reveal that opposition parties often receive more donations than those in power, highlighting donor preferences to support challengers. This insight enhances our understanding of political financing and can help parties and policymakers develop more effective fundraising strategies."" what are some titles and subtitles you would suggest based on this? They must be concise but also relevant. 
+
+ChatGPT said:
+
+ChatGPT 
+Title Suggestions
+"Political Power and Donations: Insights from Canada"
+"Funding the Opposition: Donation Dynamics in Canada"
+"Who Gets the Money? Party Power and Donor Behavior in Canada"
+"Political Influence on Donations: A Federal and Provincial Analysis"
+"The Ruling Party Paradox: Donor Behavior in Canada"
+"Challengers First: Political Donations in Federal and Ontario Elections"
+"Donor Preferences in Canadian Political Financing"
+"Party Power and Financial Support in Canada: 2013–2024"
+"Opposition Over Power: Trends in Canadian Political Donations"
+"Exploring the Donation Gap: Ruling vs. Opposition Parties in Canada"
+Subtitle Suggestions
+"Donation Trends in Federal and Ontario Politics, 2013–2024"
+"Analyzing the Impact of Political Power on Financial Contributions"
+"How Power Dynamics Shape Political Fundraising Strategies"
+"A Decade of Donation Behaviors in Canadian Politics"
+"Understanding Donor Support for Ruling vs. Opposition Parties"
+"Insights into Political Fundraising Across Canada"
+"Exploring Donor Behavior in Provincial and Federal Elections"
+"Political Financing Patterns in Canada: A Data-Driven Study"
+"The Influence of Governance on Donation Behaviors"
+"Funding Patterns: What Ruling and Opposition Parties Reveal"
+
 ________________________________________________________________________________
 LLM: ChatGPT-4.
 Date: 10 December 2024
 
 
-
-
 2. Model tests
+
+USER:
 This is the code to run my regression model "#### Workspace setup ####
 library(tidyverse)
 library(rstanarm)
@@ -174,16 +208,359 @@ print(aic_ontario)" what are some other tests I can write ?
 
 
 
+ChatGPT said:
+
+ChatGPT
+Here are some additional tests and evaluations you can implement to thoroughly assess your models and improve their robustness:
+
+1. Residual Analysis
+Goal: Assess the assumptions of linear regression, including normality of residuals, homoscedasticity, and independence.
+R
+Copy code
+# Residual diagnostics for Ontario model
+residuals_ontario <- residuals(model_ontario)
+# Plot residuals vs fitted values
+plot(fitted(model_ontario), residuals_ontario, main = "Residuals vs Fitted", xlab = "Fitted Values", ylab = "Residuals")
+abline(h = 0, col = "red")
+
+# Q-Q plot for residuals
+qqnorm(residuals_ontario, main = "Q-Q Plot for Residuals")
+qqline(residuals_ontario, col = "red")
+
+# Test for normality (Shapiro-Wilk test)
+shapiro_test <- shapiro.test(residuals_ontario)
+print(shapiro_test)
+
+# Test for homoscedasticity (Breusch-Pagan test)
+library(lmtest)
+bp_test <- bptest(model_ontario)
+print(bp_test)
+2. Cross-Validation
+Goal: Ensure model generalizability using k-fold cross-validation.
+R
+Copy code
+# k-Fold Cross-Validation for Ontario model
+set.seed(123)
+cv_results_ont <- train(
+  Log_Total_Donations ~ In_Power + Party_Size + Election_Year,
+  data = train_data_ont,
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 10)
+)
+print(cv_results_ont)
+3. Sensitivity Analysis
+Goal: Evaluate the model's robustness to different data subsets or transformations.
+R
+Copy code
+# Exclude extreme donation years and re-run the model
+sensitivity_data_ont <- total_donations_ontario %>%
+  filter(donation_year != min(donation_year), donation_year != max(donation_year))
+
+sensitivity_model <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = sensitivity_data_ont)
+summary(sensitivity_model)
+4. Interaction Effects
+Goal: Explore whether additional interaction terms improve model performance.
+R
+Copy code
+# Adding a three-way interaction
+model_ontario_interaction <- lm(Log_Total_Donations ~ In_Power * Party_Size * Election_Year, data = train_data_ont)
+summary(model_ontario_interaction)
+
+# Compare models using ANOVA
+anova(model_ontario, model_ontario_interaction)
+5. Model Comparison
+Goal: Compare different model specifications (e.g., linear vs. non-linear).
+R
+Copy code
+# Fit a non-linear model using polynomial terms
+model_ontario_poly <- lm(Log_Total_Donations ~ poly(In_Power, 2) + poly(Party_Size, 2) + Election_Year, data = train_data_ont)
+summary(model_ontario_poly)
+
+# Compare models using AIC/BIC
+aic_comparison <- AIC(model_ontario, model_ontario_poly)
+bic_comparison <- BIC(model_ontario, model_ontario_poly)
+print(aic_comparison)
+print(bic_comparison)
+6. Feature Importance
+Goal: Assess the contribution of each predictor to the model.
+R
+Copy code
+# Extract feature importance using standardized coefficients
+standardized_model <- lm(scale(Log_Total_Donations) ~ scale(In_Power) + scale(Party_Size) + scale(Election_Year), data = train_data_ont)
+summary(standardized_model)
+
+# Coefficient plot
+coef_plot <- tidy(standardized_model) %>%
+  ggplot(aes(x = term, y = estimate)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Feature Importance", x = "Predictor", y = "Standardized Coefficient") +
+  theme_minimal()
+print(coef_plot)
+7. Predictive Performance Metrics
+Goal: Go beyond RMSE by calculating additional performance metrics like 
+𝑅
+2
+R 
+2
+ , Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE).
+R
+Copy code
+# Calculate R-squared, MAE, and MAPE
+r_squared <- cor(test_data_ont$Log_Total_Donations, test_data_ont$Predicted_Log_Total_Donations)^2
+mae <- mean(abs(test_data_ont$Log_Total_Donations - test_data_ont$Predicted_Log_Total_Donations))
+mape <- mean(abs((test_data_ont$Log_Total_Donations - test_data_ont$Predicted_Log_Total_Donations) / test_data_ont$Log_Total_Donations)) * 100
+
+print(paste("R-squared:", round(r_squared, 4)))
+print(paste("MAE:", round(mae, 4)))
+print(paste("MAPE:", round(mape, 4), "%"))
+8. Subgroup Analysis
+Goal: Investigate model performance across different political parties or regions.
+R
+Copy code
+# Fit separate models for major parties
+party_models <- total_donations_ontario %>%
+  group_by(political_party) %>%
+  group_map(~ lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = .x))
+
+# Extract and compare summaries
+party_summaries <- lapply(party_models, summary)
+print(party_summaries)
+9. Predictive Residual Plots
+Goal: Visualize how well the predictions align with actual values.
+R
+Copy code
+ggplot(test_data_ont, aes(x = Log_Total_Donations, y = Predicted_Log_Total_Donations)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, col = "red", linetype = "dashed") +
+  labs(title = "Predicted vs. Actual Values", x = "Actual Log Total Donations", y = "Predicted Log Total Donations") +
+  theme_minimal()
+10. External Validation
+Goal: Test the model on a separate dataset to ensure generalizability.
+R
+Copy code
+# Load external validation dataset
+validation_data <- read_csv("data/03-validation_data/validation_data.csv")
+
+# Predict on external validation dataset
+validation_data <- validation_data %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))
+
+validation_predictions <- predict(model_ontario, newdata = validation_data)
+
+# Calculate RMSE for external validation
+validation_rmse <- sqrt(mean((validation_data$Log_Total_Donations - validation_predictions)^2))
+print(paste("Validation RMSE:", round(validation_rmse, 4)))
+These tests will comprehensively evaluate your models, highlighting their strengths and areas for improvement.
 
 
 
+3. Simulated dataset test
 
+USER:
+
+I want to test my simulated dataset. This is the code I wrote "#### Workspace setup ####
+library(dplyr)
+library(lubridate)
+library(testthat)
+library(tidyverse)
+
+simulated_data <- read_csv("data/00-simulated_data/simulated_data.csv")
+
+# Convert columns to appropriate data types
+simulated_data <- simulated_data %>%
+  mutate(
+    donation_date = as.Date(donation_date),
+    donation_year = as.integer(donation_year),
+    amount = as.numeric(amount),
+    leader_change = as.logical(leader_change)
+  )
+
+# Begin testing
+test_that("Data types are correct", {
+  expect_type(simulated_data$donation_year, "integer")
+  expect_s3_class(simulated_data$donation_date, "Date")
+  expect_type(simulated_data$donor_full_name, "character")
+  expect_type(simulated_data$donor_type, "character")
+  expect_type(simulated_data$amount, "double")
+  expect_type(simulated_data$political_party, "character")
+  expect_type(simulated_data$party_leader, "character")
+  expect_type(simulated_data$leader_change, "logical")
+})
+
+test_that("No missing values in critical columns", {
+  critical_columns <- c("donation_id", "donation_year", "donation_date", "donor_full_name", "amount", "political_party", "party_leader", "leader_change")
+  for (col in critical_columns) {
+    expect_false(any(is.na(simulated_data[[col]])), info = paste("Missing values found in", col))
+  }
+})
+
+test_that("Donation dates match donation years", {
+  years_from_dates <- year(simulated_data$donation_date)
+  expect_equal(simulated_data$donation_year, years_from_dates)
+})
+
+test_that("Donation amounts are positive", {
+  expect_true(all(simulated_data$amount > 0))
+})
+
+test_that("Leader mapping is consistent", {
+  # Check that for each political party and year, the party leader matches the expected leader
+  unique_parties <- unique(simulated_data$political_party)
+  for (party in unique_parties) {
+    party_data <- simulated_data %>% filter(political_party == party)
+    leader_years <- party_data %>% group_by(donation_year) %>% summarize(unique_leaders = n_distinct(party_leader))
+    expect_true(all(leader_years$unique_leaders == 1), info = paste("Multiple leaders found for", party, "in a single year"))
+  }
+})
+
+test_that("Leader change flags are correct", {
+  # Verify that leader_change is TRUE only in years when leadership changed
+  leader_changes <- simulated_data %>% filter(leader_change == TRUE)
+  for (party in unique(leader_changes$political_party)) {
+    change_years <- unique(leader_changes$donation_year[leader_changes$political_party == party])
+    expected_change_years <- party_info$leader_change_years[[which(party_info$political_party == party)]]
+    expect_equal(sort(change_years), sort(expected_change_years), info = paste("Leader change years mismatch for", party))
+  }
+})
+
+test_that("Donor names are unique within a year", {
+  donor_years <- simulated_data %>% group_by(donation_year, donor_full_name) %>% summarize(count = n())
+  duplicates <- donor_years %>% filter(count > 1)
+  expect_true(nrow(duplicates) == 0, info = "Duplicate donor names found within the same year")
+})
+
+test_that("Donor types are valid", {
+  valid_types <- c("Individuals")
+  expect_true(all(simulated_data$donor_type %in% valid_types))
+})
+
+test_that("Region is 'Federal' for all records", {
+  expect_true(all(simulated_data$region == "Federal"))
+})
+
+test_that("Donation IDs are unique and sequential", {
+  expect_equal(simulated_data$donation_id, 1:nrow(simulated_data))
+})" is it good? How would you improve on it?
+
+
+ChatGPT:
+
+ChatGPT
+Your testing code is comprehensive and covers many important checks for the simulated dataset. However, there are areas where improvements and enhancements could be made to ensure greater robustness and efficiency. Below are suggestions for improvement:
+
+1. Modularize Test Descriptions
+Add descriptive names for each test block to improve readability and debugging.
+r
+Copy code
+test_that("Columns have correct data types", {
+  ...
+})
+2. Validate Column Existence
+Before testing data types, ensure that all required columns exist in the dataset.
+r
+Copy code
+test_that("All required columns exist", {
+  required_columns <- c("donation_id", "donation_year", "donation_date", "donor_full_name", "amount", "political_party", "party_leader", "leader_change", "donor_type", "region")
+  expect_true(all(required_columns %in% colnames(simulated_data)), info = "Some required columns are missing")
+})
+3. Enhance Missing Value Checks
+Include checks for missing values in less critical columns and provide feedback on proportions of missingness if present.
+r
+Copy code
+test_that("No excessive missing values in less critical columns", {
+  missing_proportions <- colSums(is.na(simulated_data)) / nrow(simulated_data)
+  expect_true(all(missing_proportions < 0.05), info = "Some columns have excessive missing values (>5%)")
+})
+4. Validate Donation Amounts
+Consider checking for extremely large or unusually small amounts in addition to ensuring positivity.
+r
+Copy code
+test_that("Donation amounts are within a reasonable range", {
+  expect_true(all(simulated_data$amount > 0), info = "Negative or zero donation amounts found")
+  expect_true(all(simulated_data$amount < 1e6), info = "Unreasonably large donation amounts detected")
+})
+5. Improve Leader Change Tests
+The leader_change validation depends on external data (party_info). Include a check to ensure party_info is properly loaded and valid.
+r
+Copy code
+test_that("Leader change flags align with expected data", {
+  expect_true(exists("party_info") && "leader_change_years" %in% names(party_info), info = "party_info or its structure is invalid")
+  ...
+})
+6. Add Tests for Unique Constraints
+Ensure that donation_id is both unique and sequential.
+r
+Copy code
+test_that("Donation IDs are unique and sequential", {
+  expect_true(length(unique(simulated_data$donation_id)) == nrow(simulated_data), info = "Duplicate donation IDs found")
+  expect_true(all(sort(simulated_data$donation_id) == 1:nrow(simulated_data)), info = "Donation IDs are not sequential")
+})
+7. Add Logical Checks for Temporal Consistency
+Verify that donation_date is within reasonable bounds for the dataset.
+r
+Copy code
+test_that("Donation dates are within valid ranges", {
+  expect_true(all(simulated_data$donation_date >= as.Date("2000-01-01") & simulated_data$donation_date <= Sys.Date()), info = "Invalid donation dates found")
+})
+8. Check for Duplication in Full Dataset
+Check for complete row duplication to ensure data integrity.
+r
+Copy code
+test_that("No duplicate rows exist", {
+  expect_true(nrow(simulated_data) == nrow(distinct(simulated_data)), info = "Duplicate rows detected")
+})
+9. Expand Region Validation
+If region must always be "Federal," check its uniformity explicitly.
+r
+Copy code
+test_that("Region is consistently 'Federal'", {
+  expect_true(length(unique(simulated_data$region)) == 1 && unique(simulated_data$region) == "Federal", info = "Unexpected values in 'region'")
+})
+10. Add Visual Diagnostics
+Visualize distributions to catch outliers or unexpected trends during development.
+r
+Copy code
+test_that("Visual inspection of donation amounts", {
+  ggplot(simulated_data, aes(x = amount)) +
+    geom_histogram(bins = 30, fill = "blue", alpha = 0.7) +
+    labs(title = "Donation Amount Distribution", x = "Amount", y = "Frequency")
+})
+11. Document Test Coverage
+Consider documenting the tests to ensure completeness and ease of maintenance.
+r
+Copy code
+# Summary of test coverage:
+# 1. Column existence
+# 2. Data types
+# 3. Missing values
+# 4. Value ranges
+# 5. Unique constraints
+# 6. Logical consistency
+# 7. Temporal validity
+12. Test Output Reporting
+Include messages in expect_* functions to make debugging easier when tests fail.
+r
+Copy code
+expect_true(all(simulated_data$amount > 0), info = "Donation amounts must be positive")
+13. Add Regression Testing
+If the simulated dataset evolves, include regression tests to compare against expected results.
+r
+Copy code
+test_that("Simulated data matches previous expected results", {
+  expected_summary <- readRDS("data/expected_summary.rds")
+  actual_summary <- simulated_data %>%
+    group_by(political_party) %>%
+    summarize(total_amount = sum(amount, na.rm = TRUE))
+  
+  expect_equal(actual_summary, expected_summary, info = "Data summaries do not match expected results")
+})
+By incorporating these enhancements, your tests will not only validate the dataset thoroughly but also improve robustness and maintainability as your project evolves.
 
 ________________________________________________________________________________
 LLM: ChatGPT-4.
 Date: 12 December 2024
 
-1. Generating idealized survey 
+4. Generating idealized survey 
 User
 I am interested in investigating how much money a person donates to a political party and their reasons for doing so. To achieve this, I want a survey with demographic questions and then more specific questions about donations. Create an example of a good survey to achieve this goal. Remember include things like age, sex, political affiliation (Canada specifc) etc
 
@@ -329,4 +706,124 @@ Thank You for Your Participation!
 Your responses are valuable and will contribute to a deeper understanding of political donation behavior in Canada.
 
 
+5. Estimates Error 
+
+USER 
+This is my full code "{r echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-estimates
+#| fig-cap: "Coefficient Estimates for Ontario, Federal, and Conservative/Liberal Models"
+#| echo: false
+#| message: false
+
+library(broom)
+library(ggplot2)
+library(dplyr)
+
+# Tidy models and combine
+tidy_all <- bind_rows(
+  tidy(model_ontario) %>% mutate(Model = "Ontario"),
+  tidy(model_federal) %>% mutate(Model = "Federal"),
+  tidy(model_cl) %>% mutate(Model = "Conservative/Liberal")
+)
+
+# Select relevant terms and exclude intercepts
+tidy_plot <- tidy_all %>%
+  filter(term != "(Intercept)") %>%
+  mutate(term = recode(term, 
+                       "In_Power" = "In Power",
+                       "Party_Size" = "Party Size",
+                       "Election_Year" = "Election Year",
+                       "Party" = "Party (1=Conservative, 0=Liberal)",
+                       "In_Power:Party" = "In Power * Party"))
+
+# Plot coefficients with error bars
+ggplot(tidy_plot, aes(x = term, y = estimate, color = Model)) +
+  geom_point(position = position_dodge(width = 0.5), size = 3) +
+  geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), 
+                width = 0.2, position = position_dodge(width = 0.5)) +
+  labs(
+    title = "Coefficient Estimates for Ontario, Federal, and Conservative/Liberal Models",
+    x = "Predictors",
+    y = "Estimated Coefficients"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))" and I got this error "Error in mutate():
+ℹ In argument: term = recode(...).
+Caused by error in recode():
+! unused arguments (In_Power = "In Power", Party_Size = "Party Size", Election_Year = "Election Year", Party = "Party (1=Conservative, 0=Liberal)", In_Power:Party = "In Power * Party")
+Backtrace:
+ 1. tidy_all %>% filter(term != "(Intercept)") %>% ...
+ 3. dplyr:::mutate.data.frame(...)
+ 4. dplyr:::mutate_cols(.data, dplyr_quosures(...), by)
+ 6. dplyr:::mutate_col(dots[[i]], data, mask, new_columns)
+ 7. mask$eval_all_mutate(quo)
+ 8. dplyr (local) eval()" how do I fix it?
+ 
+
+ChatGPT said:
+
+ChatGPT
+The issue lies in how the recode() function is being used. In the current implementation, recode() is throwing an error because you are using non-standard evaluation for term names (like In_Power) which needs to be handled differently.
+
+Here’s the corrected code:
+
+Solution
+Use the recode() function correctly by specifying the levels of the term column as strings. Here's how to fix it:
+
+r
+Copy code
+# Tidy models and combine
+tidy_all <- bind_rows(
+  tidy(model_ontario) %>% mutate(Model = "Ontario"),
+  tidy(model_federal) %>% mutate(Model = "Federal"),
+  tidy(model_cl) %>% mutate(Model = "Conservative/Liberal")
+)
+
+# Select relevant terms and exclude intercepts
+tidy_plot <- tidy_all %>%
+  filter(term != "(Intercept)") %>%
+  mutate(term = recode(
+    term, 
+    "In_Power" = "In Power",
+    "Party_Size" = "Party Size",
+    "Election_Year" = "Election Year",
+    "Party" = "Party (1=Conservative, 0=Liberal)",
+    "In_Power:Party" = "In Power * Party"
+  ))
+
+# Plot coefficients with error bars
+ggplot(tidy_plot, aes(x = term, y = estimate, color = Model)) +
+  geom_point(position = position_dodge(width = 0.5), size = 3) +
+  geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), 
+                width = 0.2, position = position_dodge(width = 0.5)) +
+  labs(
+    title = "Coefficient Estimates for Ontario, Federal, and Conservative/Liberal Models",
+    x = "Predictors",
+    y = "Estimated Coefficients"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+Explanation
+String Specification in recode():
+
+The arguments in recode() must be strings matching the actual column values. Terms like In_Power and Party_Size are not valid unless they are quoted (e.g., "In_Power").
+Double-Check Column Names:
+
+Verify the column term contains the expected values ("In_Power", "Party_Size", etc.). If the names are slightly different, update the mapping in recode() accordingly.
+Alternative Approach (if Recoding Still Fails):
+
+If recode() continues to throw errors, use case_when() for more robust handling:
+r
+Copy code
+tidy_plot <- tidy_all %>%
+  filter(term != "(Intercept)") %>%
+  mutate(term = case_when(
+    term == "In_Power" ~ "In Power",
+    term == "Party_Size" ~ "Party Size",
+    term == "Election_Year" ~ "Election Year",
+    term == "Party" ~ "Party (1=Conservative, 0=Liberal)",
+    term == "In_Power:Party" ~ "In Power * Party",
+    TRUE ~ term  # Retain other terms as is
+  ))
+This corrected code should resolve the error and allow the plot to render as intended.
 

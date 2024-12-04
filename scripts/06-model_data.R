@@ -9,6 +9,7 @@
 #### Workspace setup ####
 library(tidyverse)
 library(rstanarm)
+library(here)
 
 #### Read data ####
 analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
@@ -105,4 +106,16 @@ total_donations_cl <- total_donations_cl %>%
 model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = total_donations_cl)
 summary(model_cl)
 
-# Need to save the model
+#### Save model ####
+
+if (!dir.exists("models")) {
+  dir.create("models")
+}
+# Save the Ontario model
+saveRDS(model_ontario, file = "model/model_ontario.rds")
+
+# Save the Federal model
+saveRDS(model_federal, file = "model/model_federal.rds")
+
+# Save the Conservative and Liberal model
+saveRDS(model_cl, file = "model/model_cl.rds")

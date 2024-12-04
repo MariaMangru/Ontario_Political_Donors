@@ -1,32 +1,332 @@
+________________________________________________________________________________
 LLM: ChatGPT-4.
-Date: 2 January 2024
+Date: 10 December 2024
 
 
+
+
+2. Model tests
+This is the code to run my regression model "#### Workspace setup ####
+library(tidyverse)
+library(rstanarm)
+
+#### Read data ####
+analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
+
+
+#### Model for Ontario ####
+
+# Filter data for Ontario
+ontario_data <- analysis_data %>% 
+  filter(region == "Ontario")
+
+# Aggregate total donations per party per year in Ontario
+total_donations_ontario <- ontario_data %>%
+  group_by(political_party, donation_year) %>%
+  summarize(
+    Total_Donations = sum(amount, na.rm = TRUE),
+    In_Power = first(recipient_in_power),
+    Party_Size = first(Party_Size),
+    Election_Year = first(Election_Year)
+  ) %>%
+  ungroup()
+
+# Log-transform the dependent variable to stabilize variance
+total_donations_ontario <- total_donations_ontario %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
+
+# Run Regression for Ontario with Controls
+model_ontario <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
+summary(model_ontario)
+
+#### Model for Federal ####
+
+# Filter data for Federal
+federal_data <- analysis_data %>% 
+  filter(region == "Federal")
+
+# Aggregate total donations per party per year at Federal level
+total_donations_federal <- federal_data %>%
+  group_by(political_party, donation_year) %>%
+  summarize(
+    Total_Donations = sum(amount, na.rm = TRUE),
+    In_Power = first(recipient_in_power),
+    Party_Size = first(Party_Size),
+    Election_Year = first(Election_Year)
+  ) %>%
+  ungroup()
+
+# Log-transform the dependent variable to stabilize variance
+total_donations_federal <- total_donations_federal %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
+
+# Run Regression for Federal with Controls
+model_federal <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
+summary(model_federal)
+
+#### Conservative and Liberal Analysis ####
+
+# Filter for Conservative and Liberal parties
+cl_data <- analysis_data %>%
+  filter(political_party %in% c(
+    "Conservative Party of Canada",
+    "Liberal Party of Canada",
+    "Progressive Conservative Party of Ontario",
+    "Liberal Party of Ontario"
+  ))
+
+# Create variables
+cl_data <- cl_data %>%
+  mutate(
+    In_Power = recipient_in_power,  # Already binary (1/0)
+    Party = ifelse(
+      political_party %in% c("Conservative Party of Canada", "Progressive Conservative Party of Ontario"),
+      1,  # Conservative
+      0   # Liberal
+    )
+  )
+
+# Aggregate total donations per party per year
+total_donations_cl <- cl_data %>%
+  group_by(political_party, donation_year) %>%
+  summarize(
+    Total_Donations = sum(amount, na.rm = TRUE),
+    In_Power = first(In_Power),
+    Party = first(Party),
+    Election_Year = first(Election_Year)
+  ) %>%
+  ungroup()
+
+# Log-transform the dependent variable to stabilize variance
+total_donations_cl <- total_donations_cl %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
+
+# Run the regression with interaction term
+model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = total_donations_cl)
+summary(model_cl)" these are some tests I have created to test the model "#### Workspace setup ####
+library(tidyverse)
+library(caret)
+library(car)
+library(broom)
+library(ggplot2)
+
+#### Read data ####
+analysis_data <- read_csv("data/02-analysis_data/analysis_data.csv")
+
+# Ensure 'amount' is numeric
+analysis_data <- analysis_data %>%
+  mutate(amount = as.numeric(amount))
+
+#### Model for Ontario ####
+
+# Filter data for Ontario
+ontario_data <- analysis_data %>% 
+  filter(region == "Ontario")
+
+# Aggregate total donations per party per year in Ontario
+total_donations_ontario <- ontario_data %>%
+  group_by(political_party, donation_year) %>%
+  summarize(
+    Total_Donations = sum(amount, na.rm = TRUE),
+    In_Power = first(recipient_in_power),
+    Party_Size = first(Party_Size),
+    Election_Year = first(Election_Year)
+  ) %>%
+  ungroup()
+
+# Log-transform the dependent variable to stabilize variance
+total_donations_ontario <- total_donations_ontario %>%
+  mutate(Log_Total_Donations = log(Total_Donations + 1))
+
+# Split data into training and test sets
+set.seed(123)
+train_index_ont <- createDataPartition(total_donations_ontario$Log_Total_Donations, p = 0.8, list = FALSE)
+train_data_ont <- total_donations_ontario[train_index_ont, ]
+test_data_ont <- total_donations_ontario[-train_index_ont, ]
+
+# Run Regression for Ontario with Controls on training data
+model_ontario <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = train_data_ont)
+summary(model_ontario)
+
+# Predict on test data
+test_data_ont$Predicted_Log_Total_Donations <- predict(model_ontario, newdata = test_data_ont)
+
+# Calculate RMSE
+rmse_ontario <- sqrt(mean((test_data_ont$Log_Total_Donations - test_data_ont$Predicted_Log_Total_Donations)^2))
+print(paste("RMSE for Ontario model:", round(rmse_ontario, 4)))
+
+# Model diagnostics for Ontario model
+par(mfrow = c(2,2))
+plot(model_ontario)
+par(mfrow = c(1,1))
+
+# Check for multicollinearity
+vif_ontario <- vif(model_ontario)
+print(vif_ontario)
+
+# Alternative model with interaction term
+model_ontario_alt <- lm(Log_Total_Donations ~ In_Power * Party_Size + Election_Year, data = train_data_ont)
+summary(model_ontario_alt)
+
+# Compare models using AIC
+aic_ontario <- AIC(model_ontario, model_ontario_alt)
+print(aic_ontario)" what are some other tests I can write ?
+
+
+
+
+
+
+
+
+________________________________________________________________________________
+LLM: ChatGPT-4.
+Date: 12 December 2024
+
+1. Generating idealized survey 
 User
-Can you make a generic fun background rectangular image with the only text being "STA302"
+I am interested in investigating how much money a person donates to a political party and their reasons for doing so. To achieve this, I want a survey with demographic questions and then more specific questions about donations. Create an example of a good survey to achieve this goal. Remember include things like age, sex, political affiliation (Canada specifc) etc
+
 ChatGPT
 
-Generated by DALL·E
-Here is a fun and engaging background image featuring the text "STA302". The design incorporates colorful and dynamic elements suitable for the theme.
+Survey on Political Donations in Canada
+Introduction
+Thank you for participating in this survey about political donations in Canada. Your responses will help us understand how and why individuals contribute to political parties. The survey is anonymous and will take approximately 10 minutes to complete.
 
-User
-It doesn't say "STA302"
-ChatGPT
+Section 1: Demographic Information
+What is your age?
 
-Generated by DALL·E
-Here is the revised image with the text "STA302" prominently displayed.
+Under 18
+18-24
+25-34
+35-44
+45-54
+55-64
+65+
+What is your sex?
 
-User
-No. It doesn't say "STA302"
-ChatGPT
+Male
+Female
+Non-binary
+Prefer not to say
+What is your highest level of education completed?
 
-Generated by DALL·E
-Here's the image with the text "STA302" as requested.
+Less than high school
+High school diploma or equivalent
+Some college/university
+Bachelor’s degree
+Master’s degree
+Doctorate or professional degree
+What is your annual household income?
 
-User
-Again. It doesn't say "STA302"
+Less than $30,000
+$30,000-$49,999
+$50,000-$74,999
+$75,000-$99,999
+$100,000-$149,999
+$150,000 or more
+What is your current employment status?
 
-ChatGPT
+Employed full-time
+Employed part-time
+Self-employed
+Unemployed
+Retired
+Student
+In which province or territory do you currently reside?
+(Dropdown menu with provinces and territories listed)
 
-Generated by DALL·E
-Here is the image with the text "STA302" prominently displayed.
+Section 2: Political Affiliation and Voting Behavior
+How would you describe your political affiliation?
+
+Liberal Party of Canada
+Conservative Party of Canada
+New Democratic Party (NDP)
+Bloc Québécois
+Green Party of Canada
+People's Party of Canada
+Independent/Other
+No political affiliation
+Did you vote in the last federal election?
+
+Yes
+No
+Prefer not to say
+Do you identify strongly with a particular political party?
+
+Yes
+No
+Section 3: Political Donations
+Have you ever donated money to a political party or candidate in Canada?
+
+Yes
+No
+If yes, which political party or parties have you donated to?
+(Check all that apply)
+
+Liberal Party of Canada
+Conservative Party of Canada
+New Democratic Party (NDP)
+Bloc Québécois
+Green Party of Canada
+People's Party of Canada
+Independent/Other
+How much money did you donate to political parties or candidates in the past year?
+
+Less than $50
+$50-$99
+$100-$249
+$250-$499
+$500-$999
+$1,000 or more
+What motivated you to donate to a political party or candidate?
+(Rank the following from most important to least important)
+
+Support for the party’s platform or policies
+Belief in the candidate’s leadership abilities
+Desire to influence political outcomes
+Loyalty to the party
+Personal or professional connections to the candidate or party
+Other (please specify)
+Did you donate to support a specific election campaign?
+
+Yes
+No
+Do you think your donation has an impact on political decisions or policies?
+
+Yes, a significant impact
+Yes, a minor impact
+No impact
+Unsure
+Have you ever received benefits (e.g., access to events, recognition) in return for your donation?
+
+Yes
+No
+Section 4: Opinions on Political Donations
+How important do you think individual donations are for political campaigns?
+
+Very important
+Somewhat important
+Not very important
+Not important at all
+Do you believe there should be limits on how much individuals can donate to political parties?
+
+Yes
+No
+Unsure
+What factors discourage you from donating to political parties?
+(Check all that apply)
+
+Lack of trust in political parties
+Financial constraints
+Lack of awareness about how to donate
+Belief that donations have no impact
+Other (please specify)
+Section 5: Final Comments
+Do you have any additional comments about political donations in Canada?
+(Open text field)
+Thank You for Your Participation!
+Your responses are valuable and will contribute to a deeper understanding of political donation behavior in Canada.
+
+
+

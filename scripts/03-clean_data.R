@@ -9,6 +9,8 @@
 library(dplyr)
 library(lubridate)
 library(readr)
+library(here)
+library(arrow)  
 
 #### Clean data ####
 raw_data <- read_csv("data/01-raw_data/raw_data.csv")
@@ -130,3 +132,6 @@ donations_filtered <- donations_filtered %>%
 
 #### Save data ####
 write_csv(donations_filtered, "data/02-analysis_data/analysis_data.csv")
+
+write_parquet(x = donations_filtered, sink = here("data", "02-analysis_data", "analysis_data.parquet"))
+

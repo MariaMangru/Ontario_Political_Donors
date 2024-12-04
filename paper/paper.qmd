@@ -715,6 +715,27 @@ modelsummary(
 
 ```
 
+## Ontario Results 
+In the Ontario model, Party_Size is a significant predictor of total donations, with a coefficient of 2.956 (standard error = 0.485, p < 0.001). This indicates that major parties in Ontario receive significantly higher total donations than minor parties, highlighting the influence of party prominence on fundraising success.
+
+The In_Power variable has a coefficient of 0.884 (standard error = 0.540, p = 0.106), which is not statistically significant at the conventional 5% level. This suggests that being the ruling party in Ontario does not have a significant direct effect on the total amount of donations received.
+
+The Election_Year variable is also not significant in the Ontario model (coefficient = 0.239, standard error = 0.436, p = 0.586), indicating that donations are not substantially influenced by whether they occur during an election year.
+
+## Federal Results
+In the Federal model, Party_Size remains a significant predictor, with a coefficient of 3.450 (standard error = 0.259, p < 0.001). This reinforces the importance of party size in attracting donations at the federal level.
+
+The In_Power variable in the Federal model has a coefficient of 0.637 (standard error = 0.3882, p = 0.103), which is not statistically significant. Similar to the Ontario context, being in power at the federal level does not have a significant direct effect on the total donations received.
+
+The Election_Year variable is not significant in the Federal model (coefficient = -0.0752, standard error = 0.2209, p = 0.734), suggesting no substantial impact of election years on donation amounts at the federal level.
+
+## Conservative/Liberal Results
+In the Conservative/Liberal model, In_Power has a significant positive effect, with a coefficient of 1.202 (standard error = 0.497, p = 0.01827). Additionally, the interaction term In_Power × Party is significantly negative, with a coefficient of -1.718 (standard error = 0.711, p = 0.01845). This interaction indicates that the effect of being in power on total donations varies between the Conservative and Liberal parties.
+
+For the Conservative Party (Party = 1), the combined effect of being in power is 1.2023 + (-1.7175) = -0.5152, suggesting that being in power is associated with lower total donations for the Conservative Party.
+For the Liberal Party (Party = 0), the effect of being in power remains 1.2023, indicating that being in power is associated with higher total donations for the Liberal Party.
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-estimates
 #| fig-cap: "Coefficient Estimates for Ontario, Federal, and Conservative/Liberal Models"
@@ -1211,6 +1232,13 @@ The budget for this study is allocated as follows:
     and presentations.
 
 #### Idealized Survey Design
+
+This survey helps to gather data about those who donate to political
+parties and acquire more qualitative details about a sample of the
+population.
+
+The survey can be accessed using [this
+link](https://docs.google.com/forms/d/e/1FAIpQLSdj2RxS9fjZ_n6Q54zjSyoJ7tAJT7ssuTF3V1tVk6a_Rhyp4w/viewform).
 
 **Survey Structure**
 

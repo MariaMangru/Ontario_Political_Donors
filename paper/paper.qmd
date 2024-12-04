@@ -106,7 +106,7 @@ In R, key packages included dplyr (@dplyr), lubridate (@lubridate),
 tidyverse (@tidyverse), ggplot2 (@ggplot), readr (@readr), tibble
 (@tibble), and rstanarm (@rstanarm) for statistical modeling. In Python,
 pandas (@pandas), requests (@requests), and matplotlib (@matplotlib)
-were utilized for additional data processing and visualization tasks
+were utilized for gathering the data.
 
 Political donations in Canada are subject to legal disclosure
 requirements, promoting transparency and accountability within the
@@ -252,6 +252,7 @@ ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region
 
 @fig-avg-donation shows the trend of average donation amounts over the years for both Ontario and Federal levels. The x-axis represents the years from 2006 to 2024, while the y-axis shows the average donation amount in Canadian dollars. The data reveals fluctuations in donation amounts over time, with notable during 2018 for Ontario and 2024 for Federal. 
 
+\newpage 
 
 ## Predictor Variables
 
@@ -281,7 +282,8 @@ influencing Amount Donated:
     transformation normalizes the distribution of donation amounts and
     handles skewness, making it suitable for regression analyses and
     reducing the impact of highly variable donation figures.
-
+    
+\newpage
 ```{r tbl-fed-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-fed-donation
 #| tbl-cap: Table Showing Donations Based on Recipient Power Status at Federal Level
@@ -338,7 +340,6 @@ donations_in_power_ontario <- ontario_data %>%
 
 # Render Ontario Donations Table
 kable(donations_in_power_ontario, 
-      caption = "Donations Based on Recipient Power Status - Ontario", 
       col.names = c("Recipient In Power", "Total Donations", "Total Amount", "Average Donation Amount"),
       format = "latex", # For PDF/LaTeX output
       booktabs = TRUE,  # Add LaTeX booktabs style
@@ -429,7 +430,7 @@ ggplot(donations_by_party_federal, aes(
 
 @fig-federal-total-donation presents a treemap for federal political parties. Similar to the provincial level, major parties such as the Conservative Party of Canada and the Liberal Party of Canada receive the largest amounts in donations. This visualization highlights the prominence of major parties in attracting financial support at the federal level.
 
-
+\newpage
 # Model {#sec-model}
 
 To analyze the impact of a political party’s power status on donation

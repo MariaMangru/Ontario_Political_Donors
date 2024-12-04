@@ -190,9 +190,14 @@ factors such as power status and party size.
 The distribution of total donation amounts varies between the federal
 and provincial levels. At the federal level, the average total donations
 are higher, reflecting broader donor bases and different legal
-contribution limits.
+contribution limits. The distribution of the average donation amount can be see in figure @fig-avg-donation.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+\newpage
+
+```{r fig-avg-donation, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-avg-donation
+#| tbl-cap: Figure Showing the Average Donation Amounts Over Years
+
 library(ggplot2)
 library(dplyr)
 library(scales)
@@ -230,7 +235,6 @@ ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region
   geom_point() +
   facet_wrap(~ Region, ncol = 1, scales = "free_y") +
   labs(
-    title = "Figure 1: Average Donation Amount Over Years",
     x = "Year",
     y = "Average Donation Amount ($)"
   ) +

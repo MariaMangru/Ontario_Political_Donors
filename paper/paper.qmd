@@ -830,7 +830,7 @@ affiliation, particularly between the Conservative and Liberal parties.
 
 # Discussion {#sec-discussion}
 
-## The Influence of Party Size on Donation Amounts {#sec-first-point}
+## Financial influence shapes political landscapes
 
 At the heart of politics is finance, as revealed by Traag's paper on the
 complex contagion of campaign donations @traag2016complex. Their study
@@ -849,7 +849,7 @@ who is currently in power. However, a more realistic explanation for
 this phenomenon is that some individuals want to make policy changes. It
 is no secret that politicians, particularly those out of power, often
 solicit funding and political support in exchange for advancing the
-interests of their stakeholders @mollona2022ethics}. These two dynamics
+interests of their stakeholders @mollona2022ethics. These two dynamics
 may be working in tandem to create an effect where parties eager to be
 elected rely more on funding from external sources, which can switch
 each election cycle.
@@ -859,7 +859,7 @@ party in power are not unique to Canada. The study "Financing UK
 Democracy: A Stocktake of 20 Years of Political Donations" highlights a
 surge in private political donations, more specifically from
 superdonors, widening the resource gap between large parties
-@draca2022financing}. Similar to Canada, the UK also sees large
+@draca2022financing. Similar to Canada, the UK also sees large
 donations from a wealthy few influencing their elections each year. The
 parallel between Canada and the UK underscores a broader democratic
 issue of financial power being used to influence political outcomes.

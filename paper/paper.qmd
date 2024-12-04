@@ -98,7 +98,9 @@ federal_data <- analysis_data %>% filter(region == "Federal")
 ## Overview
 
 The dataset analyzed in this study encompasses political donation records from 2006 to 2024, covering both the federal level and the province of Ontario in Canada. These records were sourced from the @ijf_political_donors Political Donors Dataset, which systematically collects and maintains comprehensive data on political donations across Canadian jurisdictions. The IJF updates this dataset daily by monitoring election agency websites at the federal level and within each province and territory, ensuring the data remains current and reliable. covering both the federal level and the province of
-Ontario in Canada. The analysis was conducted using both R (@citeR) and Python (@python),
+Ontario in Canada. 
+
+The analysis was conducted using both R (@citeR) and Python (@python),
 leveraging a range of libraries for data manipulation and visualization.
 In R, key packages included dplyr (@dplyr), lubridate (@lubridate),
 tidyverse (@tidyverse), ggplot2 (@ggplot), readr (@readr), tibble
@@ -190,7 +192,7 @@ factors such as power status and party size.
 The distribution of total donation amounts varies between the federal
 and provincial levels. At the federal level, the average total donations
 are higher, reflecting broader donor bases and different legal
-contribution limits. The distribution of the average donation amount can be see in figure @fig-avg-donation.
+contribution limits. 
 
 \newpage
 
@@ -248,6 +250,9 @@ ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region
 
 ```
 
+@fig-avg-donation shows the trend of average donation amounts over the years for both Ontario and Federal levels. The x-axis represents the years from 2006 to 2024, while the y-axis shows the average donation amount in Canadian dollars. The data reveals fluctuations in donation amounts over time, with notable during 2018 for Ontario and 2024 for Federal. 
+
+
 ## Predictor Variables
 
 Several key predictor variables were identified to evaluate the factors
@@ -277,13 +282,15 @@ influencing Amount Donated:
     handles skewness, making it suitable for regression analyses and
     reducing the impact of highly variable donation figures.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r tbl-fed-donation, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: tbl-fed-donation
+#| tbl-cap: Table Showing Donations Based on Recipient Power Status at Federal Level
 
 # Load required libraries
 library(dplyr)
 library(knitr)
 library(kableExtra)
-library(scales) # For dollar formatting
+library(scales)
 
 ## Donations by Year - Federal
 donations_in_power_federal <- federal_data %>%
@@ -300,7 +307,6 @@ donations_in_power_federal <- federal_data %>%
 
 # Render Ontario Donations Table
 kable(donations_in_power_federal, 
-      caption = "Donations Based on Recipient Power Status - Federal", 
       col.names = c("Recipient In Power", "Total Donations", "Total Amount", "Average Donation Amount"),
       format = "latex", 
       booktabs = TRUE,  
@@ -309,7 +315,14 @@ kable(donations_in_power_federal,
 
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+In @tbl-fed-donation, parties in power (indicated by 1) received both lower total donation amounts and lower average donation amounts compared to opposition parties. This pattern suggests that donors may prefer to support challengers over incumbents.
+
+
+```{r tbl-ontario-donation, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: tbl-ontario-donation
+#| tbl-cap: Table Showing Donations Based on Recipient Power Status at Ontario Level
+
 ## Donations Based on Recipient Power Status - Ontario
 donations_in_power_ontario <- ontario_data %>%
   group_by(recipient_in_power) %>%
@@ -333,13 +346,20 @@ kable(donations_in_power_ontario,
   kable_styling(latex_options = c("striped", "hold_position"))
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-# Load required libraries
+@tbl-ontario-donation also shows a similar trend of parties in power receiving lower total and average donations. 
+
+
+```{r fig-ontario-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-ontario-total-donation
+#| tbl-cap: Figure Showing Total Donations by Political Party at Ontario Level
+
+
 library(dplyr)
 library(ggplot2)
 library(treemapify)
+library(scales)
 
-# Summarize data for tree map
+# Summarize data for treemap
 donations_by_party_ontario <- ontario_data %>%
   group_by(political_party) %>%
   summarize(
@@ -347,7 +367,7 @@ donations_by_party_ontario <- ontario_data %>%
   ) %>%
   arrange(desc(total_amount))
 
-# Create the tree map
+# Create the treemap
 ggplot(donations_by_party_ontario, aes(
   area = total_amount, 
   fill = political_party, 
@@ -357,25 +377,30 @@ ggplot(donations_by_party_ontario, aes(
   geom_treemap_text(
     color = "white", 
     place = "center", 
-    grow = TRUE
-  ) +
-  labs(
-    title = "Total Donations by Political Party - Ontario",
-    subtitle = "Size of rectangles represents total donation amounts",
-    caption = "Data source: Ontario Political Donations"
+    grow = FALSE,
+    reflow = TRUE,
+    size = 8
   ) +
   theme_minimal() +
   theme(legend.position = "none")
 
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+@fig-ontario-total-donation displays a tree map of total donations received by each political party in Ontario. The size of each rectangle corresponds to the total amount donated to that party. Major parties like the Progressive Conservative Party of Ontario and the Liberal Party of Ontario dominate the donation landscape, reflecting their significant fundraising capabilities.
+
+
+```{r fig-federal-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-federal-total-donation
+#| tbl-cap: Figure Showing Total Donations by Political Party at Federal Level
+
+
+
 # Load required libraries
 library(dplyr)
 library(ggplot2)
 library(treemapify)
 
-# Summarize data for tree map
+# Summarize data for treemap
 donations_by_party_federal <- federal_data %>%
   group_by(political_party) %>%
   summarize(
@@ -383,7 +408,7 @@ donations_by_party_federal <- federal_data %>%
   ) %>%
   arrange(desc(total_amount))
 
-# Create the tree map
+# Create the treemap
 ggplot(donations_by_party_federal, aes(
   area = total_amount, 
   fill = political_party, 
@@ -393,17 +418,17 @@ ggplot(donations_by_party_federal, aes(
   geom_treemap_text(
     color = "white", 
     place = "center", 
-    grow = TRUE
-  ) +
-  labs(
-    title = "Total Donations by Political Party - Federal",
-    subtitle = "Size of rectangles represents total donation amounts",
-    caption = "Data source: Federal Political Donations"
+    grow = FALSE,
+    reflow = TRUE,
+    size = 8
   ) +
   theme_minimal() +
   theme(legend.position = "none")
 
 ```
+
+@fig-federal-total-donation presents a treemap for federal political parties. Similar to the provincial level, major parties such as the Conservative Party of Canada and the Liberal Party of Canada receive the largest amounts in donations. This visualization highlights the prominence of major parties in attracting financial support at the federal level.
+
 
 # Model {#sec-model}
 

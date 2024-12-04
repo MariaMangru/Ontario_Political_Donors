@@ -76,6 +76,7 @@ discusses the implications, limitations, and suggestions for future
 research. Section \ref{sec-appendix} offers further detailed insights
 into the data, modeling approach, and methodology.
 
+\newpage
 # Data {#sec-data}
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -194,7 +195,6 @@ and provincial levels. At the federal level, the average total donations
 are higher, reflecting broader donor bases and different legal
 contribution limits. 
 
-\newpage
 
 ```{r fig-avg-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-avg-donation
@@ -282,8 +282,10 @@ influencing Amount Donated:
     transformation normalizes the distribution of donation amounts and
     handles skewness, making it suitable for regression analyses and
     reducing the impact of highly variable donation figures.
-    
+
 \newpage
+
+    
 ```{r tbl-fed-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-fed-donation
 #| tbl-cap: Table Showing Donations Based on Recipient Power Status at Federal Level
@@ -313,12 +315,12 @@ kable(donations_in_power_federal,
       format = "latex", 
       booktabs = TRUE,  
       align = c("l", "c", "c", "c")) %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+  kable_styling(latex_options = c("striped"))
 
 ```
 
-
 In @tbl-fed-donation, parties in power (indicated by 1) received both lower total donation amounts and lower average donation amounts compared to opposition parties. This pattern suggests that donors may prefer to support challengers over incumbents.
+
 
 
 ```{r tbl-ontario-donation, echo=FALSE, message=FALSE, warning=FALSE}
@@ -344,15 +346,17 @@ kable(donations_in_power_ontario,
       format = "latex", # For PDF/LaTeX output
       booktabs = TRUE,  # Add LaTeX booktabs style
       align = c("l", "c", "c", "c")) %>%
-  kable_styling(latex_options = c("striped", "hold_position"))
+  kable_styling(latex_options = c("striped"))
 ```
 
 @tbl-ontario-donation also shows a similar trend of parties in power receiving lower total and average donations. 
 
 
+
+
 ```{r fig-ontario-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-ontario-total-donation
-#| tbl-cap: Figure Showing Total Donations by Political Party at Ontario Level
+#| fig-cap: Figure Showing Total Donations by Political Party at Ontario Level
 
 
 library(dplyr)
@@ -392,7 +396,7 @@ ggplot(donations_by_party_ontario, aes(
 
 ```{r fig-federal-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-federal-total-donation
-#| tbl-cap: Figure Showing Total Donations by Political Party at Federal Level
+#| fig-cap: Figure Showing Total Donations by Political Party at Federal Level
 
 
 
@@ -439,14 +443,11 @@ multiple linear regression models were developed. Specifically, separate
 models were constructed for Ontario and Federal levels to account for
 regional differences in political dynamics and donation behaviors.
 Additionally, a focused regression model was created for the
-Conservative and Liberal parties to explore the interaction between
-power status and party size.
+Conservative and Liberal parties to explore the interaction between power status and party affiliation.
 
 ## Model set-up
 
-To analyze the impact of a political party's power status on donation
-patterns, we employed linear regression models for both Ontario and
-federal levels:
+The models are specified as follows for the Ontario and Federal Models:
 
 ```{=tex}
 \[
@@ -482,7 +483,9 @@ as the dependent variable to stabilize variance and normalize the
 distribution of donation amounts. Predictor variables include binary
 indicators for whether the party was in power (In_Power), the size of
 the party (Party_Size), and whether the donation was made during an
-election year (Election_Year). The specialized model for Conservative
+election year (Election_Year). 
+
+The specialized model for Conservative
 and Liberal parties includes an additional binary variable (Party) and
 an interaction term (In_Power \* Party) to capture the combined effect
 of power status and party type on donation amounts.
@@ -501,60 +504,25 @@ analysis.
 
 ### Assumptions and Limitations
 
-The models assume a linear relationship between the predictors and the
-logarithm of total donations, ensuring that the effects of the
-predictors are additive and proportional. Additionally, they assume that
-the residuals are normally distributed (normality of errors) and exhibit
-constant variance (homoscedasticity). The models also rely on the
-absence of multicollinearity, meaning that the predictors are not highly
-correlated, and they assume independence of observations, where each
-data point is independent of the others. Potential limitations of these
-models include the possibility of unobserved variables influencing
-donation amounts and the inherent assumption that past trends can
-reliably predict future behavior.
+The models assume a linear relationship between the predictors and the logarithm of total donations, ensuring that the effects of the predictors are additive and proportional. Additionally, they assume that the residuals are normally distributed and exhibit constant variance (homoscedasticity). The models also rely on the absence of multicollinearity, meaning that the predictors are not highly correlated, and they assume independence of observations.
 
-### Model Validation \*\*\*\*\*\*
+Potential limitations include the possibility of unobserved variables influencing donation amounts and the inherent assumption that past trends can reliably predict future behavior. These factors could introduce bias or limit the generalizability of the findings.
 
-Model validation was conducted to assess the predictive accuracy and
-generalizability of the regression models. This involved evaluating key
-metrics such as R-squared (R²), Adjusted R-squared, and Root Mean Square
-Error (RMSE) to determine how well the models explain the variance in
-Log_Total_Donations and their predictive performance.
+### Model Validation
 
-For the Ontario Model, the regression analysis yielded an R² of 0.645
-and an Adjusted R² of 0.635, indicating that approximately 64.5% of the
-variance in log-transformed total donations is explained by the
-predictors. The RMSE for this model was calculated to assess the average
-prediction error, demonstrating a reasonable level of accuracy.
+Model validation was conducted to assess the predictive accuracy and generalizability of the regression models. This involved evaluating key metrics such as R-squared (R²), Adjusted R-squared, and Root Mean Square Error (RMSE) to determine how well the models explain the variance in Log_Total_Donations and their predictive performance.
 
-The Federal Model showed an R² of 0.515 and an Adjusted R² of 0.503,
-suggesting that 51.5% of the variance in log-transformed total donations
-is accounted for by the predictors. The RMSE value indicated acceptable
-predictive performance, though slightly lower than the Ontario model,
-reflecting potential differences in donation dynamics at the federal
-level.
+The Ontario model yielded an R² of 0.5496 and an Adjusted R² of 0.5267, indicating that approximately 54.96% of the variance in the log-transformed total donations is explained by the predictors. The RMSE was 2.5919, reflecting the average prediction error. The Variance Inflation Factor (VIF) values for all predictors were below 2, suggesting no significant multicollinearity.
 
-In the Conservative and Liberal Parties Model, the inclusion of the
-interaction term between In_Power and Party resulted in an R² of 0.630
-and an Adjusted R² of 0.600. This model effectively captures the
-combined effect of power status and party type on donation amounts, with
-the interaction term providing significant insights into how being in
-power influences donations differently for Conservative and Liberal
-parties. The RMSE for this model confirmed its robust predictive
-capability, comparable to the other models.
+The Federal model showed an R² of 0.6487 and an Adjusted R² of 0.6410, indicating that about 64.87% of the variance is explained by the model. The RMSE was 1.4909, and VIF values were again below 2, suggesting no significant multicollinearity.
 
-Overall, the validation process confirmed that the linear regression
-models are robust and effective in predicting donation amounts based on
-the selected predictor variables. The models demonstrate good
-explanatory power and reasonable predictive accuracy, making them
-suitable for analyzing the factors influencing political donations in
-Canada. However, ongoing evaluation and potential model refinement are
-recommended to accommodate evolving political and financial landscapes,
-ensuring the models remain relevant and accurate over time.
+The Conservative/Liberal model achieved an R² of 0.1091 and an Adjusted R² of 0.0431, indicating a lower explanatory power compared to the previous models. The RMSE was 1.2814. VIF values suggested moderate multicollinearity due to the interaction term, but they were within acceptable limits.
+
+Overall, the validation process confirmed that the linear regression models are effective in predicting donation amounts based on the selected predictor variables. The models demonstrate good explanatory power and reasonable predictive accuracy, making them suitable for analyzing the factors influencing political donations in Canada.
 
 # Results {#sec-results}
 
-Table @tbl-modelsummary presents the summary of key model estimates for
+@tbl-modelsummary presents the summary of key model estimates for
 the Ontario, Federal, and Conservative/Liberal models. These models
 predict the logarithm of total donations received by political parties
 based on whether the party was in power, the size of the party, and

@@ -1,9 +1,11 @@
 #### Preamble ####
-# Purpose: Models... [...UPDATE THIS...]
+# Purpose: Tests the validity of the models generated
 # Author: Maria Mangru
-# Date: 25 November 2024
+# Date: 12 December 2024
 # Contact: maria.mangru@mail.utoronto.ca
 # License: MIT
+# Pre-requisites: 
+# - The `tidyverse` package must be installed and loaded
 
 
 #### Workspace setup ####

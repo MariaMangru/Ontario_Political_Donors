@@ -755,56 +755,16 @@ contingent on party affiliation.
 
 ## The Influence of Party Size on Donation Amounts {#sec-first-point}
 
-At the heart of politics is finance, as revealed by Traag's paper on the
-complex contagion of campaign donations @traag2016complex. Their study
-demonstrates that a majority of campaign contributions in the US
-originate from a few wealthy individuals through large social networks.
-With the constant battle between government and corporations, the
-findings in this study underscore the significant influence of financial
-power in shaping political dynamics.
+At the heart of politics is finance, as revealed by Traag's paper on the complex contagion of campaign donations @traag2016complex. Their study demonstrates that a majority of campaign contributions in the US originate from a few wealthy individuals through large social networks. With the constant battle between government and corporations, the findings in this study underscore the significant influence of financial power in shaping political dynamics.
 
-The landscape in Canada for political financing is growing each year.
-Results from studies demonstrate that individual contributors may prefer
-to support challengers for several reasons. An optimistic but naive
-explanation may be that individuals hope to foster competitive
-elections, given that donations depend not on political leaning but on
-who is currently in power. However, a more realistic explanation for
-this phenomenon is that some individuals want to make policy changes. It
-is no secret that politicians, particularly those out of power, often
-solicit funding and political support in exchange for advancing the
-interests of their stakeholders @mollona2022ethics. These two dynamics
-may be working in tandem to create an effect where parties eager to be
-elected rely more on funding from external sources, which can switch
-each election cycle.
+The landscape in Canada for political financing is growing each year. Results from studies demonstrate that individual contributors may prefer to support challengers for several reasons. An optimistic but naive explanation may be that individuals hope to foster competitive elections, given that donations depend not on political leaning but on who is currently in power. However, a more realistic explanation for this phenomenon is that some individuals want to make policy changes. It is no secret that politicians, particularly those out of power, often solicit funding and political support in exchange for advancing the interests of their stakeholders @mollona2022ethics}. These two dynamics may be working in tandem to create an effect where parties eager to be elected rely more on funding from external sources, which can switch each election cycle.
 
-Moreover, these trends of political donations fluctuating based on the
-party in power are not unique to Canada. The study "Financing UK
-Democracy: A Stocktake of 20 Years of Political Donations" highlights a
-surge in private political donations, more specifically from
-superdonors, widening the resource gap between large parties
-@draca2022financing. Similar to Canada, the UK also sees large donations
-from a wealthy few influencing their elections each year. The parallel
-between Canada and the UK underscores a broader democratic issue of
-financial power being used to influence political outcomes. Though this
-concept is not novel, this study contributes to the already growing
-spotlight on the persistent lack of proper reform in political systems.
-
-This study provides valuable insights into donation behaviours across
-Canada but it its limitations. First, the analysis is applied to only
-federal and provincial donation records, overlooking regional variations
-found in other provinces and territories. The geographical limitations
-of this study hinder its ability to generalize across the entire
-country. Moreover, the study only spans from 2006 to 2024 which economic
-or political events could have influence over the donation patterns that
-the models do not account for.
-
-## Second discussion point
-
-## Third discussion point
+Moreover, these trends of political donations fluctuating based on the party in power are not unique to Canada. The study "Financing UK Democracy: A Stocktake of 20 Years of Political Donations" highlights a surge in private political donations, more specifically from superdonors, widening the resource gap between large parties @draca2022financing}. Similar to Canada, the UK also sees large donations from a wealthy few influencing their elections each year. The parallel between Canada and the UK underscores a broader democratic issue of financial power being used to influence political outcomes. Though this concept is not novel, this study contributes to the already growing spotlight on the persistent lack of proper reform in political systems.
 
 ## Weaknesses and next steps
+This study provides valuable insights into donation behaviours across Canada but it its limitations. First, the analysis is applied to only federal and provincial donation records, overlooking regional variations found in other provinces and territories. The geographical limitations of this study hinder its ability to generalize across the entire country. Moreover, the study only spans from 2006 to 2024 which economic or political events could have influence over the donation patterns that the models do not account for. Additionally qualitative factors such as personal beliefs, specific policy preferences and campaign effectiveness are not directly addressed in this study. Data quality issues such as potential missing values or inconsistencies could also have affected the accuracy of the findings here. Lastly, the linear regression models here assume a linear relationship between predictors and donations which can greatly oversimplify the complexities.
 
-Weaknesses and next steps should also be included.
+Future research should not only aim to address these limitations, but expand the analysis to other provinces and territories across Canada. This would enhance the generalisability of the results and provide a more nuanced understanding of regional differences. Furthermore, utilizing nonlinear modelling techniques or looking at a broader set of predictor variables such as donor demographics or economic indicators could better capture the nuances of donor behaviour and also mitigate the risk of omitted variable bias. Comparative studies with other democratic countries, beyond Canada, could provide more general perspectives on how other political systems and regulatory frameworks influence or are influenced by donation behaviours. Other valuable areas of future exploration include assessing the impact of media coverage on donation trends. Finally, by addressing these areas, research can build on the current study's findings and contribute to a greater understanding of political donations.
 
 \newpage
 
@@ -1157,9 +1117,13 @@ Timeline
 -   Month 10: Dissemination of findings through academic publications
     and presentations.
 
+
 ### Idealized Survey Design
 
 Survey Structure
+
+[Purpose of survey]
+[Link to survey]
 
 **Section 1: Demographics**
 

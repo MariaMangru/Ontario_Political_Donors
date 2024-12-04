@@ -1,5 +1,15 @@
+#### Preamble ####
+# Purpose: Download political donations data from IJF 
+# Author: Maria Mangru
+# Date: 12 December 2024
+# Contact: maria.mangru@mail.utoronto.ca
+# License: MIT
+
+
+#### Workspace setup ####
 import requests
 import pandas as pd
+
 # API Endpoint
 url = "https://ieypoqqymehdkesavuan.supabase.co/rest/v1/don_mv"
 
@@ -11,6 +21,7 @@ params = {
     "order": "donation_year.desc,amount.desc",
     "donation_year": "eq.2024"
 }
+
 # Headers
 # Replace # with the appropriate details
 headers = {

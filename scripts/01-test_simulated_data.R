@@ -1,8 +1,7 @@
 #### Preamble ####
-# Purpose: Tests the structure and validity of the simulated political donation data 
-  #electoral divisions dataset.
+# Purpose: Tests the structure and validity of the simulated political donation data electoral divisions dataset.
 # Author: Maria Mangru
-# Date: 25 November 2024
+# Date: 12 December 2024
 # Contact: maria.mangru@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: 

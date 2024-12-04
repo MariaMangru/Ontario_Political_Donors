@@ -1,7 +1,7 @@
 #### Preamble ####
-# Purpose: Models
+# Purpose: Generates regression for donation amount and power status
 # Author: Maria Mangru
-# Date: 25 November 2024
+# Date: 12 December 2024
 # Contact: maria.mangru@mail.utoronto.ca
 # License: MIT
 

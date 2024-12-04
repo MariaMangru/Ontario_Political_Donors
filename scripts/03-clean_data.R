@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Cleans the raw political donations data
 # Author: Maria Mangru
-# Date: 25 November 2024
+# Date: 12 December 2024
 # Contact: maria.mangru@mail.utoronto.ca
 # License: MIT
 

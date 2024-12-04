@@ -77,6 +77,7 @@ research. Section \ref{sec-appendix} offers further detailed insights
 into the data, modeling approach, and methodology.
 
 \newpage
+
 # Data {#sec-data}
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -98,8 +99,15 @@ federal_data <- analysis_data %>% filter(region == "Federal")
 
 ## Overview
 
-The dataset analyzed in this study encompasses political donation records from 2006 to 2024, covering both the federal level and the province of Ontario in Canada. These records were sourced from the @ijf_political_donors Political Donors Dataset, which systematically collects and maintains comprehensive data on political donations across Canadian jurisdictions. The IJF updates this dataset daily by monitoring election agency websites at the federal level and within each province and territory, ensuring the data remains current and reliable. covering both the federal level and the province of
-Ontario in Canada. 
+The dataset analyzed in this study encompasses political donation
+records from 2006 to 2024, covering both the federal level and the
+province of Ontario in Canada. These records were sourced from the
+@ijf_political_donors Political Donors Dataset, which systematically
+collects and maintains comprehensive data on political donations across
+Canadian jurisdictions. The IJF updates this dataset daily by monitoring
+election agency websites at the federal level and within each province
+and territory, ensuring the data remains current and reliable. covering
+both the federal level and the province of Ontario in Canada.
 
 The analysis was conducted using both R (@citeR) and Python (@python),
 leveraging a range of libraries for data manipulation and visualization.
@@ -114,12 +122,18 @@ requirements, promoting transparency and accountability within the
 democratic process. Both federal and provincial election finance laws
 mandate that political parties, candidates, and associated entities
 report donations exceeding specific thresholds. These disclosures vary
-by jurisdiction in terms of frequency and reporting formats. This regulatory framework ensures that significant
-contributions are systematically documented and publicly accessible,
-providing a reliable foundation for this analysis.
+by jurisdiction in terms of frequency and reporting formats. This
+regulatory framework ensures that significant contributions are
+systematically documented and publicly accessible, providing a reliable
+foundation for this analysis.
 
-The period starting from 2006 is particularly significant because it marks the first federal election involving the newly formed Conservative Party of Canada. In 2003, the Canadian Alliance and the Progressive Conservative Party of Canada merged to create the modern Conservative Party. The 2006 election was the first in which this new entity participated, making it a pivotal point for analyzing donation patterns related to this party.
-
+The period starting from 2006 is particularly significant because it
+marks the first federal election involving the newly formed Conservative
+Party of Canada. In 2003, the Canadian Alliance and the Progressive
+Conservative Party of Canada merged to create the modern Conservative
+Party. The 2006 election was the first in which this new entity
+participated, making it a pivotal point for analyzing donation patterns
+related to this party.
 
 ## Measurement
 
@@ -193,8 +207,7 @@ factors such as power status and party size.
 The distribution of total donation amounts varies between the federal
 and provincial levels. At the federal level, the average total donations
 are higher, reflecting broader donor bases and different legal
-contribution limits. 
-
+contribution limits.
 
 ```{r fig-avg-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-avg-donation
@@ -250,9 +263,14 @@ ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region
 
 ```
 
-@fig-avg-donation shows the trend of average donation amounts over the years for both Ontario and Federal levels. The x-axis represents the years from 2006 to 2024, while the y-axis shows the average donation amount in Canadian dollars. The data reveals fluctuations in donation amounts over time, with notable during 2018 for Ontario and 2024 for Federal. 
+@fig-avg-donation shows the trend of average donation amounts over the
+years for both Ontario and Federal levels. The x-axis represents the
+years from 2006 to 2024, while the y-axis shows the average donation
+amount in Canadian dollars. The data reveals fluctuations in donation
+amounts over time, with notable during 2018 for Ontario and 2024 for
+Federal.
 
-\newpage 
+\newpage
 
 ## Predictor Variables
 
@@ -285,7 +303,6 @@ influencing Amount Donated:
 
 \newpage
 
-    
 ```{r tbl-fed-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-fed-donation
 #| tbl-cap: Table Showing Donations Based on Recipient Power Status at Federal Level
@@ -319,9 +336,10 @@ kable(donations_in_power_federal,
 
 ```
 
-In @tbl-fed-donation, parties in power (indicated by 1) received both lower total donation amounts and lower average donation amounts compared to opposition parties. This pattern suggests that donors may prefer to support challengers over incumbents.
-
-
+In @tbl-fed-donation, parties in power (indicated by 1) received both
+lower total donation amounts and lower average donation amounts compared
+to opposition parties. This pattern suggests that donors may prefer to
+support challengers over incumbents.
 
 ```{r tbl-ontario-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-ontario-donation
@@ -349,10 +367,8 @@ kable(donations_in_power_ontario,
   kable_styling(latex_options = c("striped"))
 ```
 
-@tbl-ontario-donation also shows a similar trend of parties in power receiving lower total and average donations. 
-
-
-
+@tbl-ontario-donation also shows a similar trend of parties in power
+receiving lower total and average donations.
 
 ```{r fig-ontario-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-ontario-total-donation
@@ -391,8 +407,12 @@ ggplot(donations_by_party_ontario, aes(
 
 ```
 
-@fig-ontario-total-donation displays a tree map of total donations received by each political party in Ontario. The size of each rectangle corresponds to the total amount donated to that party. Major parties like the Progressive Conservative Party of Ontario and the Liberal Party of Ontario dominate the donation landscape, reflecting their significant fundraising capabilities.
-
+@fig-ontario-total-donation displays a tree map of total donations
+received by each political party in Ontario. The size of each rectangle
+corresponds to the total amount donated to that party. Major parties
+like the Progressive Conservative Party of Ontario and the Liberal Party
+of Ontario dominate the donation landscape, reflecting their significant
+fundraising capabilities.
 
 ```{r fig-federal-total-donation, echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-federal-total-donation
@@ -432,9 +452,15 @@ ggplot(donations_by_party_federal, aes(
 
 ```
 
-@fig-federal-total-donation presents a treemap for federal political parties. Similar to the provincial level, major parties such as the Conservative Party of Canada and the Liberal Party of Canada receive the largest amounts in donations. This visualization highlights the prominence of major parties in attracting financial support at the federal level.
+@fig-federal-total-donation presents a treemap for federal political
+parties. Similar to the provincial level, major parties such as the
+Conservative Party of Canada and the Liberal Party of Canada receive the
+largest amounts in donations. This visualization highlights the
+prominence of major parties in attracting financial support at the
+federal level.
 
 \newpage
+
 # Model {#sec-model}
 
 To analyze the impact of a political party’s power status on donation
@@ -443,7 +469,8 @@ multiple linear regression models were developed. Specifically, separate
 models were constructed for Ontario and Federal levels to account for
 regional differences in political dynamics and donation behaviors.
 Additionally, a focused regression model was created for the
-Conservative and Liberal parties to explore the interaction between power status and party affiliation.
+Conservative and Liberal parties to explore the interaction between
+power status and party affiliation.
 
 ## Model set-up
 
@@ -483,12 +510,12 @@ as the dependent variable to stabilize variance and normalize the
 distribution of donation amounts. Predictor variables include binary
 indicators for whether the party was in power (In_Power), the size of
 the party (Party_Size), and whether the donation was made during an
-election year (Election_Year). 
+election year (Election_Year).
 
-The specialized model for Conservative
-and Liberal parties includes an additional binary variable (Party) and
-an interaction term (In_Power \* Party) to capture the combined effect
-of power status and party type on donation amounts.
+The specialized model for Conservative and Liberal parties includes an
+additional binary variable (Party) and an interaction term (In_Power \*
+Party) to capture the combined effect of power status and party type on
+donation amounts.
 
 ### Model justification
 
@@ -504,31 +531,61 @@ analysis.
 
 ### Assumptions and Limitations
 
-The models assume a linear relationship between the predictors and the logarithm of total donations, ensuring that the effects of the predictors are additive and proportional. Additionally, they assume that the residuals are normally distributed and exhibit constant variance (homoscedasticity). The models also rely on the absence of multicollinearity, meaning that the predictors are not highly correlated, and they assume independence of observations.
+The models assume a linear relationship between the predictors and the
+logarithm of total donations, ensuring that the effects of the
+predictors are additive and proportional. Additionally, they assume that
+the residuals are normally distributed and exhibit constant variance
+(homoscedasticity). The models also rely on the absence of
+multicollinearity, meaning that the predictors are not highly
+correlated, and they assume independence of observations.
 
-Potential limitations include the possibility of unobserved variables influencing donation amounts and the inherent assumption that past trends can reliably predict future behavior. These factors could introduce bias or limit the generalizability of the findings.
+Potential limitations include the possibility of unobserved variables
+influencing donation amounts and the inherent assumption that past
+trends can reliably predict future behavior. These factors could
+introduce bias or limit the generalizability of the findings.
 
 ### Model Validation
 
-Model validation was conducted to assess the predictive accuracy and generalizability of the regression models. This involved evaluating key metrics such as R-squared (R²), Adjusted R-squared, and Root Mean Square Error (RMSE) to determine how well the models explain the variance in Log_Total_Donations and their predictive performance.
+Model validation was conducted to assess the predictive accuracy and
+generalizability of the regression models. This involved evaluating key
+metrics such as R-squared (R²), Adjusted R-squared, and Root Mean Square
+Error (RMSE) to determine how well the models explain the variance in
+Log_Total_Donations and their predictive performance.
 
-The Ontario model yielded an R² of 0.5496 and an Adjusted R² of 0.5267, indicating that approximately 54.96% of the variance in the log-transformed total donations is explained by the predictors. The RMSE was 2.5919, reflecting the average prediction error. The Variance Inflation Factor (VIF) values for all predictors were below 2, suggesting no significant multicollinearity.
+The Ontario model yielded an R² of 0.5496 and an Adjusted R² of 0.5267,
+indicating that approximately 54.96% of the variance in the
+log-transformed total donations is explained by the predictors. The RMSE
+was 2.5919, reflecting the average prediction error. The Variance
+Inflation Factor (VIF) values for all predictors were below 2,
+suggesting no significant multicollinearity.
 
-The Federal model showed an R² of 0.6487 and an Adjusted R² of 0.6410, indicating that about 64.87% of the variance is explained by the model. The RMSE was 1.4909, and VIF values were again below 2, suggesting no significant multicollinearity.
+The Federal model showed an R² of 0.6487 and an Adjusted R² of 0.6410,
+indicating that about 64.87% of the variance is explained by the model.
+The RMSE was 1.4909, and VIF values were again below 2, suggesting no
+significant multicollinearity.
 
-The Conservative/Liberal model achieved an R² of 0.1091 and an Adjusted R² of 0.0431, indicating a lower explanatory power compared to the previous models. The RMSE was 1.2814. VIF values suggested moderate multicollinearity due to the interaction term, but they were within acceptable limits.
+The Conservative/Liberal model achieved an R² of 0.1091 and an Adjusted
+R² of 0.0431, indicating a lower explanatory power compared to the
+previous models. The RMSE was 1.2814. VIF values suggested moderate
+multicollinearity due to the interaction term, but they were within
+acceptable limits.
 
-Overall, the validation process confirmed that the linear regression models are effective in predicting donation amounts based on the selected predictor variables. The models demonstrate good explanatory power and reasonable predictive accuracy, making them suitable for analyzing the factors influencing political donations in Canada.
+Overall, the validation process confirmed that the linear regression
+models are effective in predicting donation amounts based on the
+selected predictor variables. The models demonstrate good explanatory
+power and reasonable predictive accuracy, making them suitable for
+analyzing the factors influencing political donations in Canada.
 
 # Results {#sec-results}
 
-@tbl-modelsummary presents the summary of key model estimates for
-the Ontario, Federal, and Conservative/Liberal models. These models
-predict the logarithm of total donations received by political parties
-based on whether the party was in power, the size of the party, and
-whether the donation occurred during an election year. The
-Conservative/Liberal model includes an interaction term to explore how
-the effect of being in power varies between these two major parties.
+@tbl-modelsummary presents the summary of key model estimates for the
+Ontario, Federal, and Conservative/Liberal models. These models predict
+the logarithm of total donations received by political parties based on
+whether the party was in power (In_Power), the size of the party
+(Party_Size), and whether the donation occurred during an election year
+(Election_Year). The Conservative/Liberal model includes an interaction
+term (In_Power × Party) to explore how the effect of being in power
+varies between these two major parties.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #| label: tbl-modelsummary
@@ -737,16 +794,73 @@ contingent on party affiliation.
 
 ## The Influence of Party Size on Donation Amounts {#sec-first-point}
 
-At the heart of politics is finance, as revealed by Traag's paper on the complex contagion of campaign donations @traag2016complex. Their study demonstrates that a majority of campaign contributions in the US originate from a few wealthy individuals through large social networks. With the constant battle between government and corporations, the findings in this study underscore the significant influence of financial power in shaping political dynamics.
+At the heart of politics is finance, as revealed by Traag's paper on the
+complex contagion of campaign donations @traag2016complex. Their study
+demonstrates that a majority of campaign contributions in the US
+originate from a few wealthy individuals through large social networks.
+With the constant battle between government and corporations, the
+findings in this study underscore the significant influence of financial
+power in shaping political dynamics.
 
-The landscape in Canada for political financing is growing each year. Results from studies demonstrate that individual contributors may prefer to support challengers for several reasons. An optimistic but naive explanation may be that individuals hope to foster competitive elections, given that donations depend not on political leaning but on who is currently in power. However, a more realistic explanation for this phenomenon is that some individuals want to make policy changes. It is no secret that politicians, particularly those out of power, often solicit funding and political support in exchange for advancing the interests of their stakeholders @mollona2022ethics}. These two dynamics may be working in tandem to create an effect where parties eager to be elected rely more on funding from external sources, which can switch each election cycle.
+The landscape in Canada for political financing is growing each year.
+Results from studies demonstrate that individual contributors may prefer
+to support challengers for several reasons. An optimistic but naive
+explanation may be that individuals hope to foster competitive
+elections, given that donations depend not on political leaning but on
+who is currently in power. However, a more realistic explanation for
+this phenomenon is that some individuals want to make policy changes. It
+is no secret that politicians, particularly those out of power, often
+solicit funding and political support in exchange for advancing the
+interests of their stakeholders @mollona2022ethics}. These two dynamics
+may be working in tandem to create an effect where parties eager to be
+elected rely more on funding from external sources, which can switch
+each election cycle.
 
-Moreover, these trends of political donations fluctuating based on the party in power are not unique to Canada. The study "Financing UK Democracy: A Stocktake of 20 Years of Political Donations" highlights a surge in private political donations, more specifically from superdonors, widening the resource gap between large parties @draca2022financing}. Similar to Canada, the UK also sees large donations from a wealthy few influencing their elections each year. The parallel between Canada and the UK underscores a broader democratic issue of financial power being used to influence political outcomes. Though this concept is not novel, this study contributes to the already growing spotlight on the persistent lack of proper reform in political systems.
+Moreover, these trends of political donations fluctuating based on the
+party in power are not unique to Canada. The study "Financing UK
+Democracy: A Stocktake of 20 Years of Political Donations" highlights a
+surge in private political donations, more specifically from
+superdonors, widening the resource gap between large parties
+@draca2022financing}. Similar to Canada, the UK also sees large
+donations from a wealthy few influencing their elections each year. The
+parallel between Canada and the UK underscores a broader democratic
+issue of financial power being used to influence political outcomes.
+Though this concept is not novel, this study contributes to the already
+growing spotlight on the persistent lack of proper reform in political
+systems.
 
 ## Weaknesses and next steps
-This study provides valuable insights into donation behaviours across Canada but it its limitations. First, the analysis is applied to only federal and provincial donation records, overlooking regional variations found in other provinces and territories. The geographical limitations of this study hinder its ability to generalize across the entire country. Moreover, the study only spans from 2006 to 2024 which economic or political events could have influence over the donation patterns that the models do not account for. Additionally qualitative factors such as personal beliefs, specific policy preferences and campaign effectiveness are not directly addressed in this study. Data quality issues such as potential missing values or inconsistencies could also have affected the accuracy of the findings here. Lastly, the linear regression models here assume a linear relationship between predictors and donations which can greatly oversimplify the complexities.
 
-Future research should not only aim to address these limitations, but expand the analysis to other provinces and territories across Canada. This would enhance the generalisability of the results and provide a more nuanced understanding of regional differences. Furthermore, utilizing nonlinear modelling techniques or looking at a broader set of predictor variables such as donor demographics or economic indicators could better capture the nuances of donor behaviour and also mitigate the risk of omitted variable bias. Comparative studies with other democratic countries, beyond Canada, could provide more general perspectives on how other political systems and regulatory frameworks influence or are influenced by donation behaviours. Other valuable areas of future exploration include assessing the impact of media coverage on donation trends. Finally, by addressing these areas, research can build on the current study's findings and contribute to a greater understanding of political donations.
+This study provides valuable insights into donation behaviours across
+Canada but it its limitations. First, the analysis is applied to only
+federal and provincial donation records, overlooking regional variations
+found in other provinces and territories. The geographical limitations
+of this study hinder its ability to generalize across the entire
+country. Moreover, the study only spans from 2006 to 2024 which economic
+or political events could have influence over the donation patterns that
+the models do not account for. Additionally qualitative factors such as
+personal beliefs, specific policy preferences and campaign effectiveness
+are not directly addressed in this study. Data quality issues such as
+potential missing values or inconsistencies could also have affected the
+accuracy of the findings here. Lastly, the linear regression models here
+assume a linear relationship between predictors and donations which can
+greatly oversimplify the complexities.
+
+Future research should not only aim to address these limitations, but
+expand the analysis to other provinces and territories across Canada.
+This would enhance the generalisability of the results and provide a
+more nuanced understanding of regional differences. Furthermore,
+utilizing nonlinear modelling techniques or looking at a broader set of
+predictor variables such as donor demographics or economic indicators
+could better capture the nuances of donor behaviour and also mitigate
+the risk of omitted variable bias. Comparative studies with other
+democratic countries, beyond Canada, could provide more general
+perspectives on how other political systems and regulatory frameworks
+influence or are influenced by donation behaviours. Other valuable areas
+of future exploration include assessing the impact of media coverage on
+donation trends. Finally, by addressing these areas, research can build
+on the current study's findings and contribute to a greater
+understanding of political donations.
 
 \newpage
 
@@ -756,50 +870,50 @@ Future research should not only aim to address these limitations, but expand the
 
 ## Appendix A: Data Cleaning Notes
 
-The dataset used in this analysis underwent a rigorous data cleaning
-process to ensure accuracy, consistency, and reliability. The raw
-donation records were sourced from the Investigative Journalism
-Foundation (IJF), encompassing political donations at both the federal
-and Ontario provincial levels from 2013 to 2024. The data cleaning
-process involved several critical steps, detailed below.
+Rigorous data cleaning was done to the dataset used in this
+investigation to assure correctness and dependability. The raw donation
+records were sourced from the Investigative Journalism Foundation (IJF)
+which include political donations at both federal and provincial levels,
+specifically Ontario, from 2013 to 2024. The details of the data
+cleaning processed are described below.
 
-Initially, the dataset was examined for missing or incomplete values in
-key variables such as Amount Donated, Political Party, Donation Year,
-and Region. Records with missing values in these essential fields were
-excluded from the analysis to maintain data integrity and prevent biases
-that could arise from incomplete data entries.
+First, missing and incomplete values were searched for in key variables
+such as Amount Donated, Donation Year, Political Party and Region.
+Excluding any records with missing values in these crucial fields to
+minimise biases created from incomplete data entries and to maintain
+data integrity.
 
-Political party names often appeared in various formats due to
-inconsistencies in reporting. To address this, party names were
-standardized across all records. For instance, variations such as
-"Liberal Party of Ontario" and "Ontario Liberal Party" were consolidated
-under the standardized name "Ontario Liberal Party." This
-standardization ensured accurate attribution of donations to the correct
-parties.
+Inconsistencies in reporting caused political party names to appear in
+different formats. To fix this, party names were given constant and
+standardized names across all the records. For example, if there was a
+variation such as "Liberal Party of Ontario" and "Ontario Liberal Party"
+these were combined into a single name "Ontario Liberal Party" to ensure
+accurate attribution of donations to parties.
 
-Donor information, including names and locations, was also standardized
-where possible. Typographical errors were corrected, and formatting was
-made consistent (e.g., "First Name Last Name" instead of "Last Name,
-First Name"). However, original donor names were retained in cases where
-standardization could introduce inaccuracies, particularly when dealing
-with individuals with similar names.
+Fields that were also standardized were the donor information which
+includes names and locations. Any typographical errors were corrected,
+and formatting was made consistent, for example the structure "First
+Name Last Name" instead of "Last Name, First Name". But, in cases where
+standardization could introduce inaccuracies, original donor names were
+kept to avoid dealing with individuals with similar names.
 
-The dataset included both monetary (amount_monetary) and non-monetary
-(amount_non_monetary) contributions. A new variable, Amount Donated, was
-created by summing these two fields for each record. This provided a
-comprehensive measure of the total value of donations received by each
-party. All monetary values were converted to a consistent currency
-format, and any discrepancies in currency symbols or formats were
-corrected to ensure accurate aggregation and comparison of donation
-amounts.
+Two columns, (amount_monetary) and (amount_non_monetary) which
+correspond to monetary and non-monetary contributes are included in the
+data set. Using these a new variable was created that sums these two
+fields together for every record. In doing this, the dataset now
+provides a comprehensive measure of the total value of donations
+received by a party. Moreover, monetary values were converted into a
+consistent currency format to disregard any discrepancies in the
+currency symbols or formatting and to ensure accurate aggregation and
+proper comparison.
 
-To facilitate analysis at the party-year level, individual donation
-records were aggregated. Donations were summed for each political party
-within each year, resulting in a dataset where each entry represented
-the total donations received by a party in a specific year. This
-aggregation allowed for the examination of trends over time and
-assessment of the impact of factors such as power status and election
-years on donation amounts.
+Individual donation records were aggregated in order to perform proper
+analysis at the party-year level. For each political party within each
+year donations were summed yielding a dataset where each entry
+represented the total donations received by a party for a specific year.
+Aggregating the data like this enabled the examination of trends over
+time and impact assessment factors like power status and election years
+on donation amounts.
 
 Several binary variables were introduced to capture key aspects of the
 data:
@@ -809,32 +923,32 @@ during the donation year (1 for in power, 0 for not in power).
 Party_Size: Categorizes parties as major (1) or minor (0) based on
 legislative representation and historical influence. Election_Year:
 Indicates whether the donation was made during an election year (1 for
-election year, 0 for non-election year). These variables were crucial
-for the regression analysis, allowing for the assessment of the
-influence of these factors on total donations.
+election year, 0 for non-election year). These variables were imperative
+for the regression analysis and allowed the assessment of the influence
+of these on total donations.
 
 The distribution of total donation amounts was highly skewed, with a
-small number of large donations and many smaller ones. To address this
-skewness and stabilize variance, a logarithmic transformation was
-applied to the Total Donations variable, creating Log_Total_Donations.
-This transformation also helped in handling zero values by adding a
-small constant (e.g., 1) before taking the logarithm.
+small number of large donations and many smaller ones. In order to
+address this, a logarithmic transformation was applied to the
+Total_Donations variable creating a new variable called
+Log_Total_Donations. This transformation also helped with handling zero
+values by adding a small constant before taking the logarithm.
 
-To ensure the accuracy of the cleaned dataset, cross-validation was
-performed against original records and official financial statements
-where available. This step involved spot-checking aggregated totals and
-individual records to confirm that the cleaning and aggregation
-processes did not introduce errors.
+Cross-validation was used against original records and official
+financial statements to ensure accuracy of the cleaned dataset. This
+step required spot-checking aggregated totals and individuals records to
+confirm that the cleaning and aggregation process did not create more
+errors.
 
-Some challenges were encountered due to inconsistencies in the raw data,
-such as typographical errors, inconsistent reporting formats, and
-missing donor types. While efforts were made to standardize and correct
-these issues, some limitations remain due to the quality of the original
-data sources. In cases where donor type information was missing and
-legal restrictions indicated that only individuals could donate (e.g.,
-Ontario after 2017), the donor type was inferred as "Individual." While
-this assumption is reasonable based on the legal context, it may not
-capture all nuances in the data.
+There were challenges that occurred due to inconsistencies in the raw
+data, these included typographical errors, reporting format errors and
+missing donor types. Some limitations remained despite the effort to
+standardize and correct these issues, due to the quality of the original
+data source. When donor type information was missing and legal
+restrictions indicated that only individuals could donate, the donor
+type was inferred as "Individual". Despite this assumption being legally
+reasonable in the context of the paper, it may not capture all nuances
+in the data.
 
 \newpage
 
@@ -842,10 +956,10 @@ capture all nuances in the data.
 
 The Investigative Journalism Foundation (IJF) employs a comprehensive
 approach to collect and compile political donation data across Canada.
-Understanding the IJF's data collection methodology is essential for
-evaluating the reliability and scope of the data used in this analysis.
+Understanding the IJF's data collection methodology is crucial for
+assessing the reliability and scope of the data used in this analysis.
 
-**Data Sources and Acquisition**
+Data Sources and Acquisition
 
 Every day, the IJF checks election agency websites at the federal level
 and in each province and territory for new political donations data.
@@ -866,8 +980,7 @@ create a unified database of political donations.
 The IJF's dataset encompasses donations to various political entities,
 including:
 
--   Parties: Registered political parties at the federal and provincial
-    levels.
+-   Parties: Federal and provincial registered political parties.
 
 -   Candidates: Individual candidates running for office.
 
@@ -883,12 +996,12 @@ Vancouver.
 
 **Donation Laws and Contribution Limits**
 
-Contribution limits and the types of entities permitted to donate vary
-across jurisdictions. For instance, at the federal level, only
+Jurisdictions have varying limits on the donation amount and types of
+entities allowed to donate. For example, in the federal level, only
 individuals who are Canadian citizens or permanent residents can donate,
-with maximum annual contributions set at specified amounts. In contrast,
-some provinces allow donations from corporations, unions, and other
-organizations and may have different or no contribution limits.
+with a maximum annual contribution amount. Comparatively, there are some
+provinces that allow donations from corporations, organizations and
+unions and may have different or no contribution limits.
 
 **Data Formats and Conversion**
 
@@ -901,9 +1014,8 @@ FineReader are used for this purpose.
 
 **Data Cleaning and Standardization**
 
-Extensive manual cleaning is performed to correct errors arising from
-OCR conversion and to standardize the data. Key steps in the data
-cleaning process include:
+Manual cleaning is extensively done to correct errors that arise from
+OCR conversion and to standardize the data. The key steps are:
 
 Correcting OCR Errors: Manual verification and correction of misread
 characters (e.g., misinterpreted currency symbols or letters).
@@ -920,15 +1032,14 @@ Ontario after 2017), the IJF adds "Individual" to the donor type column.
 
 **Limitations and Challenges**
 
-Original records submitted by political entities may contain
-typographical errors or inaccuracies, which are reflected in the
-dataset. Incomplete or Inconsistent Data: Variations in reporting
-requirements and practices across jurisdictions can lead to
-inconsistencies in the data. OCR Limitations: Despite manual
-verification, OCR technology may not perfectly capture handwritten or
-poorly scanned documents, potentially introducing errors. Conclusion
+Records submitted by political entities can contain typographical errors
+or inaccuracies which are seen in the dataset. Inconsistent or
+incomplete data can occur in reporting practices across different
+jurisdictions. Moreover, OCR technology is imperfect at capturing
+handwritings or poorly scanned documents introducing errors despite
+manual correction.
 
-### Idealized Methodology
+**Idealized Methodology**
 
 The idealized methodology for analyzing how a political party's power
 status affects the total donations it receives in Canada involves
@@ -950,7 +1061,7 @@ ensuring representation across different regions and political contexts.
 
 A stratified random sampling technique will be utilized to ensure
 proportional representation from various demographics and regions. The
-sample will be stratified based on:
+sample will be stratified according to:
 
 -   Region: All provinces and territories.
 
@@ -966,11 +1077,12 @@ particularly those in regions with significant political activity.
 
 **Sample Size and Response Rate**
 
-To maintain a national margin of error of ±3% at a 95% confidence level,
-a total sample size of approximately 1,500 respondents is required. This
-sample size allows for meaningful analysis of subgroups within the data.
-Given an estimated response rate of 10%, outreach efforts will target
-approximately 15,000 potential respondents across Canada.
+To maintain a national margin of error of plus or minus 3% at a 95%
+confidence level, a total sample size of approximately 1,500 respondents
+is required. This sample size allows for meaningful analysis of
+subgroups within the data. Given an estimated response rate of 10%,
+outreach efforts will target approximately 15,000 potential respondents
+across Canada.
 
 **Recruitment Methods**
 
@@ -994,10 +1106,8 @@ reach and diversity:
     not be active online, particularly older individuals or those in
     rural areas.
 
-To incentivize participation, all respondents will be offered a small
-monetary compensation (e.g., a \$10 electronic gift card) or entered
-into a national sweepstakes with a chance to win one of ten \$500 cash
-prizes.
+To incentivize participation, all respondents will be entered into a
+national sweepstakes with a chance to win one of ten \$500 cash prizes.
 
 **Data Collection Methods**
 
@@ -1026,7 +1136,7 @@ integrity:
 -   Implement reCAPTCHA technology to guard against bots and automated
     responses.
 
--   nclude attention-check questions to identify inattentive or
+-   Include attention-check questions to identify inattentive or
     fraudulent responses.
 
 -   After data collection, apply statistical weighting to adjust for any
@@ -1043,7 +1153,8 @@ The budget for this study is allocated as follows:
         including question formulation, structuring for clarity and
         flow, pilot testing, and ensuring compliance with ethical
         standards. Additionally, funds account for bilingual translation
-        services (English and French).
+        services (English and French). This also covers the cost of the
+        potential monetary gifts given after completing the survey.
 
 -   Sampling and Recruitment: \$15,000
 
@@ -1082,7 +1193,7 @@ The budget for this study is allocated as follows:
 
 -   Total Estimated Budget: \$85,000
 
-Timeline
+**Timeline**
 
 -   Months 1-2: Survey design, ethical approval processes, and pilot
     testing to refine the questionnaire.
@@ -1099,20 +1210,17 @@ Timeline
 -   Month 10: Dissemination of findings through academic publications
     and presentations.
 
+#### Idealized Survey Design
 
-### Idealized Survey Design
-
-Survey Structure
-
-[Purpose of survey]
-You can access the survey here: https://docs.google.com/forms/d/e/1FAIpQLSdj2RxS9fjZ_n6Q54zjSyoJ7tAJT7ssuTF3V1tVk6a_Rhyp4w/viewform?usp=sharing
+**Survey Structure**
 
 **Section 1: Demographics**
 
-**State of Residence:** - Dropdown list of all provinces and
-territories.
+State of Residence:
 
-**Age:** Multiple-choice options
+-   Dropdown list of all provinces and territories.
+
+Age: Multiple-choice options
 
 -   18-24
 
@@ -1124,7 +1232,7 @@ territories.
 
 -   55-64
 
-**Gender:**
+Gender:
 
 -   Male
 
@@ -1134,7 +1242,7 @@ territories.
 
 -   Prefer not to say.
 
-**Income Level:**
+Income Level:
 
 -   Less than \$25,000
 
@@ -1148,7 +1256,7 @@ territories.
 
 -   \$150,000 or more
 
-**Education Level:** Highest degree obtained
+Education Level: Highest degree obtained
 
 -   Less than high school
 
@@ -1162,7 +1270,7 @@ territories.
 
 -   Graduate or professional degree
 
-**Political Affiliation:**
+Political Affiliation:
 
 -   Conservative
 
@@ -1174,13 +1282,13 @@ territories.
 
 **Section 2: Donation Behavior**
 
-**Are you currently registered to donate to political parties?**
+Are you currently registered to donate to political parties?
 
 -   Yes
 
 -   No
 
-**How frequently do you donate to political parties?**
+How frequently do you donate to political parties?
 
 -   Never
 
@@ -1190,7 +1298,7 @@ territories.
 
 -   Regularly (monthly or more)
 
-**Average Donation Amount:**
+Average Donation Amount:
 
 -   Less than \$200
 
@@ -1202,7 +1310,7 @@ territories.
 
 -   More than \$10,000
 
-**Preferred Donation Channels:**
+Preferred Donation Channels:
 
 -   Online platforms
 
@@ -1212,7 +1320,7 @@ territories.
 
 **Section 3: Motivations for Donating**
 
-**What motivates you to donate to a political party?** (Select all that
+What motivates you to donate to a political party? (Select all that
 apply)
 
 -   Support for specific policies or issues
@@ -1227,8 +1335,8 @@ apply)
 
 -   Other (please specify)
 
-**Which factors most influence your decision to donate?** (Select all
-that apply)
+Which factors most influence your decision to donate? (Select all that
+apply)
 
 -   Candidate's leadership qualities
 
@@ -1244,17 +1352,17 @@ that apply)
 
 **Section 4: Impact of Campaigns and Events**
 
-**Have recent political events influenced your donation behavior?**
+Have recent political events influenced your donation behavior?
 
 -   Yes
 
 -   No
 
-**If yes, please specify the events and how they influenced your
-donations.** (Open-ended)
+If yes, please specify the events and how they influenced your
+donations. (Open-ended)
 
-**How do you perceive the effectiveness of political campaigns in
-encouraging donations?**
+How do you perceive the effectiveness of political campaigns in
+encouraging donations?
 
 -   Very ineffective
 
@@ -1268,10 +1376,10 @@ encouraging donations?**
 
 **Section 5: Feedback and Suggestions**
 
-**What could political parties do to encourage more donations from
-supporters?** (Open-ended) -
+What could political parties do to encourage more donations from
+supporters? (Open-ended) -
 
-**Any additional comments or suggestions regarding political
-donations?** (Open-ended)
+Any additional comments or suggestions regarding political donations?
+(Open-ended)
 
 # References

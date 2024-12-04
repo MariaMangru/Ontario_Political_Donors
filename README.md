@@ -1,8 +1,8 @@
-# Impact of Party Leadership on Donation Patterns
+# Donor Preferences in Canadian Political Financing
 
 ## Overview
 
-This research project "Impact of Federal Party Leadership Changes on Donation Patterns" explores how leadership changes within federal and Ontario political parties affect donation behaviors from individual donors across Canada. By analyzing patterns in political contributions, I aim to understand the influence of leadership transitions on political financing.
+This research project "Donor Preferences in Canadian Political Financing" explores how leadership changes within federal and Ontario political parties affect donation behaviors from individual donors across Canada. By analyzing patterns in political contributions, I aim to understand the influence of leadership transitions on political financing.
 
 
 ## File Structure

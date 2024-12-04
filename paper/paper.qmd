@@ -735,6 +735,9 @@ In the Conservative/Liberal model, In_Power has a significant positive effect, w
 For the Conservative Party (Party = 1), the combined effect of being in power is 1.2023 + (-1.7175) = -0.5152, suggesting that being in power is associated with lower total donations for the Conservative Party.
 For the Liberal Party (Party = 0), the effect of being in power remains 1.2023, indicating that being in power is associated with higher total donations for the Liberal Party.
 
+The Party variable itself is significant (coefficient = 1.3648, standard error = 0.4968, p = 0.00774), suggesting that, overall, the Conservative Party tends to receive more donations than the Liberal Party when not considering the interaction effect.
+
+The Election_Year variable is not significant in the Conservative/Liberal model (coefficient = -0.0527, standard error = 0.3777, p = 0.88946).
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #| label: fig-estimates
@@ -770,7 +773,6 @@ ggplot(tidy_plot, aes(x = term, y = estimate, color = Model)) +
   geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), 
                 width = 0.2, position = position_dodge(width = 0.5)) +
   labs(
-    title = "Coefficient Estimates for Ontario, Federal, and Conservative/Liberal Models",
     x = "Predictors",
     y = "Estimated Coefficients"
   ) +
@@ -778,38 +780,11 @@ ggplot(tidy_plot, aes(x = term, y = estimate, color = Model)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+@fig-estimates highlights the consistently strong positive effect of Party_Size on total donations in both the Ontario and Federal models, emphasizing that major parties attract significantly more donations than minor parties. It also illustrates the significant interaction effect between In_Power and Party in the Conservative/Liberal model, demonstrating the differing impact of being in power on donations for the two major parties.
 
-The regression analysis reveals that Party Size is a significant
-predictor of total donations across both the Ontario and Federal models,
-indicating that larger parties receive more financial support.
-Specifically, in the Ontario model, Party Size has a coefficient of
-2.302 (p \< 0.001), while in the Federal model, it is 3.524 (p \<
-0.001). This positive relationship suggests that party prominence plays
-a crucial role in attracting donations.
+In summary, the analyses reveal that party size is a significant determinant of total donations at both provincial and federal levels, while the effect of being in power on donations is contingent upon party affiliation, particularly between the Conservative and Liberal parties.
 
-Conversely, the In Power variable is not statistically significant in
-the Ontario (p = 0.322) and Federal (p = 0.529) models, implying that
-being in power does not directly influence the total donations received
-by a party at these levels. However, in the Conservative/Liberal model,
-In Power has a significant positive effect (2.513, p \< 0.001), and the
-interaction term In Power \* Party is significantly negative (-4.865, p
-\< 0.001). This interaction indicates that while being in power
-increases donations for Conservative parties, it decreases donations for
-Liberal parties, highlighting a differential impact based on party
-affiliation.
 
-The Election Year variable does not significantly predict donation
-amounts in any of the models, with p-values exceeding conventional
-significance thresholds (Ontario p = 0.616, Federal p = 0.975,
-Conservative/Liberal p = 0.325). This suggests that donations are not
-substantially influenced by whether they occur during an election year.
-
-Overall, the models explain a moderate portion of the variance in total
-donations, with R² values ranging from 0.3046 (Ontario) to 0.5825
-(Federal), and the Conservative/Liberal model achieving an R² of 0.4481.
-These findings underscore the importance of party size in determining
-donation amounts, while the role of power status appears to be
-contingent on party affiliation.
 
 # Discussion {#sec-discussion}
 

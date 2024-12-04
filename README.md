@@ -19,7 +19,7 @@ The repo is structured as:
 
 ## Statement on LLM usage
 
-Aspects of the code were written with the help of the auto-complete tool, ChatGpt. The entire chat history is available in inputs/llms/usage.txt.
+Aspects of the code and paper were written with the help of the auto-complete tool, ChatGpt. The entire chat history is available in inputs/llms/usage.txt.
 
 ## Requirements
 To run this package, you will need to install R(version 4.10 or higher) and RStudio (optional but highly recommended). Afterwards, you'll need to install a few packages in R. These can be installed by running the this line of code: install.packages(c("tidyverse", "readr", "stringr", "dplyr", "ggplot2", "knitr"))

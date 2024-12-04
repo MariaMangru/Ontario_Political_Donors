@@ -97,15 +97,8 @@ federal_data <- analysis_data %>% filter(region == "Federal")
 
 ## Overview
 
-The dataset used in this analysis comprises political donation records
-from 2013 to 2024, covering both the federal level and the province of
-Ontario in Canada. These records were sourced from the
-@ijf_political_donors Political Donors Dataset, which systematically
-collects and maintains comprehensive data on political donations across
-Canadian jurisdictions. The IJF updates this dataset daily by monitoring
-election agency websites at the federal level and within each province
-and territory, ensuring the data remains current and reliable. The
-analysis was conducted using both R (@citeR) and Python (@python),
+The dataset analyzed in this study encompasses political donation records from 2006 to 2024, covering both the federal level and the province of Ontario in Canada. These records were sourced from the @ijf_political_donors Political Donors Dataset, which systematically collects and maintains comprehensive data on political donations across Canadian jurisdictions. The IJF updates this dataset daily by monitoring election agency websites at the federal level and within each province and territory, ensuring the data remains current and reliable. covering both the federal level and the province of
+Ontario in Canada. The analysis was conducted using both R (@citeR) and Python (@python),
 leveraging a range of libraries for data manipulation and visualization.
 In R, key packages included dplyr (@dplyr), lubridate (@lubridate),
 tidyverse (@tidyverse), ggplot2 (@ggplot), readr (@readr), tibble
@@ -118,13 +111,12 @@ requirements, promoting transparency and accountability within the
 democratic process. Both federal and provincial election finance laws
 mandate that political parties, candidates, and associated entities
 report donations exceeding specific thresholds. These disclosures vary
-by jurisdiction in terms of frequency and reporting formats. For
-instance, Ontario requires annual returns for general and by-elections,
-leadership races, and donations to parties, candidates, and constituency
-associations, all available in downloadable spreadsheet formats from
-2007 onward. This regulatory framework ensures that significant
+by jurisdiction in terms of frequency and reporting formats. This regulatory framework ensures that significant
 contributions are systematically documented and publicly accessible,
 providing a reliable foundation for this analysis.
+
+The period starting from 2006 is particularly significant because it marks the first federal election involving the newly formed Conservative Party of Canada. In 2003, the Canadian Alliance and the Progressive Conservative Party of Canada merged to create the modern Conservative Party. The 2006 election was the first in which this new entity participated, making it a pivotal point for analyzing donation patterns related to this party.
+
 
 ## Measurement
 
@@ -203,7 +195,6 @@ contribution limits.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
 library(dplyr)
-library(gridExtra)
 library(scales)
 
 # Group and summarize the data
@@ -223,16 +214,9 @@ donations_by_year_federal <- federal_data %>%
     avg_amount = mean(amount, na.rm = TRUE)
   )
 
-# Convert donation_year to a properly ordered factor
-donations_by_year_ontario$donation_year <- factor(
-  donations_by_year_ontario$donation_year, 
-  levels = sort(unique(as.numeric(donations_by_year_ontario$donation_year)))
-)
-
-donations_by_year_federal$donation_year <- factor(
-  donations_by_year_federal$donation_year, 
-  levels = sort(unique(as.numeric(donations_by_year_federal$donation_year)))
-)
+# Ensure years are in correct order
+donations_by_year_ontario$donation_year <- as.integer(donations_by_year_ontario$donation_year)
+donations_by_year_federal$donation_year <- as.integer(donations_by_year_federal$donation_year)
 
 # Combine datasets and add a "Region" column
 donations_combined <- bind_rows(
@@ -240,23 +224,23 @@ donations_combined <- bind_rows(
   donations_by_year_federal %>% mutate(Region = "Federal")
 )
 
-# Plot using facets with a shared Y-axis
-p_combined <- ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region, color = Region)) +
+# Plot using facets
+ggplot(donations_combined, aes(x = donation_year, y = avg_amount, group = Region, color = Region)) +
   geom_line() +
   geom_point() +
   facet_wrap(~ Region, ncol = 1, scales = "free_y") +
   labs(
-    title = "Average Donation Amount Over Years",
+    title = "Figure 1: Average Donation Amount Over Years",
     x = "Year",
     y = "Average Donation Amount ($)"
   ) +
+  scale_x_continuous(breaks = seq(2006, 2024, 2)) +
   scale_y_continuous(labels = dollar_format()) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-print(p_combined)
-
-
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"
+  )
 
 ```
 
@@ -1123,7 +1107,7 @@ Timeline
 Survey Structure
 
 [Purpose of survey]
-[Link to survey]
+You can access the survey here: https://docs.google.com/forms/d/e/1FAIpQLSdj2RxS9fjZ_n6Q54zjSyoJ7tAJT7ssuTF3V1tVk6a_Rhyp4w/viewform?usp=sharing
 
 **Section 1: Demographics**
 

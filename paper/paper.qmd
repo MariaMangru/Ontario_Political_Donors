@@ -1162,97 +1162,169 @@ Survey Structure
 
 **Section 1: Demographics**
 
-**State of Residence:** Dropdown list of all provinces and
-territories. - **Age:** Multiple-choice options (e.g., 18-24, 25-34,
-etc.). - **Gender:** Options including Male, Female, Non-binary/Other,
-Prefer not to say. - **Income Level:** Income brackets (e.g., Less than
-\$25,000, \$25,000-\$49,999, etc.). - **Education Level:** Highest
-degree obtained (e.g., High school, Bachelor’s, Master’s, etc.). -
-**Occupation:** Open-ended or categorized options. - **Political
-Affiliation:** Conservative, Liberal, NDP, Other.
+**State of Residence:** - Dropdown list of all provinces and
+territories.
 
-**Section 2: Donation Behavior** - **Are you currently registered to
-donate to political parties?** - Yes - No - **How frequently do you
-donate to political parties?** - Never - Rarely (once a year or less) -
-Occasionally (a few times a year) - Regularly (monthly or more) -
-**Average Donation Amount:** Slider or multiple-choice options (e.g.,
-Less than \$50, \$50-\$199, etc.). - **Preferred Donation Channels:**
-Multiple selections (e.g., Online platforms, Mail-in donations,
-In-person events, etc.).
+**Age:** Multiple-choice options
 
-**Section 3: Motivations for Donating** - **What motivates you to donate
-to a political party?** (Select all that apply) - Support for specific
-policies or issues - Desire to influence election outcomes - Loyalty to
-the party or its leaders - Social pressure or community influence - Tax
-benefits - Other (please specify) - **Which factors most influence your
-decision to donate?** (Rank in order of importance) - Candidate's
-leadership qualities - Party's stance on key issues - Party's past
-performance - Recommendations from peers or influencers - Media
-coverage - Other (please specify)
+-   18-24
 
-**Section 4: Impact of Campaigns and Events** - **Have recent political
-events influenced your donation behavior?** - Yes - No - **If yes,
-please specify the events and how they influenced your donations.**
-(Open-ended) - **How do you perceive the effectiveness of political
-campaigns in encouraging donations?** - Very ineffective - Ineffective -
-Neutral - Effective - Very effective
+-   25-34
 
-**Section 5: Feedback and Suggestions** - **What could political parties
-do to encourage more donations from supporters?** (Open-ended) - **Any
-additional comments or suggestions regarding political donations?**
-(Open-ended)
+-   35-44
 
-Survey Administration
+-   45-54
 
-1.  **Sampling Method:** Utilize stratified random sampling to ensure
-    representation across different provinces, income levels, education
-    backgrounds, and political affiliations. Oversample underrepresented
-    groups to enhance data diversity.
+-   55-64
 
-2.  **Data Collection Modes:**
+**Gender:**
 
-    -   **Online Surveys:** Distribute the survey through email
-        invitations, social media platforms, and online panels to reach
-        a broad audience.
-    -   **Telephone Surveys:** Conduct phone interviews to include
-        respondents who may have limited internet access or prefer
-        verbal communication.
-    -   **In-Person Interviews:** Organize face-to-face interviews in
-        selected regions to capture detailed qualitative data.
+-   Male
 
-3.  **Incentives:** Offer incentives such as entry into a sweepstakes,
-    gift cards, or charitable donations to encourage participation and
-    improve response rates.
+-   Female
 
-4.  **Survey Length and Design:**
+-   Non-binary/Other
 
-    -   **Duration:** Design the survey to be completed within 10-15
-        minutes to minimize respondent fatigue.
-    -   **Clarity:** Use clear and concise language, avoiding technical
-        jargon to ensure respondents understand each question.
-    -   **Question Types:** Employ a mix of multiple-choice, Likert
-        scales, and open-ended questions to capture both quantitative
-        and qualitative data.
+-   Prefer not to say.
 
-5.  **Data Quality Measures:**
+**Income Level:**
 
-    -   **Pilot Testing:** Conduct a pilot survey to identify and
-        rectify any issues with question wording, survey flow, or
-        technical glitches.
-    -   **Anonymity and Confidentiality:** Assure respondents that their
-        answers are confidential and will be used solely for research
-        purposes to encourage honest and accurate responses.
-    -   **Response Validation:** Implement checks to prevent duplicate
-        responses, ensure logical consistency, and verify the
-        completeness of the survey.
+-   Less than \$25,000
 
-6.  **Data Analysis:**
+-   \$25,000-\$49,999
 
-    -   **Weighting:** Apply weighting adjustments to account for any
-        sampling biases and ensure that the survey results accurately
-        reflect the population demographics.
-    -   **Statistical Techniques:** Use appropriate statistical methods
-        to analyze the data, identifying significant predictors of
-        donation behavior and uncovering underlying trends.
+-   \$50,000 - \$74,999
+
+-   \$75,000 - \$99,000
+
+-   \$100,000 - \$149,000
+
+-   \$150,000 or more
+
+**Education Level:** Highest degree obtained
+
+-   Less than high school
+
+-   High school diploma or equivalent
+
+-   Some college, no degree
+
+-   Associate degree
+
+-   Bachelor's degree
+
+-   Graduate or professional degree
+
+**Political Affiliation:**
+
+-   Conservative
+
+-   Liberal
+
+-   NDP
+
+-   Other (please specify)
+
+**Section 2: Donation Behavior**
+
+**Are you currently registered to donate to political parties?**
+
+-   Yes
+
+-   No
+
+**How frequently do you donate to political parties?**
+
+-   Never
+
+-   Rarely (once a year or less)
+
+-   Occasionally (a few times a year)
+
+-   Regularly (monthly or more)
+
+**Average Donation Amount:**
+
+-   Less than \$200
+
+-   \$200 - \$1,000
+
+-   \$1,001 - \$5,000
+
+-   \$5,001 - \$10,000
+
+-   More than \$10,000
+
+**Preferred Donation Channels:**
+
+-   Online platforms
+
+-   Mail-in donations
+
+-   In-person events
+
+**Section 3: Motivations for Donating**
+
+**What motivates you to donate to a political party?** (Select all that
+apply)
+
+-   Support for specific policies or issues
+
+-   Desire to influence election outcomes
+
+-   Loyalty to the party or its leaders
+
+-   Social pressure or community influence
+
+-   Tax benefits
+
+-   Other (please specify)
+
+**Which factors most influence your decision to donate?** (Select all
+that apply)
+
+-   Candidate's leadership qualities
+
+-   Party's stance on key issues
+
+-   Party's past performance
+
+-   Recommendations from peers or influencers
+
+-   Media coverage
+
+-   Other (please specify)
+
+**Section 4: Impact of Campaigns and Events**
+
+**Have recent political events influenced your donation behavior?**
+
+-   Yes
+
+-   No
+
+**If yes, please specify the events and how they influenced your
+donations.** (Open-ended)
+
+**How do you perceive the effectiveness of political campaigns in
+encouraging donations?**
+
+-   Very ineffective
+
+-   Ineffective
+
+-   Neutral
+
+-   Effective
+
+-   Very effective
+
+**Section 5: Feedback and Suggestions**
+
+**What could political parties do to encourage more donations from
+supporters?** (Open-ended) -
+
+**Any additional comments or suggestions regarding political
+donations?** (Open-ended)
 
 # References

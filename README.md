@@ -1,4 +1,4 @@
-# Impact of Federal Party Leadership Changes on Donation Patterns
+# Impact of Party Leadership on Donation Patterns
 
 ## Overview
 
@@ -20,3 +20,9 @@ The repo is structured as:
 ## Statement on LLM usage
 
 Aspects of the code were written with the help of the auto-complete tool, ChatGpt. The entire chat history is available in inputs/llms/usage.txt.
+
+## Requirements
+To run this package, you will need to install R(version 4.10 or higher) and RStudio (optional but highly recommended). Afterwards, you'll need to install a few packages in R. These can be installed by running the this line of code: install.packages(c("tidyverse", "readr", "stringr", "dplyr", "ggplot2", "knitr"))
+
+## Contact
+For any questions or feedback, please reach out to me at maria.mangru@mail.utoronto.ca or create an issue in the repository. Thank you!

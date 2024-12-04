@@ -150,11 +150,9 @@ influencing Amount Donated:
 
 -   Recipient_in_Power: This binary variable indicates whether the
     recipient party was in power during the donation year (1) or not
-    (0). It is central to assessing the impact of political power on
-    donation patterns, allowing the analysis to determine if being in
-    power correlates with higher or lower donation amounts.
+    (0).
 
--   Party_Size: Another binary variable categorizes parties as major (1)
+-   Party_Size: Another binary variable which categorizes parties as major (1)
     or minor (0) based on their representation in the legislature. Major
     parties are expected to receive more donations due to greater
     visibility, established support bases, and broader outreach
@@ -174,17 +172,6 @@ influencing Amount Donated:
     handles skewness, making it suitable for regression analyses and
     reducing the impact of highly variable donation figures.
 
--   Interaction Terms: Interaction terms such as Recipient_in_Power \*
-    Party_Size were included in the models to explore how the effect of
-    being in power varies between major and minor parties. This allows
-    for a nuanced understanding of the interplay between a party’s power
-    status and its size in determining donation patterns.
-
-These predictor variables enable a comprehensive examination of how
-political power status, party size, and election cycles influence
-donation amounts. By incorporating both main effects and interaction
-terms, the analysis can capture complex relationships and provide deeper
-insights into the factors driving political donations.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -254,7 +241,7 @@ donations_by_party_ontario <- ontario_data %>%
   summarize(
     total_amount = sum(amount, na.rm = TRUE)
   ) %>%
-  arrange(desc(total_amount)) # Arrange for better visual hierarchy
+  arrange(desc(total_amount))
 
 # Create the tree map
 ggplot(donations_by_party_ontario, aes(
@@ -274,47 +261,78 @@ ggplot(donations_by_party_ontario, aes(
     caption = "Data source: Ontario Political Donations"
   ) +
   theme_minimal() +
-  theme(legend.position = "none") # Hide legend to avoid redundancy
+  theme(legend.position = "none")
 
 ```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Load required libraries
+library(dplyr)
+library(ggplot2)
+library(treemapify)
+
+# Summarize data for tree map
+donations_by_party_federal <- federal_data %>%
+  group_by(political_party) %>%
+  summarize(
+    total_amount = sum(amount, na.rm = TRUE)
+  ) %>%
+  arrange(desc(total_amount))
+
+# Create the tree map
+ggplot(donations_by_party_federal, aes(
+  area = total_amount, 
+  fill = political_party, 
+  label = paste(political_party, "\n$", scales::comma(total_amount))
+)) +
+  geom_treemap() +
+  geom_treemap_text(
+    color = "white", 
+    place = "center", 
+    grow = TRUE
+  ) +
+  labs(
+    title = "Total Donations by Political Party - Federal",
+    subtitle = "Size of rectangles represents total donation amounts",
+    caption = "Data source: Federal Political Donations"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
 
 # Model {#sec-model}
 
 To analyze the impact of a political party’s power status on donation
 patterns within Canadian federal and Ontario provincial elections,
-multiple log regression models were developed. Specifically, separate
+multiple linear regression models were developed. Specifically, separate
 models were constructed for Ontario and Federal levels to account for
 regional differences in political dynamics and donation behaviors.
 Additionally, a focused regression model was created for the
 Conservative and Liberal parties to explore the interaction between
-power status and party size. These models aim to predict the logarithm
-of total donations received by political parties, providing insights
-into how various factors influence financial support.
+power status and party size.
 
 ## Model set-up
 
-This study employs linear regression models to quantify the relationship
-between key predictor variables and the total amount of donations
-received by political parties. The primary models include:
+To analyze the impact of a political party's power status on donation patterns, we employed linear regression models for both Ontario and federal levels:
 
-1.  Ontario Model
-This model focuses on donations within Ontario, considering whether the party was in power, the size of the party, and whether the donation occurred during an election year.
 ```{=tex}
 \[
-\log(\text{Total Donations}) = \beta_0 + \beta_1 \cdot \text{Recipient in Power} + \beta_2 \cdot \text{Party Size} + \beta_3 \cdot \text{Election Year} + \epsilon
+\log(\text{Total Donations}_i) = \beta_0 + \beta_1 \cdot \text{Recipient\_in\_Power}_i + \beta_2 \cdot \text{Party\_Size}_i + \beta_3 \cdot \text{Election\_Year}_i + \epsilon_i
 \]
+
+Where:
+
+- \(\log(\text{Total Donations}_i)\): The logarithm of total donations received by party \(i\) in a given year.\\
+- \(\text{Recipient\_in\_Power}_i\): A binary variable indicating if party \(i\) was in power.\\
+- \(\text{Party\_Size}_i\): A binary variable indicating if party \(i\) is a major party.\\
+- \(\text{Election\_Year}_i\): A binary variable indicating if it was an election year.\\
+- \(\epsilon_i\): The error term.
 ```
 
-2.  Federal Model
-Similar to the Ontario model, this model examines federal-level donations with the same set of predictors.
-```{=tex}
-\[
-\log(\text{Total Donations}) = \beta_0 + \beta_1 \cdot \text{Recipient in Power} + \beta_2 \cdot \text{Party Size} + \beta_3 \cdot \text{Election Year} + \epsilon
-\]
-```
 
-3.  Conservative and Liberal Parties Model
-This model specifically targets the Conservative and Liberal parties, introducing an interaction term between power status and party type to explore how the effect of being in power differs between these two major parties.
+For the Conservative and Liberal parties, we included an interaction term:
 ```{=tex}
 \[
 \begin{split}
@@ -325,34 +343,28 @@ This model specifically targets the Conservative and Liberal parties, introducin
 \end{split}
 \]
 
+Where:
+- \(\text{Party}_i\): A binary variable indicating 1 for Conservative, 0 for Liberal.\\
+
 ```
 
 Each model uses the logarithm of total donations (Log_Total_Donations) as the dependent variable to stabilize variance and normalize the distribution of donation amounts. Predictor variables include binary indicators for whether the party was in power (In_Power), the size of the party (Party_Size), and whether the donation was made during an election year (Election_Year). The specialized model for Conservative and Liberal parties includes an additional binary variable (Party) and an interaction term (In_Power * Party) to capture the combined effect of power status and party type on donation amounts.
 
 ### Model justification
-Linear regression was chosen for this analysis due to its simplicity, interpretability, and suitability for modeling continuous, normally distributed outcome variables. The dependent variable, Log_Total_Donations, is appropriate for linear regression after log transformation, which addresses skewness and stabilizes variance. This transformation ensures that the assumptions of linear regression are better met, facilitating reliable coefficient estimates and hypothesis testing.
+Linear regression was chosen for its simplicity and interpretability. The log transformation of the dependent variable stabilizes variance and normalizes the distribution, making it suitable for linear modeling. The models account for key factors influencing donation amounts, allowing us to isolate the effect of a party being in power.
 
-Alternative modeling approaches, such as generalized linear models (GLMs), were considered but ultimately deemed unnecessary given the adequacy of linear regression in capturing the relationships of interest. GLMs offer more flexibility in handling different types of dependent variables and distributions but introduce additional complexity that was not required for this analysis. Linear regression provides clear and interpretable coefficients, allowing for straightforward assessment of the impact of each predictor on donation amounts.
-
-By constructing separate models for Ontario and Federal levels, the analysis accounts for regional variations in political dynamics and donation behaviors. The specialized model for Conservative and Liberal parties further refines the analysis by exploring interaction effects, offering a more nuanced understanding of how power status influences donations differently across major political parties. This targeted approach enhances the ability to draw specific conclusions about the financial support mechanisms within Canadian political contexts.
+Alternative models, such as generalized linear models, were considered but deemed unnecessary due to the adequacy of linear regression for this analysis.
 
 
 ### Assumptions and Limitations
-The linear regression models operate under several key assumptions:
+The models assume:
 
-Linearity: It is assumed that there is a linear relationship between each predictor variable and the dependent variable (Log_Total_Donations). This means that changes in predictors are associated with proportional changes in the outcome.
-
-Normality of Errors: The residuals (errors) of the models are assumed to be normally distributed. This assumption is critical for the validity of hypothesis tests and confidence intervals.
-
-Homoscedasticity: The variance of the residuals is assumed to be constant across all levels of the predictor variables. Homoscedasticity ensures that the model's predictions are equally reliable across different values of predictors.
-
-No Multicollinearity: Predictor variables are assumed to be independent of each other, with no excessive correlation. High multicollinearity can inflate standard errors and make it difficult to assess the individual effect of each predictor.
-
-Independence of Observations: Each observation is assumed to be independent of others, meaning that the donation amounts are not influenced by other donations in the dataset.
-
-Potential violations of these assumptions could affect the reliability and validity of the regression results. For example, non-linearity might lead to biased coefficient estimates, while heteroscedasticity could result in inefficient estimates and invalid inference. Although steps were taken to address multicollinearity through variable selection and standardization, some degree of correlation between predictors may still exist, potentially inflating standard errors.
-
-Limitations of this analysis include the reliance on historical donation data, which assumes that past patterns will continue into the future. Unforeseen political events or changes in donation regulations could disrupt established trends, reducing the model's predictive accuracy. Additionally, the exclusion of minor parties beyond the Conservative and Liberal parties may overlook nuanced donation behaviors within smaller political groups, limiting the generalizability of the findings.
+Linearity: The relationship between predictors and the log of total donations is linear.
+Normality of Errors: The residuals are normally distributed.
+Homoscedasticity: Constant variance of residuals.
+No Multicollinearity: Predictors are not highly correlated.
+Independence of Observations: Each observation is independent.
+Potential limitations include unobserved variables affecting donation amounts and the assumption that past trends predict future behavior.
 
 
 ### Model Validation 

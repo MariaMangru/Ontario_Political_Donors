@@ -357,17 +357,10 @@ Alternative models, such as generalized linear models, were considered but deeme
 
 
 ### Assumptions and Limitations
-The models assume:
-
-Linearity: The relationship between predictors and the log of total donations is linear.
-Normality of Errors: The residuals are normally distributed.
-Homoscedasticity: Constant variance of residuals.
-No Multicollinearity: Predictors are not highly correlated.
-Independence of Observations: Each observation is independent.
-Potential limitations include unobserved variables affecting donation amounts and the assumption that past trends predict future behavior.
+The models assume a linear relationship between the predictors and the logarithm of total donations, ensuring that the effects of the predictors are additive and proportional. Additionally, they assume that the residuals are normally distributed (normality of errors) and exhibit constant variance (homoscedasticity). The models also rely on the absence of multicollinearity, meaning that the predictors are not highly correlated, and they assume independence of observations, where each data point is independent of the others. Potential limitations of these models include the possibility of unobserved variables influencing donation amounts and the inherent assumption that past trends can reliably predict future behavior.
 
 
-### Model Validation 
+### Model Validation ******
 Model validation was conducted to assess the predictive accuracy and generalizability of the regression models. This involved evaluating key metrics such as R-squared (R²), Adjusted R-squared, and Root Mean Square Error (RMSE) to determine how well the models explain the variance in Log_Total_Donations and their predictive performance.
 
 For the Ontario Model, the regression analysis yielded an R² of 0.645 and an Adjusted R² of 0.635, indicating that approximately 64.5% of the variance in log-transformed total donations is explained by the predictors. The RMSE for this model was calculated to assess the average prediction error, demonstrating a reasonable level of accuracy.
@@ -377,131 +370,6 @@ The Federal Model showed an R² of 0.515 and an Adjusted R² of 0.503, suggestin
 In the Conservative and Liberal Parties Model, the inclusion of the interaction term between In_Power and Party resulted in an R² of 0.630 and an Adjusted R² of 0.600. This model effectively captures the combined effect of power status and party type on donation amounts, with the interaction term providing significant insights into how being in power influences donations differently for Conservative and Liberal parties. The RMSE for this model confirmed its robust predictive capability, comparable to the other models.
 
 Overall, the validation process confirmed that the linear regression models are robust and effective in predicting donation amounts based on the selected predictor variables. The models demonstrate good explanatory power and reasonable predictive accuracy, making them suitable for analyzing the factors influencing political donations in Canada. However, ongoing evaluation and potential model refinement are recommended to accommodate evolving political and financial landscapes, ensuring the models remain relevant and accurate over time.
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-#| label: tbl-model-summary
-#| tbl-cap: "Summary of Key Model Estimates for Ontario, Federal, and Conservative/Liberal Models"
-#| echo: false
-#| message: false
-
-library(broom)
-library(knitr)
-library(kableExtra)
-
-ontario_data <- analysis_data %>% filter(region == "Ontario")
-
-# Aggregate total donations per party per year in Ontario
-total_donations_ontario <- ontario_data %>%
-  group_by(political_party, donation_year) %>%
-  summarize(
-    Total_Donations = sum(amount, na.rm = TRUE),
-    In_Power = first(recipient_in_power),
-    Party_Size = first(Party_Size),
-    Election_Year = first(Election_Year)
-  ) %>%
-  ungroup()
-
-# Run Regression for Ontario with Controls
-
-total_donations_ontario <- total_donations_ontario %>%
-  mutate(Log_Total_Donations = log(Total_Donations + 1))  # Adding 1 to avoid log(0)
-
-model_ontario <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_ontario)
-
-federal_data <- analysis_data %>% filter(region == "Federal")
-
-# Aggregate total donations per party per year at Federal level
-total_donations_federal <- federal_data %>%
-  group_by(political_party, donation_year) %>%
-  summarize(
-    Total_Donations = sum(amount, na.rm = TRUE),
-    In_Power = first(recipient_in_power),
-    Party_Size = first(Party_Size),
-    Election_Year = first(Election_Year)
-  ) %>%
-  ungroup()
-
-# Run Regression for Federal with Controls
-# For Federal
-total_donations_federal <- total_donations_federal %>%
-  mutate(Log_Total_Donations = log(Total_Donations + 1))
-
-model_federal <- lm(Log_Total_Donations ~ In_Power + Party_Size + Election_Year, data = total_donations_federal)
-
-cl_data <- analysis_data %>%
-  filter(political_party %in% c(
-    "Conservative Party of Canada",
-    "Liberal Party of Canada",
-    "Progressive Conservative Party of Ontario",
-    "Liberal Party of Ontario"
-  ))
-
-# Create variables
-cl_data <- cl_data %>%
-  mutate(
-    In_Power = recipient_in_power,  # Already binary (1/0)
-    Party = ifelse(
-      political_party %in% c("Conservative Party of Canada", "Progressive Conservative Party of Ontario"),
-      1,  # Conservative
-      0   # Liberal
-    )
-  )
-
-# Aggregate total donations per party per year
-total_donations_cl <- cl_data %>%
-  group_by(political_party, donation_year) %>%
-  summarize(
-    Total_Donations = sum(amount, na.rm = TRUE),
-    In_Power = first(In_Power),
-    Party = first(Party),
-    Election_Year = first(Election_Year)
-  ) %>%
-  ungroup()
-
-# Log-transform the dependent variable to stabilize variance
-total_donations_cl <- total_donations_cl %>%
-  mutate(Log_Total_Donations = log(Total_Donations + 1))
-
-# Run the regression with interaction term
-model_cl <- lm(Log_Total_Donations ~ In_Power * Party + Election_Year, data = total_donations_cl)
-
-
-# Tidy model summaries
-tidy_ontario <- tidy(model_ontario) %>%
-  mutate(Model = "Ontario") %>%
-  select(Model, term, estimate, std.error, p.value)
-
-tidy_federal <- tidy(model_federal) %>%
-  mutate(Model = "Federal") %>%
-  select(Model, term, estimate, std.error, p.value)
-
-tidy_cl <- tidy(model_cl) %>%
-  mutate(Model = "Conservative/Liberal") %>%
-  select(Model, term, estimate, std.error, p.value)
-
-# Combine tidy summaries
-tidy_all <- bind_rows(tidy_ontario, tidy_federal, tidy_cl)
-
-# Round numeric values to 3 decimal places
-tidy_all <- tidy_all %>%
-  mutate(
-    estimate = round(estimate, 3),
-    std.error = round(std.error, 3),
-    p.value = round(p.value, 3)
-  )
-
-# Create a formatted table
-kable(tidy_all, 
-      caption = "Summary of Key Model Estimates for Ontario, Federal, and Conservative/Liberal Models",
-      col.names = c("Model", "Term", "Estimate", "Std. Error", "p-value"),
-      align = "lcccc") %>%
-  kable_styling(full_width = FALSE, position = "left") %>%
-  add_header_above(c(" " = 1, "Regression Coefficients" = 4)) %>%
-  column_spec(1, bold = TRUE) %>%
-  column_spec(5, color = "red")
-
-```
-
 
 # Results {#sec-results}
 

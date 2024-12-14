@@ -7,7 +7,10 @@ thanks: "Code and data are available at: [https://github.com/MariaMangru/Ontario
 date: today
 date-format: long
 abstract: "This study investigates how the ruling political parties in Canada's federal and Ontario provincial governments affect the donation behaviors of individual contributors. By analyzing donation records from 2013 to 2024, the research explores whether a party being in power influences the total amount of financial support it receives. The findings reveal that opposition parties often receive more donations than those in power, highlighting donor preferences to support challengers. This insight enhances our understanding of political financing and can help parties and policymakers develop more effective fundraising strategies."
-format: pdf
+format: 
+  pdf:
+    toc: true
+    toc-depth: 3
 number-sections: true
 bibliography: references.bib
 editor: 
@@ -830,15 +833,51 @@ affiliation, particularly between the Conservative and Liberal parties.
 
 # Discussion {#sec-discussion}
 
-## Financial influence shapes political landscapes
+## Financial Influence Shapes Political Landscapes
 
-At the heart of politics is finance, as revealed by Traag’s research on the complex contagion of campaign donations in the United States [@traag2016complex]. Traag’s study found that most campaign contributions come from a small number of wealthy donors linked by large social networks, demonstrating how a few individuals can shape political outcomes. Similar dynamics appear to be at play in Canada. Here, donors often prefer to support parties not currently in power. One reason might be the hope that challengers will bring needed policy changes. More realistically, as noted by Mollona [@mollona2022ethics], politicians, especially those out of power, often seek funding in exchange for promoting donors’ interests. Over time, this can lead to a pattern where donors shift their support to whoever best serves their goals, fostering continuous political competition.
-A key finding of this study is that at both the Ontario and federal levels, the Conservative Party generally attracts more financial backing than other parties. This steady flow of resources may help the Conservatives maintain a strong presence in the political arena, influencing agenda-setting and public debate. With more funds, they can more easily finance voter outreach, shape their messaging, and solidify their support networks. While this financial advantage may help sustain dynamic election contests, it also underscores concerns about whose interests gain the most traction. When one party consistently out-raises others, the policy conversation may lean toward those who provide the most money, potentially sidelining issues important to groups with fewer financial resources.
+At the heart of politics is finance, as revealed by Traag’s research on
+the complex contagion of campaign donations in the United States
+[@traag2016complex]. Traag’s study found that most campaign
+contributions come from a small number of wealthy donors linked by large
+social networks, demonstrating how a few individuals can shape political
+outcomes. Similar dynamics appear to be at play in Canada. Here, donors
+often prefer to support parties not currently in power. One reason might
+be the hope that challengers will bring needed policy changes. More
+realistically, as noted by Mollona [@mollona2022ethics], politicians,
+especially those out of power, often seek funding in exchange for
+promoting donors’ interests. Over time, this can lead to a pattern where
+donors shift their support to whoever best serves their goals, fostering
+continuous political competition. A key finding of this study is that at
+both the Ontario and federal levels, the Conservative Party generally
+attracts more financial backing than other parties. This steady flow of
+resources may help the Conservatives maintain a strong presence in the
+political arena, influencing agenda-setting and public debate. With more
+funds, they can more easily finance voter outreach, shape their
+messaging, and solidify their support networks. While this financial
+advantage may help sustain dynamic election contests, it also
+underscores concerns about whose interests gain the most traction. When
+one party consistently out-raises others, the policy conversation may
+lean toward those who provide the most money, potentially sidelining
+issues important to groups with fewer financial resources.
 
 ## International Comparisons and the Importance of Regulation
-These trends are not confined to Canada. In the United Kingdom, for example, large private donations, often from very wealthy “superdonors”, widen the gap between major parties and smaller competitors [@draca2022financing]. Such patterns highlight a broader democratic challenge, as money can concentrate power and influence political direction in ways that may not always reflect broad public preferences. Rather than serving purely as a resource that encourages healthy competition, political donations can also become a tool that benefits certain parties and voices more than others.
-Regulation and transparency are essential. Clearer rules and better public reporting help citizens understand who funds whom and why. Drawing lessons from other countries may guide reforms aimed at limiting undue influence. Stronger oversight, spending caps, and easy-to-access donor databases can empower voters to make informed choices. Without these safeguards, the already powerful, whether individuals, industries, or interest groups, can gain even more sway, risking an erosion of trust in democratic institutions.
 
+These trends are not confined to Canada. In the United Kingdom, for
+example, large private donations, often from very wealthy “superdonors”,
+widen the gap between major parties and smaller competitors
+[@draca2022financing]. Such patterns highlight a broader democratic
+challenge, as money can concentrate power and influence political
+direction in ways that may not always reflect broad public preferences.
+Rather than serving purely as a resource that encourages healthy
+competition, political donations can also become a tool that benefits
+certain parties and voices more than others. Regulation and transparency
+are essential. Clearer rules and better public reporting help citizens
+understand who funds whom and why. Drawing lessons from other countries
+may guide reforms aimed at limiting undue influence. Stronger oversight,
+spending caps, and easy-to-access donor databases can empower voters to
+make informed choices. Without these safeguards, the already powerful,
+whether individuals, industries, or interest groups, can gain even more
+sway, risking an erosion of trust in democratic institutions.
 
 ## Weaknesses and next steps
 
@@ -854,7 +893,8 @@ personal beliefs, specific policy preferences and campaign effectiveness
 are not directly addressed in this study. Data quality issues such as
 potential missing values or inconsistencies could also have affected the
 accuracy of the findings here. Lastly, the linear regression models here
-assume a linear relationship between predictors and donations which can oversimplify the complexities.
+assume a linear relationship between predictors and donations which can
+oversimplify the complexities.
 
 Future research should not only aim to address these limitations, but
 expand the analysis to other provinces and territories across Canada.
@@ -1049,7 +1089,7 @@ jurisdictions. Moreover, OCR technology is imperfect at capturing
 handwritings or poorly scanned documents introducing errors despite
 manual correction.
 
-##Idealized Methodology
+## Appendix C: Idealized Methodology
 
 The idealized methodology for analyzing how a political party's power
 status affects the total donations it receives in Canada involves
@@ -1168,38 +1208,39 @@ The budget for this study is allocated as follows:
 
 -   Sampling and Recruitment: \$15,000
 
--   Details: Expenses related to accessing online panel respondents,
-    purchasing targeted advertising on social media, and collaborating
-    with panel providers. Funds also cover the services of statisticians
-    to ensure the sampling aligns with the population distribution.
+    -   Expenses related to accessing online panel respondents,
+        purchasing targeted advertising on social media, and
+        collaborating with panel providers. Funds also cover the
+        services of statisticians to ensure the sampling aligns with the
+        population distribution.
 
 -   Respondent Incentives: \$20,000
 
--   Details: Allocated for compensating participants with \$10
-    electronic gift cards or funding the national sweepstakes prizes.
-    Incentives are crucial for improving response rates and attracting a
-    diverse respondent pool.
+    -   Allocated for compensating participants with \$10 electronic
+        gift cards or funding the national sweepstakes prizes.
+        Incentives are crucial for improving response rates and
+        attracting a diverse respondent pool.
 
 -   Data Collection: \$25,000
 
--   Details: Operational costs for administering the survey, including
-    online platform fees, telephone survey expenses, interviewer
-    training, and call center operations. This ensures data collection
-    is efficient and reaches a broad audience.
+    -   Operational costs for administering the survey, including online
+        platform fees, telephone survey expenses, interviewer training,
+        and call center operations. This ensures data collection is
+        efficient and reaches a broad audience.
 
 -   Data Analysis and Reporting: \$12,000
 
--   Details: Funds dedicated to analyzing the collected data, including
-    hiring data analysts proficient in statistical software, conducting
-    comprehensive analyses, and preparing detailed reports and
-    visualizations to communicate findings effectively.
+    -   Funds dedicated to analyzing the collected data, including
+        hiring data analysts proficient in statistical software,
+        conducting comprehensive analyses, and preparing detailed
+        reports and visualizations to communicate findings effectively.
 
 -   Ethical Compliance and Data Security: \$5,000
 
--   Details: Covers the costs of obtaining ethical approvals, ensuring
-    compliance with privacy legislation (e.g., Personal Information
-    Protection and Electronic Documents Act), and implementing robust
-    data security measures to protect respondent information.
+    -   Covers the costs of obtaining ethical approvals, ensuring
+        compliance with privacy legislation (e.g., Personal Information
+        Protection and Electronic Documents Act), and implementing
+        robust data security measures to protect respondent information.
 
 -   Total Estimated Budget: \$85,000
 
@@ -1224,12 +1265,21 @@ The budget for this study is allocated as follows:
 
 This survey helps to gather data about those who donate to political
 parties and acquire more qualitative details about a sample of the
-population.
-
-The survey can be accessed using [this
+population. The survey can be accessed using [this
 link](https://docs.google.com/forms/d/e/1FAIpQLSdj2RxS9fjZ_n6Q54zjSyoJ7tAJT7ssuTF3V1tVk6a_Rhyp4w/viewform).
 
 **Survey Structure**
+
+**Introduction**
+
+Thank you for participating in this important survey. Your responses
+will help us understand how Canadians make decisions about donating to
+political parties at both the federal and Ontario provincial levels. By
+sharing your perspectives, you will contribute to a deeper understanding
+of what motivates political donations, what factors shape donor
+decisions, and how parties can improve their engagement with supporters.
+Your answers are completely confidential and will be used solely for
+research purposes.
 
 **Section 1: Demographics**
 
@@ -1237,7 +1287,7 @@ State of Residence:
 
 -   Dropdown list of all provinces and territories.
 
-Age: Multiple-choice options
+Age:
 
 -   18-24
 
@@ -1249,6 +1299,8 @@ Age: Multiple-choice options
 
 -   55-64
 
+-   65+
+
 Gender:
 
 -   Male
@@ -1259,7 +1311,7 @@ Gender:
 
 -   Prefer not to say.
 
-Income Level:
+Annual Household Income Level:
 
 -   Less than \$25,000
 
@@ -1273,7 +1325,9 @@ Income Level:
 
 -   \$150,000 or more
 
-Education Level: Highest degree obtained
+-   Prefer not to say
+
+Highest Level of Education Completed:
 
 -   Less than high school
 
@@ -1295,15 +1349,21 @@ Political Affiliation:
 
 -   NDP
 
+-   Green
+
 -   Other (please specify)
+
+-   No specific affiliation
 
 **Section 2: Donation Behavior**
 
-Are you currently registered to donate to political parties?
+Have you ever donated to a political party?
 
--   Yes
+-   Yes, currently donate
 
--   No
+-   Yes, but not currently
+
+-   No, never donated
 
 How frequently do you donate to political parties?
 
@@ -1315,7 +1375,7 @@ How frequently do you donate to political parties?
 
 -   Regularly (monthly or more)
 
-Average Donation Amount:
+Average Annual Donation Amount (to all political parties combined):
 
 -   Less than \$200
 
@@ -1327,13 +1387,19 @@ Average Donation Amount:
 
 -   More than \$10,000
 
-Preferred Donation Channels:
+-   Prefer not to say
 
--   Online platforms
+Preferred Donation Channels: (Select all that apply)
+
+-   Online platforms (e.g., party websites, crowdfunding sites)
 
 -   Mail-in donations
 
--   In-person events
+-   In-person events (e.g., fundraisers, rallies)
+
+-   Phone solicitations
+
+-   Other (please specify)
 
 **Section 3: Motivations for Donating**
 
@@ -1350,53 +1416,77 @@ apply)
 
 -   Tax benefits
 
+-   Personal connection to a candidate
+
 -   Other (please specify)
 
 Which factors most influence your decision to donate? (Select all that
 apply)
 
--   Candidate's leadership qualities
+-   Candidate’s leadership qualities
 
--   Party's stance on key issues
+-   Party’s stance on key issues
 
--   Party's past performance
+-   Party’s track record and past performance
 
--   Recommendations from peers or influencers
+-   Recommendations from peers, family, or community leaders
 
--   Media coverage
+-   Media coverage and public opinion polls
+
+-   Urgency or importance of the upcoming election
 
 -   Other (please specify)
 
 **Section 4: Impact of Campaigns and Events**
 
-Have recent political events influenced your donation behavior?
+-   Have recent political events (e.g., elections, leadership changes,
+    policy announcements) influenced your donation behavior?
 
--   Yes
+    -   Yes
 
--   No
+    -   No
 
-If yes, please specify the events and how they influenced your
-donations. (Open-ended)
+    If yes, please specify the event(s) and how they influenced your
+    donations:\
+    *(Open-ended)*
 
-How do you perceive the effectiveness of political campaigns in
-encouraging donations?
+-   How do you perceive the effectiveness of political campaigns in
+    encouraging donations?
 
--   Very ineffective
+    -   Very ineffective
 
--   Ineffective
+    -   Ineffective
 
--   Neutral
+    -   Neutral
 
--   Effective
+    -   Effective
 
--   Very effective
+    -   Very effective
+
+-   Have you ever stopped donating or reduced donations because of a
+    party’s perceived performance or power status (e.g., losing seats,
+    scandals)?
+
+    -   Yes (please explain why) *(Open-ended)*
+
+    -   No
 
 **Section 5: Feedback and Suggestions**
 
-What could political parties do to encourage more donations from
-supporters? (Open-ended) -
+-   In your opinion, what could political parties do to encourage more
+    donations from supporters?\
+    *(Open-ended)*
 
-Any additional comments or suggestions regarding political donations?
-(Open-ended)
+-   Any additional comments or suggestions regarding political
+    donations?\
+    *(Open-ended)*
+
+**Thank you for participating!** Your feedback is valuable and will help
+researchers and political parties understand the dynamics of political
+giving in Canada. Your insights contribute to more informed policies and
+practices, ultimately shaping a more responsive and transparent
+political landscape.
+
+\newpage
 
 # References

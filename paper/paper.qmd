@@ -273,7 +273,6 @@ amount in Canadian dollars. The data reveals fluctuations in donation
 amounts over time, with notable during 2018 for Ontario and 2024 for
 Federal.
 
-\newpage
 
 ## Predictor Variables
 

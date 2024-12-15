@@ -36,6 +36,7 @@ summary_stats_ontario <- data.frame(
 )
 write_csv(summary_stats_ontario, "data/02-analysis_data/02.1-exploration_data/Ontario/summary_statistics_ontario.csv")
 
+
 #### Donations by Year ####
 donations_by_year_ontario <- ontario_data %>%
   group_by(donation_year) %>%

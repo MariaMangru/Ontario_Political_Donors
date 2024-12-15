@@ -130,6 +130,27 @@ donations_filtered <- donations_filtered %>%
     )
   )
 
+
+#  Convert Nominal Amounts to Real Amounts Manually
+
+cpi_data <- data.frame(
+  year = 2006:2024,
+  CPI = c(109.1, 111.5, 114.1, 114.4, 116.5, 119.9, 121.7, 122.8, 125.2, 
+          126.6, 128.4, 130.4, 133.4, 136.0, 137.0, 141.6, 151.2, 157.1, 161.80)
+)
+
+# Specify base year
+base_year <- 2024
+
+# Extract CPI for the base year
+cpi_base <- cpi_data$CPI[cpi_data$year == base_year]
+
+# Merge to add CPI to each donation record by its year
+donations_filtered <- merge(donations_filtered, cpi_data, by.x = "donation_year", by.y = "year", all.x = TRUE)
+
+# Convert nominal amounts to real amounts in 2024 dollars
+donations_filtered$real_amount <- donations_filtered$amount * (cpi_base / donations_filtered$CPI)
+
 #### Save data ####
 write_csv(donations_filtered, "data/02-analysis_data/analysis_data.csv")
 
